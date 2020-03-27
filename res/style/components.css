@@ -1,3 +1,14 @@
+/* ---- Général ---- */
+* {
+    font-family: "SF-Pro-Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+p {
+    margin: 0;
+}
+
+/* ---- Liens ---- */
 .link-main, .link-secondary {
     margin: 0 10px;
 
@@ -7,9 +18,7 @@
 
     font-size: 17px;
     font-weight: 700;
-
     cursor: pointer;
-
     border: none;
 }
 
@@ -32,30 +41,69 @@
     filter: brightness(90%);
 }
 
+/* ---- Carte ---- */
+.card-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    perspective: 1000px;
+}
+
 .card {
-    margin: 0 10px;
     width: 246px;
     height: 160px;
+
+    transition: transform 0.7s;
+    transform-style: preserve-3d;
+}
+
+.card-container:hover .card {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    width: 100%;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    text-align: center;
-
-    border: 10px white;
     border-radius: 10px;
-    box-shadow: 0 0 8px black;
+    box-shadow: 0 1px 8px 0;
+}
 
-    position: relative;
+.card-front, .card-back, .card {
+    -moz-backface-visibility: hidden;
+}
+
+.card-back {
+    transform: rotateY(180deg);
 }
 
 .card-text {
-    width: 236px;
-    font-weight: 800;
-    font-size: 20px;
+    width: calc(100% - 15px);
+    transform: translate(-50%, -50%);
+
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+
+    text-align: center;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.card-image {
+    width: calc(100% - 15px);
+    height: calc(100% - 15px);
+}
+
+.card-image, .card-text {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }

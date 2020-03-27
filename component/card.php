@@ -1,9 +1,17 @@
 <?php
 
-function makeCard($text, $id = '') {
+function makeCard($textOnFront, $textOnBack, $rotate = TRUE) {
     return '
-    <div class="card" id="'.$id.'">
-        <img src="/res/image/card-background.svg" style="width: 236px; height: 180px;" alt="card"/>
-        <div class="card-text">'.$text.'</div>
+    <div class="card-container"  style="transform: rotate('.($rotate ? rand(-5, 5) : 0).'deg)">
+        <div class="card">
+            <div class="card-front">
+                <img class="card-image" src="/res/image/card-background.svg" alt="Carte fond avant"/>
+                <div class="card-text">'.$textOnFront.'</div>
+            </div>
+            <div class="card-back">
+                <img class="card-image" src="/res/image/card-background.svg" alt="Carte font arrière"/>
+                <div class="card-text">'.$textOnBack.'</div>
+            </div>
+         </div>
      </div>';
 }

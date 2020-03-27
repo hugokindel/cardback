@@ -1,0 +1,81 @@
+/* ---- Page d'accueil (non connecté) ---- */
+
+/* ---- En-tête de page ---- */
+#title-container {
+    width: 215px;
+    height: 108px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#title-label {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+#sign-container {
+    margin-right: 30px;
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 108px;
+    float: right;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---- Contenu principal de la page ---- */
+main {
+    margin: 0 20px;
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#cards {
+    width: 778px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(246px, 1fr));
+    grid-gap: 20px;
+}
+
+/* ---- Pied de page ---- */
+footer {
+    width: 100%;
+
+    position: absolute;
+    bottom: 0;
+}
+
+#copyright-label {
+    margin: 0 0 20px 20px;
+
+    color: #8A8A8E;
+
+    float: left;
+}
+
+#made-label {
+    margin: 0 20px 20px 0;
+
+    color: #8A8A8E;
+
+    float: right;
+}
+
+#made-heart-label {
+    color: #FF3B30;
+}
