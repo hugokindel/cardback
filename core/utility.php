@@ -13,7 +13,7 @@ function changeTitle($title)
     $result = "<title>$title · cardback</title>";
 
     // On remplace chaque instance du patterne dans la page par le résultat voulu
-    preg_replace($pattern, $result, $page);
+    $page = preg_replace($pattern, $result, $page);
 
     // On affiche la page
     echo $page;
