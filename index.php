@@ -1,4 +1,6 @@
 <?php
+require_once "core/utility.php";
+
 $link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";
 
 if (!file_exists($link.".php")) {
@@ -9,7 +11,7 @@ if (!file_exists($link.".php")) {
 <html lang="fr">
 <head>
     <!-- Titre de la page -->
-    <title><?php echo 'Bienvenue' ?> · cardback</title>
+    <title>cardback</title>
 
     <!-- Informations générales -->
     <meta charset="utf-8">

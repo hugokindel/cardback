@@ -1,3 +1,7 @@
+<?php
+changeTitle("Erreur 404");
+?>
+
 <!-- En-tête de page -->
 <header>
     <div id="title-container">

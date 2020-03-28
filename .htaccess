@@ -9,4 +9,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 # Alors on redirige vers index.php avec le lien en tant que paramètre d'URL
 RewriteRule ^(.*)$ index.php?link=$1 [L]
 
-# Sinon, on ne redirige rien (lien direct d'un des fichiers, par exemple une ressource ou un dossier du site)
+# Sinon, on ne redirige rien (c'est le lien direct d'un fichier/dossier, par exemple une ressource ou un dossier du site)

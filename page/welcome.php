@@ -1,5 +1,7 @@
 <?php
 require_once 'component/card.php';
+
+changeTitle("Bienvenue");
 ?>
 
 <!-- En-tête de page -->
