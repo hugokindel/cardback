@@ -13,6 +13,7 @@
 
     <!-- Feuille de style -->
     <link rel="stylesheet" href="/res/style/utility/normalize.css">
+    <link rel="stylesheet" href="/res/style/base.css">
     <link rel="stylesheet" href="/res/style/sf-pro-rounded.css">
     <link rel="stylesheet" href="/res/style/components.css">
     <?php

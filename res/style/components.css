@@ -1,13 +1,3 @@
-/* ---- Général ---- */
-* {
-    font-family: "SF-Pro-Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-    "Noto Sans", sans-serif;
-}
-
-p {
-    margin: 0;
-}
-
 /* ---- Liens ---- */
 .link-main, .link-secondary {
     margin: 0 10px;
