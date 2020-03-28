@@ -1,9 +1,12 @@
-# Modifie la manière dont les redirection sont manipulé
+# Permet de rediriger les liens comme on le souhaite
 RewriteEngine On
 
-# Vérifie si ce chemin correspond bien à un dossier/fichier
+# Si ce n'est pas un dossier qui existe
 RewriteCond %{REQUEST_FILENAME} !-d
+# Et que ce n'est pas un fichier qui existe
 RewriteCond %{REQUEST_FILENAME} !-f
 
-# Si oui, on redirigie vers index.php avec le lien comme paramètre URL.
-RewriteRule ^(.*)$ index.php?page=$1 [L]
+# Alors on redirige vers index.php avec le lien en tant que paramètre d'URL
+RewriteRule ^(.*)$ index.php?link=$1 [L]
+
+# Sinon, on ne redirige rien (lien direct d'un des fichiers, par exemple une ressource ou un dossier du site)

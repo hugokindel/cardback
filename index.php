@@ -1,3 +1,10 @@
+<?php
+$link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";
+
+if (!file_exists($link.".php")) {
+    $link = "page/404";
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,13 +25,15 @@
     <link rel="stylesheet" href="/res/style/sf-pro-rounded.css">
     <link rel="stylesheet" href="/res/style/components.css">
     <?php
-    echo '<link rel="stylesheet" href="/res/style/page/home-disconnected.css">';
+    if (file_exists("res/style/".$link.".css")) {
+        echo '<link rel="stylesheet" href="/res/style/'.$link.'.css">';
+    }
     ?>
 </head>
 
 <body>
 <?php
-require "page/home-disconnected.php";
+require $link.".php";
 ?>
 </body>
 </html>
