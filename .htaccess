@@ -1,0 +1,9 @@
+# Modifie la manière dont les redirection sont manipulé
+RewriteEngine On
+
+# Vérifie si ce chemin correspond bien à un dossier/fichier
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Si oui, on redirigie vers index.php avec le lien comme paramètre URL.
+RewriteRule ^(.*)$ index.php?page=$1 [L]

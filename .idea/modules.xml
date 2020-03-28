@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Cardback.iml" filepath="$PROJECT_DIR$/.idea/Cardback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cardback.iml" filepath="$PROJECT_DIR$/.idea/cardback.iml" />
     </modules>
   </component>
 </project>

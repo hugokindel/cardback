@@ -1,5 +1,4 @@
 /* ---- Page d'accueil (non connecté) ---- */
-
 /* ---- En-tête de page ---- */
 #title-container {
     width: 215px;
@@ -13,6 +12,9 @@
 #title-label {
     font-size: 28px;
     font-weight: 900;
+    text-decoration: none;
+
+    color: black;
 }
 
 #sign-container {
@@ -32,16 +34,20 @@
 /* ---- Contenu principal de la page ---- */
 main {
     margin: 0 20px;
+}
 
-    position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
+#cards-container {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#welcome {
+    font-size: 34px;
+    font-weight: 800;
+    text-align: center;
+    padding: 20px 0;
+    margin: 100px 0 50px 0;
 }
 
 #cards {
@@ -53,11 +59,18 @@ main {
 }
 
 /* ---- Pied de page ---- */
-footer {
-    width: 100%;
+body {
+    display: flex;
+    flex-direction: column;
+}
 
-    position: absolute;
-    bottom: 0;
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+    margin-top: 50px;
 }
 
 #copyright-label {

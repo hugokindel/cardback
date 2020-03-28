@@ -9,7 +9,7 @@ function makeCard($textOnFront, $textOnBack, $rotate = TRUE) {
                 <div class="card-text">'.$textOnFront.'</div>
             </div>
             <div class="card-back">
-                <img class="card-image" src="/res/image/card-background.svg" alt="Carte font arrière"/>
+                <img class="card-image" src="/res/image/card-background.svg" alt="Carte fond arrière"/>
                 <div class="card-text">'.$textOnBack.'</div>
             </div>
          </div>
