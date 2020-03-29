@@ -1,4 +1,10 @@
 <?php
+$database = mysqli_connect("127.0.0.1", "root", "root", "cardback");
+
+if (!$database) {
+    echo mysqli_connect_error();
+}
+
 require_once "core/utility.php";
 
 $link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";
@@ -39,3 +45,6 @@ require $link.".php";
 ?>
 </body>
 </html>
+<?php
+mysqli_close($database);
+?>
