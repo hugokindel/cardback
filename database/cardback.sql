@@ -1,11 +1,11 @@
 -- On efface la base de donnée si elle existe déjà
-DROP DATABASE IF EXISTS cardbacks;
+DROP DATABASE IF EXISTS cardback;
 
 -- On la crée
-CREATE DATABASE IF NOT EXISTS cardbacks;
+CREATE DATABASE IF NOT EXISTS cardback;
 
 -- On l'utilise
-USE cardbacks;
+USE cardback;
 
 -- On efface les tables si elles existe déjà
 DROP TABLE IF EXISTS cards, packCards, packs, userPacks, users;
