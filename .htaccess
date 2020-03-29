@@ -1,3 +1,6 @@
+# Si c'est une erreur 403 on redirige vers la page d'erreur correspondante
+ErrorDocument 403 index.php?link=403
+
 # Permet de rediriger les liens comme on le souhaite
 RewriteEngine On
 
