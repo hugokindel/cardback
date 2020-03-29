@@ -1,3 +1,1 @@
-RewriteEngine On
-
-RewriteRule ^(.*)$ ../index.php?link=403
+Deny from all
