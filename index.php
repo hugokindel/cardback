@@ -1,5 +1,5 @@
 <?php
-$database = mysqli_connect("127.0.0.1", "root", "root", "cardback");
+$database = mysqli_connect("35.205.34.35", "root", "root", "cardback");
 
 if (!$database) {
     echo mysqli_connect_error();
