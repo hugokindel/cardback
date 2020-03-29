@@ -38,7 +38,6 @@ if (!file_exists($link.".php")) {
     }
     ?>
 </head>
-
 <body>
 <?php
 require $link.".php";

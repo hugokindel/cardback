@@ -1,12 +1,15 @@
 <?php
+require_once 'component/title.php';
+require_once 'component/footer.php';
+
 changeTitle("Erreur 404");
 ?>
 
 <!-- En-tête de page -->
 <header>
-    <div id="title-container">
-        <a id="title-label" href="http://localhost">cardback</a>
-    </div>
+    <?php
+    echo makeTitle();
+    ?>
 </header>
 
 <!-- Contenu principal de la page -->
@@ -15,7 +18,6 @@ changeTitle("Erreur 404");
 </main>
 
 <!-- Pied de page -->
-<footer>
-    <p id="copyright-label">© 2020 Groupe 1. Tous droits réservés.</p>
-    <p id="made-label">Fait avec <span id="made-heart-label">􀊵</span></p>
-</footer>
+<?php
+echo makeFooter();
+?>

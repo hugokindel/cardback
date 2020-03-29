@@ -11,3 +11,8 @@ p {
 html, body {
     height: 100%;
 }
+
+::placeholder {
+    color: #8A8A8E;
+    opacity: 1;
+}

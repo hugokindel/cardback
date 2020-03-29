@@ -1,5 +1,55 @@
-/* ---- Liens ---- */
-.link-main, .link-secondary {
+/* -------- Composants d'interface -------- */
+/* ---- Label (texte) ---- */
+.label-largetitle {
+    font-size: 34px;
+}
+
+.label-title1 {
+    font-size: 28px;
+}
+
+.label-title2 {
+    font-size: 22px;
+}
+
+.label-title3 {
+    font-size: 20px;
+}
+
+.label-listpicker {
+    font-size: 19px;
+}
+
+.label-body {
+    font-size: 17px;
+}
+
+.label-headline {
+    font-size: 17px;
+}
+
+.label-callout {
+    font-size: 16px;
+}
+
+.label-subheadline {
+    font-size: 15px;
+}
+
+.label-footnote {
+    font-size: 13px;
+}
+
+.label-caption1 {
+    font-size: 12px;
+}
+
+.label-caption2 {
+    font-size: 11px;
+}
+
+/* ---- Link, Button ---- */
+.link-main, .link-secondary, .button-main, .button-secondary {
     margin: 0 10px;
 
     display: flex;
@@ -12,7 +62,7 @@
     border: none;
 }
 
-.link-main {
+.link-main, .button-main {
     min-width: 92px;
     min-height: 32px;
     padding: 0 16px;
@@ -22,16 +72,16 @@
     color: black;
 }
 
-.link-secondary {
+.link-secondary, .button-secondary {
     background-color: transparent;
     color: #1FCAAC;
 }
 
-.link-main:hover, .link-secondary:hover {
+.link-main:hover, .link-secondary:hover, .button-main:hover, .button-secondary:hover {
     filter: brightness(90%);
 }
 
-/* ---- Carte ---- */
+/* ---- Card ---- */
 .card-container {
     display: flex;
     flex-direction: row;
@@ -40,7 +90,7 @@
     perspective: 1000px;
 }
 
-.card {
+.card-main {
     width: 246px;
     height: 160px;
 
@@ -48,7 +98,7 @@
     transform-style: preserve-3d;
 }
 
-.card-container:hover .card {
+.card-container:hover .card-main {
     transform: rotateY(180deg);
 }
 
@@ -96,4 +146,67 @@
 .card-image, .card-text {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+}
+
+/* ---- Textbox ---- */
+.textbox-main {
+    outline: none;
+    text-decoration: none;
+    padding-left: 10px;
+    min-height: 32px;
+    border-radius: 10px;
+    border: 1px solid #E9EEF2;
+}
+
+/* -------- Éléments d'interface -------- */
+/* ---- Titre ---- */
+#title-container {
+    width: 215px;
+    height: 108px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#title-label {
+    font-weight: 900;
+    text-decoration: none;
+
+    color: black;
+}
+
+/* ---- Pied de page ---- */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+    margin-top: 50px;
+}
+
+#copyright-label {
+    margin: 0 0 20px 20px;
+
+    color: #8A8A8E;
+
+    float: left;
+}
+
+#made-label {
+    margin: 0 20px 20px 0;
+
+    color: #8A8A8E;
+
+    float: right;
+}
+
+#made-heart-label {
+    color: #FF3B30;
 }

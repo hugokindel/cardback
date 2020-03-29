@@ -1,14 +1,16 @@
 <?php
 require_once 'component/card.php';
+require_once 'component/title.php';
+require_once 'component/footer.php';
 
 changeTitle("Bienvenue");
 ?>
 
 <!-- En-tête de page -->
 <header>
-    <div id="title-container">
-        <a id="title-label" href="http://localhost">cardback</a>
-    </div>
+    <?php
+    echo makeTitle();
+    ?>
     <div id="sign-container">
         <a class="link-secondary">Se connecter</a>
         <a class="link-main">S'inscrire</a>
@@ -17,7 +19,7 @@ changeTitle("Bienvenue");
 
 <!-- Contenu principal de la page -->
 <main>
-    <div id="welcome">Bienvenue sur <span style="font-weight: 900;">cardback</span>!</div>
+    <div class="label-largetitle" id="welcome">Bienvenue sur <span style="font-weight: 900;">cardback</span>!</div>
     <div id="cards-container">
         <div id="cards">
             <?php
@@ -39,7 +41,6 @@ changeTitle("Bienvenue");
 </main>
 
 <!-- Pied de page -->
-<footer>
-    <p id="copyright-label">© 2020 Groupe 1. Tous droits réservés.</p>
-    <p id="made-label">Fait avec <span id="made-heart-label">􀊵</span></p>
-</footer>
+<?php
+echo makeFooter();
+?>
