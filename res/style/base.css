@@ -4,12 +4,44 @@
     "Noto Sans", sans-serif;
 }
 
+h1 {
+    font-size: 34px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+h4 {
+    font-size: 20px;
+}
+
 p {
+    font-size: 17px;
+}
+
+h5 {
+    font-size: 15px;
+}
+
+h6 {
+    font-size: 13px;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, span {
     margin: 0;
 }
 
 html, body {
     height: 100%;
+}
+
+form {
+    margin: 0;
 }
 
 ::placeholder {

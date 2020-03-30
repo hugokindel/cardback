@@ -19,6 +19,7 @@ CREATE TABLE users(
     lastName VARCHAR(50) NOT NULL,
     creationDate DATE NOT NULL,
     lastConnectionDate DATE NOT NULL,
+    admin TINYINT(1) DEFAULT 0,
 
     PRIMARY KEY(id),
     UNIQUE KEY(email)

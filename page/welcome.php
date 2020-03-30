@@ -12,14 +12,14 @@ changeTitle("Bienvenue");
     echo makeTitle();
     ?>
     <div id="sign-container">
-        <a class="link-secondary">Se connecter</a>
-        <a class="link-main">S'inscrire</a>
+        <button class="button-secondary" id="signin-button">Se connecter</button>
+        <button class="button-main" id="signup-button">S'inscrire</button>
     </div>
 </header>
 
 <!-- Contenu principal de la page -->
 <main>
-    <div class="label-largetitle" id="welcome">Bienvenue sur <span style="font-weight: 900;">cardback</span>!</div>
+    <h1 id="welcome">Bienvenue sur <span style="font-weight: 900;">cardback</span>!</h1>
     <div id="cards-container">
         <div id="cards">
             <?php
@@ -38,9 +38,60 @@ changeTitle("Bienvenue");
             ?>
         </div>
     </div>
+
+    <div class="modal-main" id="signin-modal">
+        <div class="modal-content">
+            <h2 class="label-titlemodal">cardback</h2>
+            <h3 class="label-descriptionmodal">S'identifier sur <span style="font-weight: 900;">cardback</span></h3>
+            <form>
+                <label for="fname"></label>
+                <input class="textbox-main textbox-modal" type="email" id="fname" name="email" placeholder="E-mail" style="margin-bottom: 20px;">
+                <label for="lname"></label>
+                <input class="textbox-main textbox-modal" type="password" id="lname" name="password" placeholder="Mot de passe">
+            </form>
+
+            <h5 style="font-weight: 500; margin: 8px 0 0 40px;">Mot de passe <span style="font-weight: 700;">oublié</span>?</h5>
+
+            <button class="button-secondary button-closemodal">Retour</button>
+            <button class="button-main">Se connecter</button>
+        </div>
+    </div>
+
+    <div class="modal-main" id="signup-modal">
+        <div class="modal-content">
+            <div id="title-container" style="margin: auto;">
+                <h2 class="label-title1" id="title-label">cardback</h2>
+            </div>
+        </div>
+    </div>
 </main>
 
 <!-- Pied de page -->
 <?php
 echo makeFooter();
 ?>
+
+<script>
+    var signInModal = document.getElementById("signin-modal");
+    var signUpModal = document.getElementById("signup-modal");
+    var signInButton = document.getElementById("signin-button");
+    var signUpButton = document.getElementById("signup-button");
+    var closeSignInButton = document.getElementsByClassName("button-closemodal")[0];
+    var closeSignUpButton = document.getElementsByClassName("button-closemodal")[1];
+
+    signInButton.onclick = function() {
+        signInModal.style.display = "block";
+    }
+
+    signUpButton.onclick = function () {
+        signUpModal.style.display = "block";
+    }
+
+    closeSignInButton.onclick = function() {
+        signInModal.style.display = "none";
+    }
+
+    closeSignUpButton.onclick = function() {
+        signUpModal.style.display = "none";
+    }
+</script>

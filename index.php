@@ -15,9 +15,9 @@ if (!$db) {
     echo mysqli_connect_error();
 }
 
-//createAccount($db, "kindelhugo.per@gmail.com", "root", "Hugo", "Kindel");
-//removeAccount($db, "kindelhugo.per@gmail.com");
-connectAccount($db, "kindelhugo.per@gmail.com", "root");
+//echo createAccount($db, "kindelhugo.per@gmail.com", "root", "Hugo", "Kindel")[1]."<br>";
+//echo removeAccount($db, $_SESSION["accountId"], $_SESSION["accountPassword"])[1]."<br>";
+echo connectAccount($db, "kindelhugo.per@gmail.com", "root")[1]."<br>";
 
 // Défini la page à charger
 $link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";

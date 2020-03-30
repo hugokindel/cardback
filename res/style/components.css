@@ -81,6 +81,10 @@
     filter: brightness(90%);
 }
 
+.button-main {
+    min-width: 120px;
+}
+
 /* ---- Card ---- */
 .card-container {
     display: flex;
@@ -150,7 +154,7 @@
 
 /* ---- Textbox ---- */
 .textbox-main {
-    outline: none;
+    /*outline: none;*/
     text-decoration: none;
     padding-left: 10px;
     min-height: 32px;

@@ -30,31 +30,6 @@ function createAccount($db, $email, $password, $firstName, $lastName) {
     return [TRUE, "Le compte a été créé"];
 }
 
-function removeAccount($db, $email) {
-    $result = mysqli_query($db, "SELECT id FROM users WHERE email = '".mysqli_real_escape_string($db, $email)."'");
-
-    if (!$result) {
-        echo mysqli_error($db);
-        mysqli_close($db);
-        exit;
-    }
-
-    if (mysqli_num_rows($result) == 0) {
-        return [FALSE, "Le compte n'existe pas"];
-    }
-
-    $result = mysqli_query($db, "DELETE FROM users WHERE email = '"
-        .mysqli_real_escape_string($db, $email)."'");
-
-    if (!$result) {
-        echo mysqli_error($db);
-        mysqli_close($db);
-        exit;
-    }
-
-    return [TRUE, "Le compte a été supprimé"];
-}
-
 function connectAccount($db, $email, $password) {
     $result = mysqli_query($db, "SELECT id, password FROM users WHERE email = '".mysqli_real_escape_string($db, $email)."'");
 
@@ -74,6 +49,15 @@ function connectAccount($db, $email, $password) {
         return [FALSE, "Le mot de passe est incorrect"];
     }
 
+    $result = mysqli_query($db, "UPDATE users SET lastConnectionDate = '"
+        .date("Y-m-d")."' WHERE id = '".$rows[0]."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
     session_regenerate_id();
 
     $_SESSION["signedIn"] = TRUE;
@@ -81,4 +65,34 @@ function connectAccount($db, $email, $password) {
     $_SESSION["accountPassword"] = $rows[1];
 
     return [TRUE, "Le compte est connecté"];
+}
+
+function removeAccount($db, $id, $password) {
+    $result = mysqli_query($db, "SELECT * FROM users WHERE id = '".$id."' AND password = '".$password."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($result) == 0) {
+        return [FALSE, "Le compte n'existe pas"];
+    }
+
+    $result = mysqli_query($db, "DELETE FROM users WHERE id = '".$id."' AND password = '".$password."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    session_regenerate_id();
+
+    unset($_SESSION["signedIn"]);
+    unset($_SESSION["accountId"]);
+    unset($_SESSION["accountPassword"]);
+
+    return [TRUE, "Le compte a été supprimé"];
 }
