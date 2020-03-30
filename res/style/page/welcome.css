@@ -60,6 +60,7 @@ main {
 }
 
 .modal-content {
+    padding: 0 10px;
     width: 448px;
     margin: 10% auto auto auto;
 
@@ -69,9 +70,15 @@ main {
     background-color: #FFFFFF;
 }
 
+.modal-buttons {
+    display: flex;
+    position: relative;
+    margin: 20px 0;
+}
+
 .textbox-modal {
     height: 48px;
-    margin: 0 40px 0 40px;
+    margin: 0 40px 20px 40px;
     width: calc(100% - 80px);
 }
 

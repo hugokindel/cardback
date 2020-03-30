@@ -160,8 +160,28 @@
     min-height: 32px;
     border-radius: 10px;
     border: 1px solid #E9EEF2;
+    height: 48px;
 }
 
+.textbox-container {
+    position: relative;
+}
+.textbox-container .textbox-main {
+    background:#fff;
+    display:block;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 42px;
+}
+
+.textbox-container .image-accessory {
+    height: 48px;
+    line-height: 48px;
+    color: #8A8A8E;
+    position: absolute;
+    left: 10px;
+    top: 0;
+}
 /* -------- Éléments d'interface -------- */
 /* ---- Titre ---- */
 #title-container {

@@ -1,5 +1,6 @@
 <?php
 require_once 'component/card.php';
+require_once 'component/textbox.php';
 require_once 'component/title.php';
 require_once 'component/footer.php';
 
@@ -44,16 +45,18 @@ changeTitle("Bienvenue");
             <h2 class="label-titlemodal">cardback</h2>
             <h3 class="label-descriptionmodal">S'identifier sur <span style="font-weight: 900;">cardback</span></h3>
             <form>
-                <label for="fname"></label>
-                <input class="textbox-main textbox-modal" type="email" id="fname" name="email" placeholder="E-mail" style="margin-bottom: 20px;">
-                <label for="lname"></label>
-                <input class="textbox-main textbox-modal" type="password" id="lname" name="password" placeholder="Mot de passe">
+                <?php
+                echo makeTextboxWithAccessory("email-textbox", "email", "email", "E-mail", "􀍕", "textbox-modal");
+                echo makeTextboxWithAccessory("password-textbox", "password", "password", "Mot de passe", "􀎠", "textbox-modal");
+                ?>
             </form>
 
-            <h5 style="font-weight: 500; margin: 8px 0 0 40px;">Mot de passe <span style="font-weight: 700;">oublié</span>?</h5>
+            <a style="font-weight: 500; margin: 0 0 0 40px;">Mot de passe <span style="font-weight: 700;">oublié</span>?</a>
 
-            <button class="button-secondary button-closemodal">Retour</button>
-            <button class="button-main">Se connecter</button>
+            <div class="modal-buttons">
+                <button class="button-secondary button-closemodal" style="min-height: 32px;">Retour</button>
+                <button class="button-main" style="position: absolute; right: 0;">Se connecter</button>
+            </div>
         </div>
     </div>
 
