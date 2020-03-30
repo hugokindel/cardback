@@ -15,7 +15,7 @@ changeTitle("S'inscrire");
              .makeTextboxWithAccessory("firstname-textbox", "text", "firstname", "Prénom", "􀉩", "form-textbox")
              .makeTextboxWithAccessory("lastname-textbox", "text", "lastname", "Nom de famille", "􀉩", "form-textbox")
              .makeTextboxWithAccessory("password-textbox", "password", "password", "Mot de passe", "􀎠", "form-textbox").'
-        </form>')
+        </form>');
     ?>
 </main>
 
