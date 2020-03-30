@@ -1,17 +1,32 @@
 <?php
-$database = mysqli_connect("35.205.34.35", "root", "root", "cardback");
+require_once "core/account.php";
+require_once "core/utility.php";
 
-if (!$database) {
+// Définis la timezone par défaut
+date_default_timezone_set("Europe/Paris");
+
+// On démarre la session
+session_start();
+
+// Charge la base de donnée
+$db = mysqli_connect("35.205.34.35", "root", "root", "cardback");
+
+if (!$db) {
     echo mysqli_connect_error();
 }
 
-require_once "core/utility.php";
+//createAccount($db, "kindelhugo.per@gmail.com", "root", "Hugo", "Kindel");
+//removeAccount($db, "kindelhugo.per@gmail.com");
+connectAccount($db, "kindelhugo.per@gmail.com", "root");
 
+// Défini la page à charger
 $link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";
 
 if (!file_exists($link.".php")) {
     $link = "page/404";
 }
+
+echo "Hello, ".$_SESSION["accountId"];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -33,6 +48,7 @@ if (!file_exists($link.".php")) {
     <link rel="stylesheet" href="/res/style/sf-pro-rounded.css">
     <link rel="stylesheet" href="/res/style/components.css">
     <?php
+    // Indique le lien vers le CSS de la page voulu
     if (file_exists("res/style/".$link.".css")) {
         echo '<link rel="stylesheet" href="/res/style/'.$link.'.css">';
     }
@@ -40,10 +56,12 @@ if (!file_exists($link.".php")) {
 </head>
 <body>
 <?php
+// Charge la page voulu
 require $link.".php";
 ?>
 </body>
 </html>
 <?php
-mysqli_close($database);
+// Ferme la connexion à la base de donnée
+mysqli_close($db);
 ?>

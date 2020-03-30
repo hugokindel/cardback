@@ -12,12 +12,13 @@ DROP TABLE IF EXISTS cards, packCards, packs, userPacks, users;
 
 -- On crée la table "users"
 CREATE TABLE users(
-    id INT NOT NULL,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     email VARCHAR(254) NOT NULL,
-    password CHAR(32) NOT NULL,
+    password CHAR(255) NOT NULL,
     firstName VARCHAR(50) NOT NULL,
     lastName VARCHAR(50) NOT NULL,
     creationDate DATE NOT NULL,
+    lastConnectionDate DATE NOT NULL,
 
     PRIMARY KEY(id),
     UNIQUE KEY(email)
@@ -25,9 +26,10 @@ CREATE TABLE users(
 
 -- On crée la table "packs"
 CREATE TABLE packs(
-    id INT NOT NULL,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(254) NOT NULL,
     creationDate DATE NOT NULL,
+    creatorId INT UNSIGNED NOT NULL,
 
     PRIMARY KEY(id),
     UNIQUE KEY(name)
@@ -35,7 +37,7 @@ CREATE TABLE packs(
 
 -- On crée la table "cards"
 CREATE TABLE cards(
-    id INT NOT NULL,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     question VARCHAR(254) NOT NULL,
     answer VARCHAR(254) NOT NULL,
     creationDate DATE NOT NULL,
@@ -45,8 +47,8 @@ CREATE TABLE cards(
 
 -- On crée la table "userPacks" (lien utilisateur-paquet)
 CREATE TABLE userPacks (
-    userId INT NOT NULL,
-    packId INT NOT NULL,
+    userId INT UNSIGNED NOT NULL,
+    packId INT UNSIGNED NOT NULL,
 
     FOREIGN KEY(userId) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(packId) REFERENCES packs(id) ON DELETE CASCADE,
@@ -56,8 +58,8 @@ CREATE TABLE userPacks (
 
 -- On crée la table "packCards" (lien paquet-carte)
 CREATE TABLE packCards (
-    packId INT NOT NULL,
-    cardId INT NOT NULL,
+    packId INT UNSIGNED NOT NULL,
+    cardId INT UNSIGNED NOT NULL,
 
     FOREIGN KEY(packId) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(cardId) REFERENCES packs(id) ON DELETE CASCADE,
