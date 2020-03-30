@@ -85,6 +85,10 @@
     min-width: 120px;
 }
 
+.link-main, .link-secondary {
+    text-decoration: none;
+}
+
 /* ---- Card ---- */
 .card-container {
     display: flex;
@@ -182,6 +186,76 @@
     left: 10px;
     top: 0;
 }
+
+/* ---- Modal ---- */
+.modal-main {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+
+    overflow: auto;
+
+    background-color: rgba(0,0,0,0.3);
+}
+
+.modal-content {
+    padding: 0 10px;
+    width: 448px;
+    margin: 10% auto auto auto;
+
+    border: 1px solid #EAEFF2;
+    border-radius: 10px;
+    box-shadow: 0 1px 8px 0;
+    background-color: #FFFFFF;
+}
+
+/* ---- Form ---- */
+.form-main {
+    padding: 0 10px;
+    width: 448px;
+    margin: 160px auto auto auto;
+
+    border: 1px solid #EAEFF2;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+}
+
+.form-buttons {
+    display: flex;
+    position: relative;
+    margin: 20px 0;
+}
+
+.form-textbox {
+    height: 48px;
+    margin: 0 40px 20px 40px;
+    width: calc(100% - 80px);
+}
+
+.form-label-description {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.form-label-title {
+    margin: 20px 0 40px 0;
+
+    display: block;
+
+    text-align: center;
+    font-weight: 900;
+    font-size: 28px;
+    text-decoration: none;
+
+    color: black;
+}
+
 /* -------- Éléments d'interface -------- */
 /* ---- Titre ---- */
 #title-container {
