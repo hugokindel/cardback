@@ -88,11 +88,21 @@ function removeAccount($db, $id, $password) {
         exit;
     }
 
+    disconnectAccount();
+
+    return [TRUE, "Le compte a été supprimé"];
+}
+
+function disconnectAccount() {
     session_regenerate_id();
 
     unset($_SESSION["signedIn"]);
     unset($_SESSION["accountId"]);
     unset($_SESSION["accountPassword"]);
+}
 
-    return [TRUE, "Le compte a été supprimé"];
+function checkConnectionAccount() {
+    if (!isset($_SESSION["signedIn"]) || $_SESSION["signedIn"] == FALSE) {
+        redirectToBase();
+    }
 }

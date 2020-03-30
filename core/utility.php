@@ -18,3 +18,8 @@ function changeTitle($title)
     // On affiche la page
     echo $page;
 }
+
+function redirectToBase() {
+    header("Location: https://cardback.tech");
+    exit();
+}

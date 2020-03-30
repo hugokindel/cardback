@@ -1,6 +1,6 @@
 <?php
-require_once "core/account.php";
 require_once "core/utility.php";
+require_once "core/account.php";
 
 // Définis la timezone par défaut
 date_default_timezone_set("Europe/Paris");
