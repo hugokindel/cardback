@@ -1,4 +1,5 @@
 <?php
+require_once "core/config.php";
 require_once "core/utility.php";
 require_once "core/account.php";
 
@@ -15,9 +16,10 @@ if (!$db) {
     echo mysqli_connect_error();
 }
 
-//echo createAccount($db, "kindelhugo.per@gmail.com", "root", "Hugo", "Kindel")[1]."<br>";
+//echo createAccount($db, "kindelhugo.per@gmail.com", "Root123@", "Hugo", "Kindel")[1]."<br>";
 //echo removeAccount($db, $_SESSION["accountId"], $_SESSION["accountPassword"])[1]."<br>";
 //echo connectAccount($db, "kindelhugo.per@gmail.com", "root")[1]."<br>";
+//disconnectAccount();
 
 // Défini la page à charger
 $link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";

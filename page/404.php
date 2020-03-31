@@ -1,6 +1,6 @@
 <?php
-require_once 'component/title.php';
-require_once 'component/footer.php';
+require_once 'core/component/title.php';
+require_once 'core/component/footer.php';
 
 changeTitle("Erreur 404");
 ?>

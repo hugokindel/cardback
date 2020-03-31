@@ -187,6 +187,10 @@
     top: 0;
 }
 
+.textbox-error {
+    border-color: #FF3B30;
+}
+
 /* ---- Modal ---- */
 .modal-main {
     width: 100%;
@@ -254,6 +258,25 @@
     text-decoration: none;
 
     color: black;
+}
+
+.form-button-submit {
+    position: absolute;
+    right: 0;
+}
+
+.form-label-error {
+    margin-bottom: 20px;
+
+    color: #FF3B30;
+
+    text-align: center;
+}
+
+.form-button-cancel {
+    min-height: 32px;
+
+    margin-left: 16px;
 }
 
 /* -------- Éléments d'interface -------- */

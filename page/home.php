@@ -1,5 +1,5 @@
 <?php
-checkConnectionAccount();
+checkIsConnectedToAccount();
 
 changeTitle("Accueil");
 ?>

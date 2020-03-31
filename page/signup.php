@@ -1,7 +1,9 @@
 <?php
-require_once 'component/textbox.php';
-require_once 'component/form.php';
-require_once 'component/footer.php';
+checkIsNotConnectedToAccount();
+
+require_once 'core/component/textbox.php';
+require_once 'core/component/form.php';
+require_once 'core/component/footer.php';
 
 changeTitle("S'inscrire");
 ?>

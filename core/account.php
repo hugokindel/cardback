@@ -40,13 +40,13 @@ function connectAccount($db, $email, $password) {
     }
 
     if (mysqli_num_rows($result) == 0) {
-        return [FALSE, "Le compte n'existe pas"];
+        return [FALSE, "Aucun compte n'est lié à cette adresse e-mail.", "email"];
     }
 
     $rows = mysqli_fetch_row($result);
 
     if (!password_verify($password, $rows[1])) {
-        return [FALSE, "Le mot de passe est incorrect"];
+        return [FALSE, "Mot de passe incorrect.", "password"];
     }
 
     $result = mysqli_query($db, "UPDATE users SET lastConnectionDate = '"
@@ -99,10 +99,19 @@ function disconnectAccount() {
     unset($_SESSION["signedIn"]);
     unset($_SESSION["accountId"]);
     unset($_SESSION["accountPassword"]);
+
+    return [TRUE, "Le compte est déconnecté"];
 }
 
-function checkConnectionAccount() {
-    if (!isset($_SESSION["signedIn"]) || $_SESSION["signedIn"] == FALSE) {
+function checkIsConnectedToAccount() {
+    if (!isset($_SESSION["signedIn"]) || (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == FALSE)) {
         redirectToBase();
     }
 }
+
+function checkIsNotConnectedToAccount() {
+    if (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == TRUE) {
+        redirectToHome();
+    }
+}
+

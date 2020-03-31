@@ -1,5 +1,4 @@
 <?php
-
 function changeTitle($title)
 {
     // Prend le contenu actuel de la page
@@ -20,6 +19,27 @@ function changeTitle($title)
 }
 
 function redirectToBase() {
-    header("Location: https://cardback.tech");
+    global $baseUrl;
+
+    header("Location: ".$baseUrl);
     exit();
+}
+
+function redirectToHome() {
+    global $baseUrl;
+
+    header("Location: ".$baseUrl."/home");
+    exit();
+}
+
+function checkEmail($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+function checkPassword($password) {
+    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,64}$/', $password);
+}
+
+function checkName($name) {
+    return preg_match('/^[\dA-Za-z ,.\'-]{3,}$/', $name);
 }
