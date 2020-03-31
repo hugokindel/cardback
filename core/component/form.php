@@ -1,6 +1,10 @@
 <?php
-function makeForm($descriptionText, $buttonText, $content) {
+function makeForm($descriptionText, $buttonText, $content, $cancelUrl = "") {
     global $baseUrl;
+
+    if ($cancelUrl === "") {
+        $cancelUrl = $baseUrl;
+    }
 
     return '
         <div class="form-main">
@@ -10,7 +14,7 @@ function makeForm($descriptionText, $buttonText, $content) {
             '.$content.'
     
             <div class="form-buttons">
-                <a class="link-secondary form-button-cancel" href="'.$baseUrl.'">Retour</a>
+                <a class="link-secondary form-button-cancel" href="'.$cancelUrl.'">Retour</a>
                 <button class="button-main form-button-submit" type="submit" form="page-form" name="submit">'.$buttonText.'</button>
             </div>
         </div>';
