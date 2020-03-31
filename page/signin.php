@@ -1,29 +1,23 @@
 <?php
 checkIsNotConnectedToAccount();
 
-require_once 'core/component/textbox.php';
-require_once 'core/component/form.php';
-require_once 'core/component/footer.php';
-
-changeTitle("Se connecter");
-
 $error = "";
 $emailIssue = FALSE;
 $passwordIssue = FALSE;
 
-if (isset($_POST["email"]) && isset($_POST["password"])) {
+if (isset($_POST["submit"])) {
     if (!checkEmail($_POST["email"])) {
         $error .= "<br>- Veuillez entrer une adresse mail valide.";
         $emailIssue = TRUE;
     }
 
     if (!checkPassword($_POST["password"])) {
-        $error .= "<br>- Veuillez entrer un mot de passe valide.";
+        $error .= "<br>- Veuillez entrer un mot de passe valide (entre 8 et 64 caractères, au moins une minuscule, une majuscule, un chiffre et un symbole).";
         $passwordIssue = TRUE;
     }
 
     if ($error === "") {
-        $result = connectAccount($db, $_POST["email"], $_POST["password"]);
+        $result = connectAccount($_POST["email"], $_POST["password"]);
 
         if ($result[0] == TRUE) {
             redirectToHome();
@@ -38,6 +32,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         }
     }
 }
+
+require_once 'core/component/textbox.php';
+require_once 'core/component/form.php';
+require_once 'core/component/footer.php';
+
+changeTitle("Se connecter");
 ?>
 
 <!-- Contenu principal de la page -->
@@ -46,7 +46,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     echo makeForm('S\'identifier sur <span style="font-weight: 900;">cardback', 'Se connecter',
         ($error !== "" ? '<p class="form-label-error">􀁡 Connexion impossible!'.$error.'</p>' : "").
         '<form method="post" id="page-form">
-            '.makeTextboxWithAccessory("email-textbox", "email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox form-textbox-error")
+            '.makeTextboxWithAccessory("email-textbox", "email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox")
              .makeTextboxWithAccessory("password-textbox", "password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox").'
         </form>
 

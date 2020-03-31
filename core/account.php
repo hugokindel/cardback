@@ -1,5 +1,7 @@
 <?php
-function createAccount($db, $email, $password, $firstName, $lastName) {
+function createAccount($email, $password, $firstName, $lastName) {
+    global $db;
+
     $result = mysqli_query($db, "SELECT id FROM users WHERE email = '".mysqli_real_escape_string($db, $email)."'");
 
     if (!$result) {
@@ -9,7 +11,7 @@ function createAccount($db, $email, $password, $firstName, $lastName) {
     }
 
     if (mysqli_num_rows($result) != 0) {
-        return [FALSE, "Le compte existe déjà"];
+        return [FALSE, "Un compte lié à cette adresse e-mail existe déjà."];
     }
 
     $result = mysqli_query($db, "INSERT INTO users (email, password, firstName, lastName, creationDate, lastConnectionDate) VALUES ('"
@@ -27,10 +29,12 @@ function createAccount($db, $email, $password, $firstName, $lastName) {
         exit;
     }
 
-    return [TRUE, "Le compte a été créé"];
+    return [TRUE, "Compte créé avec succès."];
 }
 
-function connectAccount($db, $email, $password) {
+function connectAccount($email, $password) {
+    global $db;
+
     $result = mysqli_query($db, "SELECT id, password FROM users WHERE email = '".mysqli_real_escape_string($db, $email)."'");
 
     if (!$result) {
@@ -64,10 +68,12 @@ function connectAccount($db, $email, $password) {
     $_SESSION["accountId"] = $rows[0];
     $_SESSION["accountPassword"] = $rows[1];
 
-    return [TRUE, "Le compte est connecté"];
+    return [TRUE, "Compte connecté avec succès."];
 }
 
-function removeAccount($db, $id, $password) {
+function removeAccount($id, $password) {
+    global $db;
+
     $result = mysqli_query($db, "SELECT * FROM users WHERE id = '".$id."' AND password = '".$password."'");
 
     if (!$result) {
@@ -77,7 +83,7 @@ function removeAccount($db, $id, $password) {
     }
 
     if (mysqli_num_rows($result) == 0) {
-        return [FALSE, "Le compte n'existe pas"];
+        return [FALSE, "Aucun compte n'est lié à cette ID et mot de passe."];
     }
 
     $result = mysqli_query($db, "DELETE FROM users WHERE id = '".$id."' AND password = '".$password."'");
@@ -90,7 +96,25 @@ function removeAccount($db, $id, $password) {
 
     disconnectAccount();
 
-    return [TRUE, "Le compte a été supprimé"];
+    return [TRUE, "Compte supprimé avec succès."];
+}
+
+function getAccountData($id, $password) {
+    global $db;
+
+    $result = mysqli_query($db, "SELECT * FROM users WHERE id = '".$id."' AND password = '".$password."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($result) == 0) {
+        return [FALSE, "Aucun compte n'est lié à cette ID et mot de passe."];
+    }
+
+    return [TRUE, mysqli_fetch_row($result)];
 }
 
 function disconnectAccount() {
@@ -100,7 +124,7 @@ function disconnectAccount() {
     unset($_SESSION["accountId"]);
     unset($_SESSION["accountPassword"]);
 
-    return [TRUE, "Le compte est déconnecté"];
+    return [TRUE, "Compte deconnecté avec succès."];
 }
 
 function checkIsConnectedToAccount() {
