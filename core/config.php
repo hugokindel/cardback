@@ -1,2 +1,2 @@
 <?php
-$baseUrl = "http://cardback.tech";
+$baseUrl = "https://cardback.tech";
