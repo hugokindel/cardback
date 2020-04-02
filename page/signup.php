@@ -50,7 +50,7 @@ changeTitle("S'inscrire");
 ?>
 
 <!-- Contenu principal de la page -->
-<main>
+<main id="main-with-footer">
     <?php
     echo makeForm('S\'inscrire sur <span style="font-weight: 900;">cardback', 'S\'inscrire',
         ($error !== "" ? '<p class="form-label-error">􀁡 Inscription impossible!'.$error.'</p>' : "").

@@ -13,7 +13,7 @@ changeTitle("Erreur 403");
 </header>
 
 <!-- Contenu principal de la page -->
-<main>
+<main id="main-with-footer">
     <h1 id="error-label">Erreur <span id="error-number-label">403</span><br>Vous n'avez pas l'autorisation d'accéder à cette ressource.</h1>
 </main>
 

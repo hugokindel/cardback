@@ -23,7 +23,7 @@ changeTitle("Se connecter");
 ?>
 
 <!-- Contenu principal de la page -->
-<main>
+<main id="main-with-footer">
     <?php
     echo makeForm('Récupération de mot de passe', 'Récupérer',
         ($error !== "" ? '<p class="form-label-error">􀁡 Récupération impossible!'.$error.'</p>' : "").

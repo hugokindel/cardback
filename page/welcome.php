@@ -21,7 +21,7 @@ changeTitle("Bienvenue");
 </header>
 
 <!-- Contenu principal de la page -->
-<main>
+<main id="main-with-footer">
     <h1 id="welcome">Bienvenue sur <span style="font-weight: 900;">cardback</span>!</h1>
     <div id="cards-container">
         <div id="cards">

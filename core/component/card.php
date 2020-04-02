@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Bug carte flou
+
 function makeCard($textOnFront, $textOnBack, $rotate = TRUE) {
     return '
     <div class="card-container"  style="transform: rotate('.($rotate ? rand(-5, 5) : 0). 'deg)">

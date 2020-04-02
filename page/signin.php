@@ -41,7 +41,7 @@ changeTitle("Se connecter");
 ?>
 
 <!-- Contenu principal de la page -->
-<main>
+<main id="main-with-footer">
     <?php
     echo makeForm('S\'identifier sur <span style="font-weight: 900;">cardback', 'Se connecter',
         ($error !== "" ? '<p class="form-label-error">􀁡 Connexion impossible!'.$error.'</p>' : "").
