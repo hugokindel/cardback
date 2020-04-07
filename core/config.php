@@ -1,2 +1,2 @@
 <?php
-$baseUrl = "http://cardback.test";
+$baseUrl = "http://localhost";

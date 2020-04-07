@@ -8,6 +8,7 @@ function setupSelectComponent() {
 
         selectSelectedDiv = document.createElement("div");
         selectSelectedDiv.setAttribute("class", "select-selected");
+        selectSelectedDiv.setAttribute("tabindex", "0");
         selectSelectedDiv.innerHTML = '' +
             '<p class="select-selected-icon">' + selectRootDiv[i].getAttribute("data-icon") + '</p>' +
             '<p class="select-selected-text ' + (selectElement.selectedIndex > 0 && selectElement.options[selectElement.selectedIndex].selected ? ' select-selectect-text-choosen' : '') + '">' + selectElement.options[selectElement.selectedIndex].innerHTML + '</p>' +
