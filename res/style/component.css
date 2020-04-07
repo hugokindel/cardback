@@ -175,7 +175,7 @@
     display:block;
     width: 100%;
     box-sizing: border-box;
-    padding-left: 42px;
+    padding-left: 48px;
 }
 
 .textbox-container .image-accessory {
@@ -236,12 +236,6 @@
     margin: 20px 0;
 }
 
-.form-textbox {
-    height: 48px;
-    margin: 0 40px 20px 40px;
-    width: calc(100% - 80px);
-}
-
 .form-label-description {
     text-align: center;
     margin: 20px 0;
@@ -277,6 +271,18 @@
     min-height: 32px;
 
     margin-left: 16px;
+}
+
+/* Éléments pour forme */
+.form-textbox {
+    height: 48px;
+    margin: 0 40px 20px 40px;
+    width: calc(100% - 80px);
+}
+
+.form-select {
+    margin: 0 40px 20px 40px;
+    width: calc(100% - 80px);
 }
 
 /* -------- Éléments d'interface -------- */
@@ -411,4 +417,82 @@ footer {
 
 #create-pack-button {
     margin-right: 40px;
+}
+
+/* ---- select ---- */
+.select-main {
+    position: relative;
+}
+
+.select-main select {
+    display: none;
+}
+
+.select-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #E6ECF0;
+}
+
+.select-list div {
+    border-radius: 10px;
+    line-height: 42px;
+    height: 42px;
+    padding: 0 48px;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.select-selected {
+    line-height: 46px;
+    height: 46px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: 1px solid #E6ECF0;
+    cursor: pointer;
+}
+
+.select-list-hide {
+    display: none;
+}
+
+.select-list div:hover, .select-list-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.select-selected-icon {
+    display: inline-block;
+    color: #8A8A8E;
+    inline-size: 38px;
+}
+
+.select-selected-icon {
+    display: inline-block;
+    color: #8A8A8E;
+    inline-size: 38px;
+}
+
+.select-selected-text {
+    display: inline-block;
+    color: #8A8A8E;
+}
+
+.select-selectect-text-choosen {
+    color: black;
+}
+
+.select-selected-arrow {
+    float: right;
+    color: #8A8A8E;
+    margin-right: 10px;
+}
+
+.select-selected-error {
+    border-color: #FF3B30;
 }

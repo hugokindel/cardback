@@ -1,10 +1,10 @@
 <?php
 checkIsNotConnectedToAccount();
 
-require_once 'core/component/card.php';
-require_once 'core/component/textbox.php';
-require_once 'core/component/title.php';
-require_once 'core/component/footer.php';
+require_once 'core/component/default/card.php';
+require_once 'core/component/default/textbox.php';
+require_once 'core/component/page/title.php';
+require_once 'core/component/page/footer.php';
 
 changeTitle("Bienvenue");
 ?>

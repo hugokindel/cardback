@@ -3,7 +3,7 @@
 function makeToolbar() {
     return '
         <div class="right-toolbar">
-                <button id="create-pack-button" class="button-main">Créer un paquet</button>
+                <a id="create-pack-button" class="link-main" href="editor/create">Créer un paquet</a>
                 <img class="avatar-image" src="/res/avatar.png" alt="Avatar">
         </div>';
 }

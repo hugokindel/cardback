@@ -1,5 +1,5 @@
 <?php
-require_once 'core/component/title.php';
+require_once 'core/component/page/title.php';
 
 function makeSidebar($selected = 0) {
     return '

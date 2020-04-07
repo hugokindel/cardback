@@ -1,9 +1,9 @@
 <?php
 checkIsConnectedToAccount();
 
-require_once 'core/component/title.php';
-require_once 'core/component/sidebar.php';
-require_once 'core/component/toolbar.php';
+require_once 'core/component/page/title.php';
+require_once 'core/component/page/sidebar.php';
+require_once 'core/component/page/toolbar.php';
 
 changeTitle("Explorer");
 ?>

@@ -13,12 +13,12 @@ if (isset($_POST["submit"])) {
         $emailIssue = TRUE;
     }
 
-    if (!checkName($_POST["firstName"])) {
+    if (!checkName($_POST["firstname"])) {
         $error .= "<br>- Veuillez entrer un prénom valide.";
         $firstNameIssue = TRUE;
     }
 
-    if (!checkName($_POST["lastName"])) {
+    if (!checkName($_POST["lastname"])) {
         $error .= "<br>- Veuillez entrer un nom valide.";
         $lastNameIssue = TRUE;
     }
@@ -29,7 +29,7 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        $result = createAccount($_POST["email"], $_POST["password"], $_POST["firstName"], $_POST["lastName"]);
+        $result = createAccount($_POST["email"], $_POST["password"], $_POST["firstname"], $_POST["lastname"]);
 
         if ($result[0] == TRUE) {
             connectAccount($_POST["email"], $_POST["password"]);
@@ -42,9 +42,9 @@ if (isset($_POST["submit"])) {
     }
 }
 
-require_once 'core/component/textbox.php';
-require_once 'core/component/form.php';
-require_once 'core/component/footer.php';
+require_once 'core/component/default/textbox.php';
+require_once 'core/component/default/form.php';
+require_once 'core/component/page/footer.php';
 
 changeTitle("S'inscrire");
 ?>
@@ -55,10 +55,10 @@ changeTitle("S'inscrire");
     echo makeForm('S\'inscrire sur <span style="font-weight: 900;">cardback', 'S\'inscrire',
         ($error !== "" ? '<p class="form-label-error">􀁡 Inscription impossible!'.$error.'</p>' : "").
         '<form method="post" id="page-form">
-            '.makeTextboxWithAccessory("email-textbox", "email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox")
-             .makeTextboxWithAccessory("firstname-textbox", "text", "firstName", "Prénom", "􀉩", isset($_POST["firstName"]) ? $_POST["firstName"] : "", $firstNameIssue, "form-textbox")
-             .makeTextboxWithAccessory("lastname-textbox", "text", "lastName", "Nom de famille", "􀉩", isset($_POST["lastName"]) ? $_POST["lastName"] : "", $lastNameIssue, "form-textbox")
-             .makeTextboxWithAccessory("password-textbox", "password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox").'
+            '.makeTextboxWithAccessory("email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox")
+             .makeTextboxWithAccessory("firstname", "text", "Prénom", "􀉩", isset($_POST["firstname"]) ? $_POST["firstname"] : "", $firstNameIssue, "form-textbox")
+             .makeTextboxWithAccessory("lastname", "text", "Nom de famille", "􀉩", isset($_POST["lastname"]) ? $_POST["lastname"] : "", $lastNameIssue, "form-textbox")
+             .makeTextboxWithAccessory("password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox").'
         </form>');
     ?>
 </main>

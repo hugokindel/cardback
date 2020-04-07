@@ -1,6 +1,6 @@
 <?php
-require_once 'core/component/title.php';
-require_once 'core/component/footer.php';
+require_once 'core/component/page/title.php';
+require_once 'core/component/page/footer.php';
 
 changeTitle("Erreur 403");
 ?>

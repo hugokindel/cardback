@@ -15,9 +15,9 @@ if (isset($_POST["submit"])) {
     }
 }
 
-require_once 'core/component/textbox.php';
-require_once 'core/component/form.php';
-require_once 'core/component/footer.php';
+require_once 'core/component/default/textbox.php';
+require_once 'core/component/default/form.php';
+require_once 'core/component/page/footer.php';
 
 changeTitle("Se connecter");
 ?>
@@ -28,7 +28,7 @@ changeTitle("Se connecter");
     echo makeForm('Récupération de mot de passe', 'Récupérer',
         ($error !== "" ? '<p class="form-label-error">􀁡 Récupération impossible!'.$error.'</p>' : "").
         '<form method="post" id="page-form">
-            '.makeTextboxWithAccessory("email-textbox", "email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox").'
+            '.makeTextboxWithAccessory("email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox").'
         </form>', $baseUrl."/signin");
     ?>
 </main>

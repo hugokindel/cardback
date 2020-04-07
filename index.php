@@ -46,7 +46,7 @@ if (!file_exists($link.".php")) {
     <link rel="stylesheet" href="/res/style/utility/normalize.css">
     <link rel="stylesheet" href="/res/style/base.css">
     <link rel="stylesheet" href="/res/style/sf-pro-rounded.css">
-    <link rel="stylesheet" href="/res/style/components.css">
+    <link rel="stylesheet" href="/res/style/component.css">
     <?php
     // Indique le lien vers le CSS de la page voulu
     if (file_exists("res/style/".$link.".css")) {
@@ -59,6 +59,9 @@ if (!file_exists($link.".php")) {
 // Charge la page voulu
 require $link.".php";
 ?>
+
+<script src="/res/script/component.js"></script>
+
 </body>
 </html>
 <?php

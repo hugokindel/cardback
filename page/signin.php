@@ -33,9 +33,9 @@ if (isset($_POST["submit"])) {
     }
 }
 
-require_once 'core/component/textbox.php';
-require_once 'core/component/form.php';
-require_once 'core/component/footer.php';
+require_once 'core/component/default/textbox.php';
+require_once 'core/component/default/form.php';
+require_once 'core/component/page/footer.php';
 
 changeTitle("Se connecter");
 ?>
@@ -46,8 +46,8 @@ changeTitle("Se connecter");
     echo makeForm('S\'identifier sur <span style="font-weight: 900;">cardback', 'Se connecter',
         ($error !== "" ? '<p class="form-label-error">􀁡 Connexion impossible!'.$error.'</p>' : "").
         '<form method="post" id="page-form">
-            '.makeTextboxWithAccessory("email-textbox", "email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox")
-             .makeTextboxWithAccessory("password-textbox", "password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox").'
+            '.makeTextboxWithAccessory("email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox")
+             .makeTextboxWithAccessory("password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox").'
         </form>
 
         <a id="passwordforgotten-label" href="passwordrecovery">Mot de passe <span style="font-weight: 700;">oublié</span>?</a>');
