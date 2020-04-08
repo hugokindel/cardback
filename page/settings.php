@@ -9,14 +9,11 @@ changeTitle("Paramètres");
 ?>
 
 <main>
-    <div class="sidebar-main">
-        <?php
-        echo makeTitle();
-        echo makeSidebar(3);
-        ?>
-    </div>
+    <?php
+    echo makeSidebar(3);
+    ?>
 
-    <div class="content-main">
+    <div id="content-main">
         <?php
         echo makeToolbar();
         ?>

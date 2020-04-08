@@ -9,14 +9,11 @@ changeTitle("Profil");
 ?>
 
 <main>
-    <div class="sidebar-main">
-        <?php
-        echo makeTitle();
-        echo makeSidebar(2);
-        ?>
-    </div>
+    <?php
+    echo makeSidebar(2);
+    ?>
 
-    <div class="content-main">
+    <div id="content-main">
         <?php
         echo makeToolbar();
         ?>

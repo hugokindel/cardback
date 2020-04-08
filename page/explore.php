@@ -9,14 +9,11 @@ changeTitle("Explorer");
 ?>
 
 <main>
-    <div class="sidebar-main">
-        <?php
-        echo makeTitle();
-        echo makeSidebar(1);
-        ?>
-    </div>
+    <?php
+    echo makeSidebar(1);
+    ?>
 
-    <div class="content-main">
+    <div id="content-main">
         <?php
         echo makeToolbar();
         ?>

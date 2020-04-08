@@ -16,14 +16,11 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"]);
 ?>
 
 <main>
-    <div class="sidebar-main">
-        <?php
-        echo makeTitle();
-        echo makeSidebar(0);
-        ?>
-    </div>
+    <?php
+    echo makeSidebar(0);
+    ?>
 
-    <div class="content-main">
+    <div id="content-main">
         <?php
         echo makeToolbar();
         ?>
