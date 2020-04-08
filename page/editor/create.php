@@ -23,7 +23,15 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
+        $result = createPack($_POST["name"], $_POST["difficulty"], $_POST["theme"]);
 
+        if ($result[0] == TRUE) {
+            redirectToEditor(getLastPack()[1]);
+        } else {
+            $error .= "<br>- ".$result[1];
+
+            $nameIssue = TRUE;
+        }
     }
 }
 
@@ -43,7 +51,7 @@ changeTitle("Création d'un paquet");
         '<form method="post" id="page-form">
             '.makeTextboxWithAccessory("name", "text", "Nom", "􀅯",
                 isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox")
-             .makeSelectWithAccessory("difficulty", "􀛸", "Difficulté", [["easy", "Facile"], ["medium", "Moyen"], ["hard", "Difficile"]], isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue, "form-select")
+             .makeSelectWithAccessory("difficulty", "􀛸", "Difficulté", [["easy", "Facile"], ["medi", "Moyen"], ["hard", "Difficile"]], isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue, "form-select")
              .makeSelectWithAccessory("theme", "􀈕", "Thème", [["info", "Informatique"], ["math", "Mathématiques"], ["geog", "Géographie"], ["hist", "Histoire"], ["lang", "Langues"], ["othe", "Autres"]], isset($_POST["theme"]) ? $_POST["theme"] : "", $themeIssue, "form-select").'
         </form>');
     ?>

@@ -2,6 +2,7 @@
 require_once "core/config.php";
 require_once "core/utility.php";
 require_once "core/account.php";
+require_once "core/pack.php";
 
 // Définis la timezone par défaut
 date_default_timezone_set("Europe/Paris");
@@ -15,11 +16,6 @@ $db = mysqli_connect("35.205.34.35", "root", "@!hk-fpv-io2-2019!@", "cardback");
 if (!$db) {
     echo mysqli_connect_error();
 }
-
-//echo createAccount("kindelhugo.per@gmail.com", "Root123@", "Hugo", "Kindel")[1]."<br>";
-//echo removeAccount($_SESSION["accountId"], $_SESSION["accountPassword"])[1]."<br>";
-//echo connectAccount("kindelhugo.per@gmail.com", "root")[1]."<br>";
-//disconnectAccount();
 
 // Défini la page à charger
 $link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";

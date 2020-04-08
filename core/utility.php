@@ -32,6 +32,13 @@ function redirectToHome() {
     exit();
 }
 
+function redirectToEditor($packId) {
+    global $baseUrl;
+
+    header("Location: ".$baseUrl."/editor?id=".$packId);
+    exit();
+}
+
 function checkEmail($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
