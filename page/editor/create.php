@@ -23,7 +23,7 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        // TODO
+
     }
 }
 

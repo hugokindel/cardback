@@ -29,8 +29,9 @@ CREATE TABLE users(
 CREATE TABLE packs(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(254) NOT NULL,
+    theme INT NOT NULL,
+    difficulty INT NOT NULL,
     creationDate DATE NOT NULL,
-    creatorId INT UNSIGNED NOT NULL,
 
     PRIMARY KEY(id),
     UNIQUE KEY(name)
