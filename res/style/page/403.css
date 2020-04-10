@@ -12,6 +12,10 @@ main {
     font-weight: 600;
 }
 
+#error-button {
+    margin: 32px auto;
+}
+
 #error-number-label {
     font-weight: 800;
 }

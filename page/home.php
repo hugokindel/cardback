@@ -9,6 +9,8 @@ if (isset($_POST["submit"])) {
 require_once 'core/component/page/title.php';
 require_once 'core/component/page/sidebar.php';
 require_once 'core/component/page/toolbar.php';
+require_once 'core/component/page/search.php';
+require_once 'core/component/default/textbox.php';
 
 changeTitle("Accueil");
 
@@ -20,15 +22,19 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"]);
     echo makeSidebar(0);
     ?>
 
-    <div id="content-main">
+    <div id="page-main">
+        <div id="content-title-container">
+            <?php
+            echo makeSearchBar("Chercher un de vos paquet ou un thème");
+            ?>
+        </div>
+
         <?php
         echo makeToolbar();
         ?>
 
-        <div class="page-main">
-            <h1>Bonjour, <?php echo $data[1][3]." ".$data[1][4] ?></h1>
-            <form method="post" id="page-form"></form>
-            <button class="button-main" type="submit" form="page-form" name="submit" style="margin-top: 50px; width: 220px;">Se déconnecter</button>
-        </div>
+        <article id="content-main">
+
+        </article>
     </div>
 </main>

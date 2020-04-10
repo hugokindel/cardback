@@ -13,7 +13,7 @@ changeTitle("Paramètres");
     echo makeSidebar(3);
     ?>
 
-    <div id="content-main">
+    <div id="page-main">
         <?php
         echo makeToolbar();
         ?>

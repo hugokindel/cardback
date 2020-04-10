@@ -4,6 +4,8 @@ checkIsConnectedToAccount();
 require_once 'core/component/page/title.php';
 require_once 'core/component/page/sidebar.php';
 require_once 'core/component/page/toolbar.php';
+require_once 'core/component/page/search.php';
+require_once 'core/component/default/textbox.php';
 
 changeTitle("Feedback");
 ?>
@@ -13,7 +15,7 @@ changeTitle("Feedback");
     echo makeSidebar(4);
     ?>
 
-    <div id="content-main">
+    <div id="page-main">
         <?php
         echo makeToolbar();
         ?>

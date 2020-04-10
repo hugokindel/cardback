@@ -19,7 +19,8 @@ CREATE TABLE users(
     lastName VARCHAR(50) NOT NULL,
     creationDate DATE NOT NULL,
     lastConnectionDate DATE NOT NULL,
-    admin TINYINT(1) DEFAULT 0,
+    admin TINYINT(1) NOT NULL DEFAULT 0,
+    description VARCHAR(255) NOT NULL DEFAULT '',
 
     PRIMARY KEY(id),
     UNIQUE KEY(email)
@@ -29,8 +30,9 @@ CREATE TABLE users(
 CREATE TABLE packs(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(254) NOT NULL,
-    difficulty VARCHAR(4) NOT NULL,
-    theme VARCHAR(4) NOT NULL,
+    difficulty VARCHAR(32) NOT NULL,
+    theme VARCHAR(32) NOT NULL,
+    published TINYINT(1) NOT NULL DEFAULT 0,
     creationDate DATE NOT NULL,
 
     PRIMARY KEY(id),
@@ -40,8 +42,9 @@ CREATE TABLE packs(
 -- On crée la table "cards"
 CREATE TABLE cards(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    question VARCHAR(254) NOT NULL,
-    answer VARCHAR(254) NOT NULL,
+    question VARCHAR(254),
+    answer VARCHAR(254),
+    confirmed TINYINT(1) NOT NULL DEFAULT 0,
     creationDate DATE NOT NULL,
 
     PRIMARY KEY(id)
@@ -63,8 +66,8 @@ CREATE TABLE packCards (
     packId INT UNSIGNED NOT NULL,
     cardId INT UNSIGNED NOT NULL,
 
-    FOREIGN KEY(packId) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY(cardId) REFERENCES packs(id) ON DELETE CASCADE,
+    FOREIGN KEY(packId) REFERENCES packs(id) ON DELETE CASCADE,
+    FOREIGN KEY(cardId) REFERENCES cards(id) ON DELETE CASCADE,
 
     PRIMARY KEY (packId, cardId)
 );

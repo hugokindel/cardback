@@ -19,12 +19,6 @@ main {
     margin: 0 20px;
 }
 
-#cards-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 #welcome {
     padding: 20px 0;
     margin: 100px 0 50px 0;
@@ -36,8 +30,4 @@ main {
 
 #cards {
     width: 778px;
-
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(246px, 1fr));
-    grid-gap: 20px;
 }

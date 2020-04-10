@@ -106,7 +106,7 @@
     transform-style: preserve-3d;
 }
 
-.card-container:hover .card-main {
+.card-container-rotate:hover .card-main {
     transform: rotateY(180deg);
 }
 
@@ -133,7 +133,7 @@
     transform: rotateY(180deg);
 }
 
-.card-text {
+.card-text-middle {
     width: calc(100% - 15px);
     transform: translate(-50%, -50%);
 
@@ -146,12 +146,36 @@
     font-size: 20px;
 }
 
+.card-text-top {
+    width: calc(100% - 15px);
+    transform: translate(-50%, 0);
+
+    position: absolute;
+    top: 8px;
+    left: 50%;
+
+    text-align: center;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.card-text-bottom {
+    width: calc(100% - 15px);
+
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+
+    font-weight: 800;
+    font-size: 20px;
+}
+
 .card-image {
     width: calc(100% - 15px);
     height: calc(100% - 15px);
 }
 
-.card-image, .card-text {
+.card-image, .card-text-middle, .card-text-top, .card-text-bottom {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
@@ -467,15 +491,18 @@ footer {
     text-decoration: none;
 }
 
-/* ---- Contenu principal de page ---- */
-#content-main {
+/* ---- Élément principal de page ---- */
+#page-main {
+    width: calc(100% - 276px);
     margin-left: 216px;
     padding-left: 20px;
+    padding-right: 40px;
+    display: inline-block;
 }
 
 /* ---- Barre d'outils ---- */
 #right-toolbar {
-    margin-right: 40px;
+    padding-right: 40px;
     height: 108px;
 
     position: absolute;
@@ -502,4 +529,51 @@ footer {
     background-color: #FF3B30;
     margin-right: 20px;
     margin-left: 0;
+}
+
+/* ---- Contenu principal de page ---- */
+#content-main {
+    margin-top: 172px;
+}
+
+/* ---- Titre du contenu principal de la page ---- */
+#content-title-container {
+    height: 108px;
+
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#content-title-label {
+    font-weight: 900;
+    text-decoration: none;
+
+    color: black;
+}
+
+/* ---- Autres emplacements spécifiques ---- */
+.section-cards {
+    width: 100%;
+}
+
+.section-cards #cards-container {
+    margin-top: 16px;
+}
+
+#cards-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#cards {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(246px, 1fr));
+    grid-gap: 20px;
 }

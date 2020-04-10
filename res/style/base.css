@@ -48,3 +48,12 @@ form {
     color: #8A8A8E;
     opacity: 1;
 }
+
+section {
+    margin-bottom: 32px;
+    display: inline-block;
+}
+
+section h3 {
+    margin-bottom: 4px;
+}

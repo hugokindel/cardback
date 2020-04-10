@@ -4,8 +4,9 @@ require_once "core/utility.php";
 require_once "core/account.php";
 require_once "core/pack.php";
 
-// Définis la timezone par défaut
+// Définis la timezone et langue par défaut
 date_default_timezone_set("Europe/Paris");
+setlocale(LC_TIME, 'fr_FR.UTF-8');
 
 // On démarre la session
 session_start();

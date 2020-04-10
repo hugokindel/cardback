@@ -6,7 +6,7 @@ function makeSelectWithAccessory($name, $accessory, $placeholder, $options, $val
     $optionsInnerHtml = "";
 
     foreach ($options as $option) {
-        $optionsInnerHtml .= '<option value="'.$option[0].'"'.($value == $option[0] ? ' selected' : '').'>'.$option[1].'</option>';
+        $optionsInnerHtml .= '<option value="'.$option.'"'.($value == $option[0] ? ' selected' : '').'>'.$option.'</option>';
     }
 
     return '

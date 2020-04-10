@@ -1,17 +1,7 @@
 #content-title-container {
     width: 246px;
-    height: 108px;
-
-    position: absolute;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-#content-title-label {
-    font-weight: 900;
-    text-decoration: none;
-
-    color: black;
+#cards-container {
+    margin-bottom: 20px;
 }

@@ -39,6 +39,13 @@ function redirectToEditor($packId) {
     exit();
 }
 
+function redirectTo404() {
+    global $baseUrl;
+
+    header("Location: ".$baseUrl."/404");
+    exit();
+}
+
 function checkEmail($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }

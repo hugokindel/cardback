@@ -47,14 +47,14 @@ function connectAccount($email, $password) {
         return [FALSE, "Aucun compte n'est lié à cette adresse e-mail.", "email"];
     }
 
-    $rows = mysqli_fetch_row($result);
+    $rows = mysqli_fetch_assoc($result);
 
-    if (!password_verify($password, $rows[1])) {
+    if (!password_verify($password, $rows["password"])) {
         return [FALSE, "Mot de passe incorrect.", "password"];
     }
 
     $result = mysqli_query($db, "UPDATE users SET lastConnectionDate = '"
-        .date("Y-m-d")."' WHERE id = '".$rows[0]."'");
+        .date("Y-m-d")."' WHERE id = '".$rows["id"]."'");
 
     if (!$result) {
         echo mysqli_error($db);
@@ -65,8 +65,8 @@ function connectAccount($email, $password) {
     session_regenerate_id();
 
     $_SESSION["signedIn"] = TRUE;
-    $_SESSION["accountId"] = $rows[0];
-    $_SESSION["accountPassword"] = $rows[1];
+    $_SESSION["accountId"] = $rows["id"];
+    $_SESSION["accountPassword"] = $rows["password"];
 
     return [TRUE, "Compte connecté avec succès."];
 }
@@ -114,7 +114,25 @@ function getAccountData($id, $password) {
         return [FALSE, "Aucun compte n'est lié à cette ID et mot de passe."];
     }
 
-    return [TRUE, mysqli_fetch_row($result)];
+    return [TRUE, mysqli_fetch_assoc($result)];
+}
+
+function getLastAccountId() {
+    global $db;
+
+    $result = mysqli_query($db, "SELECT MAX(id) FROM users");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($result) == 0) {
+        return [FALSE, "Il n'y a aucun compte dans la base de donnée."];
+    }
+
+    return [TRUE, mysqli_fetch_assoc($result)["id"]];
 }
 
 function disconnectAccount() {
