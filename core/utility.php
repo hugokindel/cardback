@@ -18,32 +18,23 @@ function changeTitle($title)
     echo $page;
 }
 
-function redirectToBase() {
+function redirect($url = "") {
     global $baseUrl;
 
-    header("Location: ".$baseUrl);
+    header("Location: ".$baseUrl."/".$url);
     exit();
 }
 
 function redirectToHome() {
-    global $baseUrl;
-
-    header("Location: ".$baseUrl."/home");
-    exit();
+    redirect("home");
 }
 
 function redirectToEditor($packId) {
-    global $baseUrl;
-
-    header("Location: ".$baseUrl."/editor?id=".$packId);
-    exit();
+    redirect("editor?id=".$packId);
 }
 
 function redirectTo404() {
-    global $baseUrl;
-
-    header("Location: ".$baseUrl."/404");
-    exit();
+    redirect("404");
 }
 
 function checkEmail($email) {

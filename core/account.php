@@ -147,13 +147,13 @@ function disconnectAccount() {
 
 function checkIsConnectedToAccount() {
     if (!isset($_SESSION["signedIn"]) || (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == FALSE)) {
-        redirectToBase();
+        redirect();
     }
 }
 
 function checkIsNotConnectedToAccount() {
     if (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == TRUE) {
-        redirectToHome();
+        redirect();
     }
 }
 

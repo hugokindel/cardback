@@ -159,7 +159,6 @@ function getAllUnpublishedPacksOfUser($userId) {
     global $db;
 
     $return = [];
-
     $results = mysqli_query($db, "SELECT packId FROM userPacks WHERE userId = '".mysqli_real_escape_string($db, $userId)."'");
 
     if (!$results) {
@@ -174,6 +173,37 @@ function getAllUnpublishedPacksOfUser($userId) {
 
     while ($result = mysqli_fetch_assoc($results)) {
         $results2 = mysqli_query($db, "SELECT * FROM packs WHERE id = '".$result["packId"]."' AND published = 0");
+
+        if (!$results) {
+            echo mysqli_error($db);
+            mysqli_close($db);
+            exit;
+        }
+
+        array_push($return, mysqli_fetch_assoc($results2));
+    }
+
+    return $return;
+}
+
+function getAllCardsOfPack($packId) {
+    global $db;
+
+    $return = [];
+    $results = mysqli_query($db, "SELECT cardId FROM packCards WHERE packId = '".mysqli_real_escape_string($db, $packId)."'");
+
+    if (!$results) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($results) == 0) {
+        return [];
+    }
+
+    while ($result = mysqli_fetch_assoc($results)) {
+        $results2 = mysqli_query($db, "SELECT * FROM cards WHERE id = '".$result["cardId"]."'");
 
         if (!$results) {
             echo mysqli_error($db);

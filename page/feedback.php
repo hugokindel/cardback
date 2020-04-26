@@ -19,5 +19,9 @@ changeTitle("Feedback");
         <?php
         echo makeToolbar();
         ?>
+
+        <article id="content-main">
+
+        </article>
     </div>
 </main>

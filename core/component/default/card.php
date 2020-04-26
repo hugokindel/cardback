@@ -50,3 +50,16 @@ function makeCardPlus() {
          </div>
      </div>';
 }
+
+function makeCardEditable($placeholder) {
+    return '
+    <div class="card-container">
+        <div class="card-main">
+            <div class="card-front">
+                <img class="card-image" src="/res/image/card-background.svg" alt="Carte fond avant"/>
+                <label for="card-textbox"></label>
+                <input class="textbox-main" placeholder="'.$placeholder.'" value="" style="position: absolute; width: calc(100% - 22px); height: calc(100% - 22px); background-color: transparent; border: 0; word-break: break-word; padding-left: 5px; text-align: center;" maxlength="159">
+            </div>
+         </div>
+     </div>';
+}

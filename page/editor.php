@@ -12,6 +12,8 @@ if (isset($_GET["action"])) {
     if ($_GET["action"] == "add") {
         createCard($_GET["id"]);
     }
+
+    redirect("editor?id=".$_GET["id"]);
 }
 
 require_once 'core/component/page/title.php';
@@ -45,8 +47,26 @@ $data = getPackData($_GET["id"])[1];
             </section>
             <br>
 
-            <section>
+            <section class="section-cards">
                 <h4 style="margin-bottom: 20px;">Cartes</h4>
+
+                <?php
+                $cards = getAllCardsOfPack($_GET["id"]);
+
+                foreach ($cards as $value) {
+                ?>
+                    <div id="cards-container">
+                        <div id="cards">
+                            <?php
+                            echo makeCardEditable("Écrivez votre question...");
+                            echo makeCardEditable("Écrivez votre réponse...");
+                            ?>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+
                 <div id="cards-container">
                     <div id="cards">
                         <form id="add-card-form">
