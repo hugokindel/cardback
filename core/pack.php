@@ -239,10 +239,12 @@ function getAllPacks() {
         exit;
     }
 
-    if (mysqli_num_rows($results) > 0) {
-        $pack = mysqli_fetch_assoc($results);
+    if (mysqli_num_rows($results) == 0) {
+        return [];
+    }
 
-        $results2 = mysqli_query($db, "SELECT userId FROM userPacks WHERE packId = ".$pack["id"]);
+    while ($result = mysqli_fetch_assoc($results)) {
+        $results2 = mysqli_query($db, "SELECT userId FROM userPacks WHERE packId = ".$result["id"]);
 
         if (!$results2) {
             echo mysqli_error($db);
@@ -261,9 +263,54 @@ function getAllPacks() {
 
         $results2 = mysqli_fetch_assoc($results2);
 
-        $pack["author"] = $results2["firstName"]." ".$results2["lastName"];
+        $result["author"] = $results2["firstName"]." ".$results2["lastName"];
 
-        array_push($return, $pack);
+        array_push($return, $result);
+    }
+
+    return $return;
+}
+
+function getAllPacksCreatedLastWeek() {
+    global $db;
+
+    $return = [];
+
+    $results = mysqli_query($db, "SELECT * FROM packs WHERE creationDate BETWEEN DATE_ADD(now(), INTERVAL -1 WEEK) AND now() AND published = 1");
+
+    if (!$results) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($results) == 0) {
+        return [];
+    }
+
+    while ($result = mysqli_fetch_assoc($results)) {
+        $results2 = mysqli_query($db, "SELECT userId FROM userPacks WHERE packId = ".$result["id"]);
+
+        if (!$results2) {
+            echo mysqli_error($db);
+            mysqli_close($db);
+            exit;
+        }
+
+        $results2 = mysqli_query($db, "SELECT firstName, lastName FROM users WHERE id = "
+            .mysqli_fetch_assoc($results2)["userId"]);
+
+        if (!$results2) {
+            echo mysqli_error($db);
+            mysqli_close($db);
+            exit;
+        }
+
+        $results2 = mysqli_fetch_assoc($results2);
+
+        $result["author"] = $results2["firstName"]." ".$results2["lastName"];
+
+        array_push($return, $result);
     }
 
     return $return;

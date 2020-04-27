@@ -13,13 +13,13 @@ changeTitle("Paramètres");
     echo makeSidebar(3);
     ?>
 
-<div id="page-main">
-    <?php
-    echo makeToolbar();
-    ?>
+    <div id="page-main">
+        <?php
+        echo makeToolbar();
+        ?>
 
-    <article id="content-main">
+        <article id="content-main">
 
-    </article>
-</div>
+        </article>
+    </div>
 </main>

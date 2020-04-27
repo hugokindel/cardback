@@ -11,6 +11,9 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId == FALSE || $_GET["id
 
 $error = "";
 
+// TODO: Erreurs
+// TODO: Persistance des données
+
 if (!empty($_POST)) {
     if (isset($_POST["addCard"])) {
         createCard($_GET["id"]);
