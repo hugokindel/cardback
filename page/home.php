@@ -15,7 +15,7 @@ require_once "core/component/default/card.php";
 
 changeTitle("Accueil");
 
-$data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"]);
+$data = getAccount($_SESSION["accountId"])[1];
 ?>
 
 <main>
@@ -36,7 +36,13 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"]);
 
         <article id="content-main">
             <section>
-                <form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-secondary-button" class="button-main" name="disconnect" value="Se déconnecter" /></form>
+                <form method="post" id="remove-pack-form">
+                    <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="disconnect" value="Se déconnecter" />
+                </form>
+            </section>
+
+            <section style="width: 100%;">
+                <h2><?php echo (date("H") >= 19 ? "Bonsoir" : "Bonjour").", ".$data["firstName"]." ".$data["lastName"] ?></h2>
             </section>
 
             <?php

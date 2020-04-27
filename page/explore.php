@@ -10,7 +10,7 @@ require_once "core/component/default/card.php";
 
 changeTitle("Explorer");
 
-$data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
+$data = getAccount($_SESSION["accountId"])[1];
 ?>
 
 <main>

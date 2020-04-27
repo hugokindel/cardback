@@ -1,0 +1,8 @@
+#page-title-container {
+    width: 425px;
+    height: 108px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

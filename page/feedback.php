@@ -20,6 +20,10 @@ changeTitle("Feedback");
         echo makeToolbar();
         ?>
 
+        <div id="page-title-container">
+            <h2>Nous avons besoin de votre avis!</h2>
+        </div>
+
         <article id="content-main">
 
         </article>

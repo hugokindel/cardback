@@ -5,7 +5,7 @@ $firstId = getFirstPackId();
 $lastId = getLastPackId();
 $pack = getPack($_GET["id"])[1];
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"] || !userOwnPack($_SESSION["accountId"], $_GET["id"]) || $pack["published"] == 1) {
+if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"] || !userOwnPack($_SESSION["accountId"], $_GET["id"]) || $pack["published"] == 1) {
     redirectTo404();
 }
 

@@ -1,4 +1,41 @@
 <?php
+function getFirstUserId()
+{
+    global $db;
+
+    $result = mysqli_query($db, "SELECT MIN(id) FROM users");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($result) == 0) {
+        return [FALSE, "Il n'y a aucun compte dans la base de donnée."];
+    }
+
+    return [TRUE, mysqli_fetch_assoc($result)["MIN(id)"]];
+}
+
+function getLastUserId() {
+    global $db;
+
+    $result = mysqli_query($db, "SELECT MAX(id) FROM users");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($result) == 0) {
+        return [FALSE, "Il n'y a aucun compte dans la base de donnée."];
+    }
+
+    return [TRUE, mysqli_fetch_assoc($result)["MAX(id)"]];
+}
+
 function createAccount($email, $password, $firstName, $lastName) {
     global $db;
 
@@ -99,10 +136,10 @@ function removeAccount($id, $password) {
     return [TRUE, "Compte supprimé avec succès."];
 }
 
-function getAccountData($id, $password) {
+function getAccount($id) {
     global $db;
 
-    $result = mysqli_query($db, "SELECT * FROM users WHERE id = '".$id."' AND password = '".$password."'");
+    $result = mysqli_query($db, "SELECT * FROM users WHERE id = '".$id."'");
 
     if (!$result) {
         echo mysqli_error($db);

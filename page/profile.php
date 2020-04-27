@@ -1,6 +1,13 @@
 <?php
 checkIsConnectedToAccount();
 
+$firstId = getFirstUserId();
+$lastId = getLastUserId();
+
+if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"]) {
+    redirectTo404();
+}
+
 require_once "core/component/page/title.php";
 require_once "core/component/page/sidebar.php";
 require_once "core/component/page/toolbar.php";
@@ -10,7 +17,7 @@ require_once "core/component/default/card.php";
 
 changeTitle("Profil");
 
-$data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
+$data = getAccount($_GET["id"])[1];
 ?>
 <main>
     <?php
@@ -31,11 +38,25 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
         <article id="content-main">
             <section>
                 <div style="display: flex; align-items: center; justify-content: center;">
-                    <img id="avatar-image" src="/res/avatar.png" alt="Avatar">
+                    <img id="avatar-image" src="/res/image/default-avatar.png" alt="Avatar">
                     <div style="margin-left: 32px;">
                         <h1><?php echo $data["firstName"]." ".$data["lastName"]; ?></h1>
                         <h4 style="margin-left: 1px;"><?php echo $data["admin"] == 0 ? "Utilisateur" : "Administrateur"; ?></h4>
                     </div>
+                    <?php
+                    if ($_SESSION["accountId"] === $_GET["id"]) {
+                    ?>
+                        <form method="post" id="edit-pack-form">
+                            <input type="hidden" name="editPack" value="Éditer"/>
+                            <div style="display: flex; align-items: center; justify-content: center; margin-left: 50px; cursor: pointer;"
+                                 onclick="document.forms['edit-pack-form'].submit();">
+                                <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
+                                <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
+                            </div>
+                        </form>
+                    <?php
+                    }
+                    ?>
                 </div>
             </section>
             <br>
@@ -62,7 +83,7 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
             <!-- TODO: Statistiques -->
 
             <?php
-            $unpublishedPacks = getAllPublishedPacksOfUser($_SESSION["accountId"]);
+            $unpublishedPacks = getAllPublishedPacksOfUser($_GET["id"]);
 
             if (count($unpublishedPacks) > 0):
                 ?>
