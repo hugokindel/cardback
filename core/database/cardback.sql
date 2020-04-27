@@ -45,7 +45,6 @@ CREATE TABLE cards(
     question VARCHAR(254),
     answer VARCHAR(254),
     confirmed TINYINT(1) NOT NULL DEFAULT 0,
-    creationDate DATE NOT NULL,
 
     PRIMARY KEY(id)
 );

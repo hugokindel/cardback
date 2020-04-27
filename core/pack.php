@@ -135,7 +135,7 @@ function createPack($userId, $name, $difficulty, $theme) {
 function createCard($packId) {
     global $db;
 
-    $result = mysqli_query($db, "INSERT INTO cards (creationDate) VALUES ('".date("Y-m-d")."')");
+    $result = mysqli_query($db, "INSERT INTO cards () VALUES ()");
 
     if (!$result) {
         echo mysqli_error($db);
