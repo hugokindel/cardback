@@ -70,8 +70,8 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
             ?>
             <section class="section-cards">
                 <h3>Paquets de cartes en cours de création</h3>
-                <div id="cards-container">
-                    <div id="cards">
+                <div class="cards-container">
+                    <div class="cards">
                         <?php
                             foreach ($unpublishedPacks as $value) {
                                 echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"])), "editor?id=".$value["id"]);

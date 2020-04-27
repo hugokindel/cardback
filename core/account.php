@@ -153,7 +153,7 @@ function checkIsConnectedToAccount() {
 
 function checkIsNotConnectedToAccount() {
     if (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == TRUE) {
-        redirect();
+        redirectToHome();
     }
 }
 

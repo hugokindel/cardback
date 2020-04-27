@@ -1,5 +1,5 @@
 <?php
-function getPackData($id) {
+function getPack($id) {
     global $db;
 
     $result = mysqli_query($db, "SELECT * FROM packs WHERE id = '".$id."'");
@@ -232,6 +232,22 @@ function userOwnPack($userId, $packId) {
 
     if (mysqli_num_rows($results) == 0) {
         return FALSE;
+    }
+
+    return TRUE;
+}
+
+function validateCard($cardId, $question, $answer) {
+    global $db;
+
+    $result = mysqli_query($db, "UPDATE cards SET question = '"
+        .mysqli_real_escape_string($db, $question)."', answer = '"
+        .mysqli_real_escape_string($db, $answer)."' WHERE id = '".mysqli_real_escape_string($db, $cardId)."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
     }
 
     return TRUE;

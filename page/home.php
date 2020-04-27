@@ -3,7 +3,7 @@ checkIsConnectedToAccount();
 
 if (isset($_POST["submit"])) {
     disconnectAccount();
-    redirectToBase();
+    redirect();
 }
 
 require_once 'core/component/page/title.php';

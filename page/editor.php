@@ -8,9 +8,15 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId == FALSE || $_GET["id
     redirectTo404();
 }
 
-if (isset($_GET["action"])) {
-    if ($_GET["action"] == "add") {
+$error = "";
+
+if (!empty($_POST)) {
+    if (isset($_POST["add"])) {
         createCard($_GET["id"]);
+    }
+
+    if (isset($_POST["validate"])) {
+        validateCard($_POST["id"], $_POST["qcard-".$_POST["id"]], $_POST["acard-".$_POST["id"]]);
     }
 
     redirect("editor?id=".$_GET["id"]);
@@ -23,7 +29,8 @@ require_once "core/component/default/card.php";
 
 changeTitle("Éditeur de paquet");
 
-$data = getPackData($_GET["id"])[1];
+$data = getPack($_GET["id"])[1];
+$cards = getAllCardsOfPack($_GET["id"]);
 ?>
 
 <main>
@@ -42,8 +49,16 @@ $data = getPackData($_GET["id"])[1];
 
         <article id="content-main">
             <section>
-                <h1 style="font-weight: 800;"><?php echo $data["name"] ?></h1>
-                <h4 style="font-weight: 600; "><?php echo $data["theme"] ?> · <?php echo $data["difficulty"] ?> · 0 cartes</h4>
+                <div class="grid-container">
+                    <div>
+                        <h1 style="font-weight: 800;"><?php echo $data["name"] ?></h1>
+                        <h4 style="font-weight: 600; "><?php echo $data["theme"] ?> · <?php echo $data["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 50px;">
+                        <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
+                        <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
+                    </div>
+                </div>
             </section>
             <br>
 
@@ -51,27 +66,31 @@ $data = getPackData($_GET["id"])[1];
                 <h4 style="margin-bottom: 20px;">Cartes</h4>
 
                 <?php
-                $cards = getAllCardsOfPack($_GET["id"]);
-
                 foreach ($cards as $value) {
                 ?>
-                    <div id="cards-container">
-                        <div id="cards">
-                            <?php
-                            echo makeCardEditable("Écrivez votre question...");
-                            echo makeCardEditable("Écrivez votre réponse...");
-                            ?>
+                    <form method="post" id="card-<?php echo $value["id"] ?>-form">
+                        <input type="hidden" name="id" value="<?php echo $value["id"] ?>" />
+                        <div class="cards-container">
+                            <div class="cards">
+                                <?php
+                                echo makeCardEditable("qcard-".$value["id"], "Écrivez votre question...", $value["question"]);
+                                echo makeCardEditable("acard-".$value["id"], "Écrivez votre réponse...", $value["answer"]);
+                                ?>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="suppress" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
+                                    <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="validate" value="Valider" style="width: 150px; height: 32px; " />
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 <?php
                 }
                 ?>
 
-                <div id="cards-container">
-                    <div id="cards">
-                        <form id="add-card-form">
-                            <input type="hidden" name="id" value="<?php echo $_GET["id"]; ?>" />
-                            <input type="hidden" name="action" value="add" />
+                <div class="cards-container">
+                    <div class="cards">
+                        <form method="post" id="add-card-form">
+                            <input type="hidden" name="add" value="Ajouter" />
                             <?php
                             echo makeCardPlus();
                             ?>

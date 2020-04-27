@@ -23,8 +23,8 @@ changeTitle("Bienvenue");
 <!-- Contenu principal de la page -->
 <main id="main-with-footer">
     <h1 id="welcome">Bienvenue sur <span style="font-weight: 900;">cardback</span>!</h1>
-    <div id="cards-container">
-        <div id="cards">
+    <div class="cards-container">
+        <div class="cards">
             <?php
             echo makeCard('Qu\'est-ce que <span style="font-weight: 900;">cardback</span>?',
                 '<span style="font-weight: 900;">cardback</span> est un outil d\'apprentissage faisant appel à votre mémoire.');
