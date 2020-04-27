@@ -94,7 +94,7 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
                     <div class="cards">
                         <?php
                             foreach ($unpublishedPacks as $value) {
-                                echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"])), "editor?id=".$value["id"], "Voulez-vous continuer de créer ce paquet?");
+                                echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"])), "editor?id=".$value["id"], "Voulez-vous continuer à créer ce paquet?");
                             }
                         ?>
                     </div>
