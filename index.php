@@ -3,6 +3,7 @@ require_once "core/config.php";
 require_once "core/utility.php";
 require_once "core/account.php";
 require_once "core/pack.php";
+require_once "core/feedback.php";
 
 // Définis la timezone et langue par défaut
 date_default_timezone_set("Europe/Paris");

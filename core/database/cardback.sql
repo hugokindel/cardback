@@ -49,6 +49,16 @@ CREATE TABLE cards(
     PRIMARY KEY(id)
 );
 
+-- On crée la table "feedbacks"
+CREATE TABLE feedbacks(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    message VARCHAR(5000) NOT NULL,
+    recommended TINYINT(1) NOT NULL,
+    creationDate DATE NOT NULL,
+
+    PRIMARY KEY(id)
+)
+
 -- On crée la table "userPacks" (lien utilisateur-paquet)
 CREATE TABLE userPacks (
     userId INT UNSIGNED NOT NULL,
@@ -70,3 +80,14 @@ CREATE TABLE packCards (
 
     PRIMARY KEY (packId, cardId)
 );
+
+-- On crée la table "userFeedback" (lien utilisateur-feedback)
+CREATE TABLE userFeedbacks (
+    userId INT UNSIGNED NOT NULL,
+    feedbackId INT UNSIGNED NOT NULL,
+
+    FOREIGN KEY(userId) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(feedbackId) REFERENCES feedbacks(id) ON DELETE CASCADE,
+
+    PRIMARY KEY (userId, feedbackId)
+)
