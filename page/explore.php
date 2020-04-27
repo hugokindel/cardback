@@ -6,8 +6,11 @@ require_once 'core/component/page/sidebar.php';
 require_once 'core/component/page/toolbar.php';
 require_once 'core/component/page/search.php';
 require_once 'core/component/default/textbox.php';
+require_once "core/component/default/card.php";
 
 changeTitle("Explorer");
+
+$data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
 ?>
 
 <main>
@@ -27,7 +30,27 @@ changeTitle("Explorer");
         ?>
 
         <article id="content-main">
+            <?php
+            $packs = getAllPacks();
 
+            if (count($packs) > 0):
+                ?>
+                <section class="section-cards">
+                    <h3>Tout</h3>
+                    <div class="cards-container">
+                        <div class="cards">
+                            <?php
+                            foreach ($packs as $pack) {
+                                echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])));
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </section>
+                <br>
+            <?php
+            endif;
+            ?>
         </article>
     </div>
 </main>

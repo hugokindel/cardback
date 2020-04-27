@@ -61,7 +61,27 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
 
             <!-- TODO: Statistiques -->
 
-            <!-- TODO: Paquets de cartes -->
+            <?php
+            $unpublishedPacks = getAllPublishedPacksOfUser($_SESSION["accountId"]);
+
+            if (count($unpublishedPacks) > 0):
+                ?>
+                <section class="section-cards">
+                    <h3>Paquets de cartes</h3>
+                    <div class="cards-container">
+                        <div class="cards">
+                            <?php
+                            foreach ($unpublishedPacks as $value) {
+                                echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"]))/* TODO: link */);
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </section>
+                <br>
+            <?php
+            endif;
+            ?>
 
             <?php
             $unpublishedPacks = getAllUnpublishedPacksOfUser($_SESSION["accountId"]);
@@ -74,7 +94,7 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"])[1];
                     <div class="cards">
                         <?php
                             foreach ($unpublishedPacks as $value) {
-                                echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"])), "editor?id=".$value["id"]);
+                                echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"])), "editor?id=".$value["id"], "Voulez-vous continuer de créer ce paquet?");
                             }
                         ?>
                     </div>

@@ -1,7 +1,7 @@
 <?php
 checkIsConnectedToAccount();
 
-if (isset($_POST["submit"])) {
+if (isset($_POST["disconnect"])) {
     disconnectAccount();
     redirect();
 }
@@ -34,7 +34,9 @@ $data = getAccountData($_SESSION["accountId"], $_SESSION["accountPassword"]);
         ?>
 
         <article id="content-main">
-
+            <section>
+                <form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-secondary-button" class="button-main" name="disconnect" value="Se déconnecter" /></form>
+            </section>
         </article>
     </div>
 </main>

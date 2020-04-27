@@ -12,7 +12,7 @@ if (isset($_POST["submit"])) {
     }
 
     if (!checkPassword($_POST["password"])) {
-        $error .= "<br>- Veuillez entrer un mot de passe valide (entre 8 et 64 caractères, au moins une minuscule, une majuscule, un chiffre et un symbole).";
+        $error .= "<br>- Veuillez entrer un mot de passe valide (entre 8 et 64 caractères, au moins une minuscule, une majuscule, un chiffre et un symbole parmi @$!%*#?&.).";
         $passwordIssue = TRUE;
     }
 
