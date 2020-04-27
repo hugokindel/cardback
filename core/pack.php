@@ -93,7 +93,8 @@ function getLastCardId() {
 function createPack($userId, $name, $difficulty, $theme) {
     global $db;
 
-    $result = mysqli_query($db, "SELECT id FROM packs WHERE name = '".mysqli_real_escape_string($db, $name)."'");
+    $result = mysqli_query($db, "SELECT id FROM packs WHERE name = '"
+        .mysqli_real_escape_string($db, $name)."'");
 
     if (!$result) {
         echo mysqli_error($db);
@@ -159,7 +160,8 @@ function getAllPublishedPacksOfUser($userId) {
     global $db;
 
     $return = [];
-    $results = mysqli_query($db, "SELECT packId FROM userPacks WHERE userId = '".mysqli_real_escape_string($db, $userId)."'");
+    $results = mysqli_query($db, "SELECT packId FROM userPacks WHERE userId = '"
+        .mysqli_real_escape_string($db, $userId)."'");
 
     if (!$results) {
         echo mysqli_error($db);
@@ -172,7 +174,8 @@ function getAllPublishedPacksOfUser($userId) {
     }
 
     while ($result = mysqli_fetch_assoc($results)) {
-        $results2 = mysqli_query($db, "SELECT * FROM packs WHERE id = '".$result["packId"]."' AND published = 1");
+        $results2 = mysqli_query($db, "SELECT * FROM packs WHERE id = '"
+            .$result["packId"]."' AND published = 1");
 
         if (!$results) {
             echo mysqli_error($db);
@@ -192,7 +195,8 @@ function getAllUnpublishedPacksOfUser($userId) {
     global $db;
 
     $return = [];
-    $results = mysqli_query($db, "SELECT packId FROM userPacks WHERE userId = '".mysqli_real_escape_string($db, $userId)."'");
+    $results = mysqli_query($db, "SELECT packId FROM userPacks WHERE userId = '"
+        .mysqli_real_escape_string($db, $userId)."'");
 
     if (!$results) {
         echo mysqli_error($db);
@@ -205,7 +209,8 @@ function getAllUnpublishedPacksOfUser($userId) {
     }
 
     while ($result = mysqli_fetch_assoc($results)) {
-        $results2 = mysqli_query($db, "SELECT * FROM packs WHERE id = '".$result["packId"]."' AND published = 0");
+        $results2 = mysqli_query($db, "SELECT * FROM packs WHERE id = '"
+            .$result["packId"]."' AND published = 0");
 
         if (!$results) {
             echo mysqli_error($db);
@@ -245,7 +250,8 @@ function getAllPacks() {
             exit;
         }
 
-        $results2 = mysqli_query($db, "SELECT firstName, lastName FROM users WHERE id = ".mysqli_fetch_assoc($results2)["userId"]);
+        $results2 = mysqli_query($db, "SELECT firstName, lastName FROM users WHERE id = "
+            .mysqli_fetch_assoc($results2)["userId"]);
 
         if (!$results2) {
             echo mysqli_error($db);
@@ -267,7 +273,8 @@ function getAllCardsOfPack($packId) {
     global $db;
 
     $return = [];
-    $results = mysqli_query($db, "SELECT cardId FROM packCards WHERE packId = '".mysqli_real_escape_string($db, $packId)."'");
+    $results = mysqli_query($db, "SELECT cardId FROM packCards WHERE packId = '"
+        .mysqli_real_escape_string($db, $packId)."'");
 
     if (!$results) {
         echo mysqli_error($db);
@@ -319,7 +326,8 @@ function validateCard($cardId, $question, $answer) {
 
     $result = mysqli_query($db, "UPDATE cards SET question = '"
         .mysqli_real_escape_string($db, $question)."', answer = '"
-        .mysqli_real_escape_string($db, $answer)."', confirmed = 1 WHERE id = '".mysqli_real_escape_string($db, $cardId)."'");
+        .mysqli_real_escape_string($db, $answer)."', confirmed = 1 WHERE id = '"
+        .mysqli_real_escape_string($db, $cardId)."'");
 
     if (!$result) {
         echo mysqli_error($db);
@@ -333,7 +341,8 @@ function validateCard($cardId, $question, $answer) {
 function modifyCard($cardId) {
     global $db;
 
-    $result = mysqli_query($db, "UPDATE cards SET confirmed = 0 WHERE id = '".mysqli_real_escape_string($db, $cardId)."'");
+    $result = mysqli_query($db, "UPDATE cards SET confirmed = 0 WHERE id = '"
+        .mysqli_real_escape_string($db, $cardId)."'");
 
     if (!$result) {
         echo mysqli_error($db);
@@ -399,7 +408,8 @@ function removePack($packId) {
 function validatePack($packId) {
     global $db;
 
-    $result = mysqli_query($db, "UPDATE packs SET published = 1 WHERE id = '".mysqli_real_escape_string($db, $packId)."'");
+    $result = mysqli_query($db, "UPDATE packs SET published = 1 WHERE id = '"
+        .mysqli_real_escape_string($db, $packId)."'");
 
     if (!$result) {
         echo mysqli_error($db);
@@ -408,4 +418,35 @@ function validatePack($packId) {
     }
 
     return TRUE;
+}
+
+function modifyPack($packId, $name, $difficulty, $theme) {
+    global $db;
+
+    $result = mysqli_query($db, "SELECT id FROM packs WHERE name = '"
+        .mysqli_real_escape_string($db, $name)."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($result) != 0 && mysqli_fetch_assoc($result)["id"] != $packId) {
+        return [FALSE, "Un paquet avec ce nom existe déjà."];
+    }
+
+    $result = mysqli_query($db, "UPDATE packs SET name = '"
+        .mysqli_real_escape_string($db, $name)."', difficulty = '"
+        .mysqli_real_escape_string($db, $difficulty)."', theme = '"
+        .mysqli_real_escape_string($db, $theme)."' WHERE id = '"
+        .mysqli_real_escape_string($db, $packId)."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    return [TRUE, "Paquet de cartes modifié avec succès."];
 }

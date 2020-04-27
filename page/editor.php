@@ -3,8 +3,9 @@ checkIsConnectedToAccount();
 
 $firstId = getFirstPackId();
 $lastId = getLastPackId();
+$pack = getPack($_GET["id"])[1];
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"] || !userOwnPack($_SESSION["accountId"], $_GET["id"])) {
+if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"] || !userOwnPack($_SESSION["accountId"], $_GET["id"]) || $pack["published"] == 1) {
     redirectTo404();
 }
 
@@ -37,6 +38,10 @@ if (!empty($_POST)) {
         redirectToHome();
     }
 
+    if (isset($_POST["editPack"])) {
+        redirect("editor/modify?id=".$_GET["id"]);
+    }
+
     redirect("editor?id=".$_GET["id"]);
 }
 
@@ -47,7 +52,6 @@ require_once "core/component/default/card.php";
 
 changeTitle("Éditeur de paquet");
 
-$data = getPack($_GET["id"])[1];
 $cards = getAllCardsOfPack($_GET["id"]);
 ?>
 
@@ -69,13 +73,16 @@ $cards = getAllCardsOfPack($_GET["id"]);
             <section>
                 <div class="grid-container">
                     <div>
-                        <h1 style="font-weight: 800;"><?php echo $data["name"] ?></h1>
-                        <h4 style="font-weight: 600; "><?php echo $data["theme"] ?> · <?php echo $data["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
+                        <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
+                        <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 50px;">
-                        <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
-                        <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
-                    </div>
+                    <form method="post" id="edit-pack-form">
+                        <input type="hidden" name="editPack" value="Éditer" />
+                        <div style="display: flex; align-items: center; justify-content: center; margin-left: 50px; cursor: pointer;" onclick="document.forms['edit-pack-form'].submit();">
+                            <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
+                            <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
+                        </div>
+                    </form>
                 </div>
             </section>
             <br>

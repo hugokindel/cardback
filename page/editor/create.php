@@ -2,7 +2,7 @@
 checkIsConnectedToAccount();
 
 $error = "";
-$nameIssue = FALSE; // TODO: existe deja
+$nameIssue = FALSE;
 $difficultyIssue = FALSE;
 $themeIssue = FALSE;
 
@@ -52,7 +52,7 @@ changeTitle("Création d'un paquet");
             '.makeTextboxWithAccessory("name", "text", "Nom", "􀅯",
                 isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox")
              .makeSelectWithAccessory("difficulty", "􀛸", "Difficulté", ["Facile", "Moyen", "Difficile"], isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue, "form-select")
-             .makeSelectWithAccessory("theme", "􀈕", "Thème", ["Informatique", "Mathématiques", "Géographie", "Histoire", "Langues", "Autres"], isset($_POST["theme"]) ? $_POST["theme"] : "", $themeIssue, "form-select").'
+             .makeSelectWithAccessory("theme", "􀈕", "Thème", ["Informatique", "Mathématiques", "Géographie", "Histoire", "Langues", "Divertissement", "Autres"], isset($_POST["theme"]) ? $_POST["theme"] : "", $themeIssue, "form-select").'
         </form>');
     ?>
 </main>
