@@ -1,10 +1,10 @@
 <?php
-function makeToolbar($mainButtonType = 0, $hideSuppressButton = TRUE) {
+function makeToolbar($mainButtonType = 0, $hideSuppresButton = TRUE) {
     $data = getAccount($_SESSION["accountId"])[1];
 
     return '
         <div id="right-toolbar">
-                '.($hideSuppressButton ? '' : '<form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack" value="Supprimer le paquet" /></form>').'
+                '.($hideSuppresButton ? '' : '<form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack" value="Supprimer le paquet" /></form>').'
                 '.($mainButtonType == 0 ? '<a id="right-toolbar-main-button" class="link-main" href="editor/create">Créer un paquet</a>' : '<form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-main-button" class="button-main" name="publishPack" value="Publier le paquet"/></form>'). '
                 <div id="right-toolbar-menu" onclick="toggleToolbarMenu(event, this)">
                     <div id="right-toolbar-menu-button">
@@ -21,8 +21,10 @@ function makeToolbar($mainButtonType = 0, $hideSuppressButton = TRUE) {
                                 </div>
                             </a>
                         </div>
-                        <div style="border-bottom: 1px solid #E6ECF0;">
+                        <div>
                             <a class="right-toolbar-menu-link" href="settings" style="padding: 5px 20px;"><span class="right-toolbar-menu-item-icon">􀍟</span>Paramètres</a>
+                        </div>
+                        <div style="border-bottom: 1px solid #E6ECF0;">
                             <a class="right-toolbar-menu-link" href="feedback" style="padding: 5px 20px;"><span class="right-toolbar-menu-item-icon">􀈎</span>Feedback</a>
                         </div>
                         <div>

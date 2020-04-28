@@ -29,11 +29,12 @@ CREATE TABLE users(
 -- On crée la table "packs"
 CREATE TABLE packs(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(254) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     difficulty VARCHAR(32) NOT NULL,
     theme VARCHAR(32) NOT NULL,
     published TINYINT(1) NOT NULL DEFAULT 0,
     creationDate DATE NOT NULL,
+    description VARCHAR(255) DEFAULT '',
 
     PRIMARY KEY(id),
     UNIQUE KEY(name)

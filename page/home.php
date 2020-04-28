@@ -40,12 +40,12 @@ $data = getAccount($_SESSION["accountId"])[1];
             if (count($packs) > 0):
                 ?>
                 <section class="section-cards">
-                    <h3>Paquet<?php echo count($packs) > 1 ? "s" : "" ?> de cartes créé<?php echo count($packs) > 1 ? "s" : "" ?> depuis une semaine</h3>
+                    <h3>Paquet<?php echo count($packs) > 1 ? "s" : "" ?> créé<?php echo count($packs) > 1 ? "s" : "" ?> depuis une semaine</h3>
                     <div class="cards-container">
                         <div class="cards">
                             <?php
                             foreach ($packs as $pack) {
-                                echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])));
+                                echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])), "pack?id=".$pack["id"]);
                             }
                             ?>
                         </div>
@@ -55,6 +55,10 @@ $data = getAccount($_SESSION["accountId"])[1];
             <?php
             endif;
             ?>
+
+            <!-- TODO: Paquet créé depuis un mois -->
+            <!-- TODO: Paquet récent dans le thème ... -->
+            <!-- TODO: Paquet en tendance -->
         </article>
     </div>
 </main>

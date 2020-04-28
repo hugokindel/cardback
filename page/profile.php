@@ -92,8 +92,8 @@ $data = getAccount($_GET["id"])[1];
                     <div class="cards-container">
                         <div class="cards">
                             <?php
-                            foreach ($unpublishedPacks as $value) {
-                                echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"]))/* TODO: link */);
+                            foreach ($unpublishedPacks as $pack) {
+                                echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), "pack?id=".$pack["id"]);
                             }
                             ?>
                         </div>
@@ -114,8 +114,8 @@ $data = getAccount($_GET["id"])[1];
                 <div class="cards-container">
                     <div class="cards">
                         <?php
-                            foreach ($unpublishedPacks as $value) {
-                                echo makeCardDetailed($value["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($value["creationDate"])), "editor?id=".$value["id"], "Voulez-vous continuer à créer ce paquet?");
+                            foreach ($unpublishedPacks as $pack) {
+                                echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), "editor?id=".$pack["id"], "Voulez-vous continuer à créer ce paquet?");
                             }
                         ?>
                     </div>

@@ -55,7 +55,7 @@ changeTitle("Feedback");
                     ?>
                     <div style="width: 100%; margin-bottom: 10px;">
                         <?php
-                        echo makeTextboxMultiline("message", "text", "Écrivez votre avis (5000 caractères maximum)", "", isset($_GET["error"]));
+                        echo makeTextboxMultiline("message", "text", "Écrivez votre avis (5000 caractères maximum)", "", isset($_GET["error"]), 5000);
                         ?>
                     </div>
                     <div style="width: 100%; margin-bottom: 20px;">

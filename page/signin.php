@@ -46,8 +46,8 @@ changeTitle("Se connecter");
     echo makeForm('S\'identifier sur <span style="font-weight: 900;">cardback', 'Se connecter',
         ($error !== "" ? '<p class="form-label-error">􀁡 Connexion impossible!'.$error.'</p>' : "").
         '<form method="post" id="page-form">
-            '.makeTextboxWithAccessory("email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox")
-             .makeTextboxWithAccessory("password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox").'
+            '.makeTextboxWithAccessory("email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox", 254)
+             .makeTextboxWithAccessory("password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox", 64).'
         </form>
 
         <a id="passwordforgotten-label" href="passwordrecovery">Mot de passe <span style="font-weight: 700;">oublié</span>?</a>');

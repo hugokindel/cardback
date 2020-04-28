@@ -14,7 +14,30 @@ function getPack($id) {
         return [FALSE, "Aucun paquet n'est lié à cette ID."];
     }
 
-    return [TRUE, mysqli_fetch_assoc($result)];
+    $result = mysqli_fetch_assoc($result);
+
+    $results2 = mysqli_query($db, "SELECT userId FROM userPacks WHERE packId = ".$result["id"]);
+
+    if (!$results2) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    $results2 = mysqli_query($db, "SELECT firstName, lastName FROM users WHERE id = "
+        .mysqli_fetch_assoc($results2)["userId"]);
+
+    if (!$results2) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    $results2 = mysqli_fetch_assoc($results2);
+
+    $result["author"] = $results2["firstName"]." ".$results2["lastName"];
+
+    return [TRUE, $result];
 }
 
 function getFirstPackId()
@@ -90,7 +113,7 @@ function getLastCardId() {
     return [TRUE, mysqli_fetch_assoc($result)["MAX(id)"]];
 }
 
-function createPack($userId, $name, $difficulty, $theme) {
+function createPack($userId, $name, $description, $difficulty, $theme) {
     global $db;
 
     $result = mysqli_query($db, "SELECT id FROM packs WHERE name = '"
@@ -106,11 +129,12 @@ function createPack($userId, $name, $difficulty, $theme) {
         return [FALSE, "Un paquet avec ce nom existe déjà."];
     }
 
-    $result = mysqli_query($db, "INSERT INTO packs (name, difficulty, theme, creationDate) VALUES ('"
+    $result = mysqli_query($db, "INSERT INTO packs (name, difficulty, theme, creationDate, description) VALUES ('"
         .mysqli_real_escape_string($db, $name)."','"
         .mysqli_real_escape_string($db, $difficulty)."','"
         .mysqli_real_escape_string($db, $theme)."','"
-        .date("Y-m-d")."')");
+        .date("Y-m-d")."','"
+        .mysqli_real_escape_string($db, $description)."')");
 
 
     if (!$result) {
@@ -512,7 +536,7 @@ function validatePack($packId) {
     return TRUE;
 }
 
-function modifyPack($packId, $name, $difficulty, $theme) {
+function modifyPack($packId, $name, $description, $difficulty, $theme) {
     global $db;
 
     $result = mysqli_query($db, "SELECT id FROM packs WHERE name = '"
@@ -531,7 +555,8 @@ function modifyPack($packId, $name, $difficulty, $theme) {
     $result = mysqli_query($db, "UPDATE packs SET name = '"
         .mysqli_real_escape_string($db, $name)."', difficulty = '"
         .mysqli_real_escape_string($db, $difficulty)."', theme = '"
-        .mysqli_real_escape_string($db, $theme)."' WHERE id = '"
+        .mysqli_real_escape_string($db, $theme)."', description = '"
+        .mysqli_real_escape_string($db, $description)."' WHERE id = '"
         .mysqli_real_escape_string($db, $packId)."'");
 
     if (!$result) {

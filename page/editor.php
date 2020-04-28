@@ -9,10 +9,10 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET[
     redirectTo404();
 }
 
-$error = "";
+// TODO: Persistance
 
-// TODO: Erreurs
-// TODO: Persistance des données
+$error = "";
+$errorOnCards = [];
 
 if (!empty($_POST)) {
     if (isset($_POST["addCard"])) {
@@ -20,30 +20,44 @@ if (!empty($_POST)) {
     }
 
     if (isset($_POST["validateCard"])) {
-        validateCard($_POST["id"], $_POST["qcard-".$_POST["id"]], $_POST["acard-".$_POST["id"]]);
-    }
+        if ($_POST["qcard-".$_POST["id"]] === "") {
+            $error .= "<br>- Veuillez entrer une question.";
+        }
 
-    if (isset($_POST["suppressCard"])) {
+        if ($_POST["acard-".$_POST["id"]] === "") {
+            $error .= "<br>- Veuillez entrer une réponse.";
+        }
+
+        if ($error === "") {
+            validateCard($_POST["id"], $_POST["qcard-".$_POST["id"]], $_POST["acard-".$_POST["id"]]);
+        } else {
+            redirect("editor?id=".$_GET["id"]."&errorType=0&cardId=".$_POST["id"]."&error=".urlencode($error));
+        }
+    } else if (isset($_POST["suppressCard"])) {
         removeCard($_POST["id"]);
-    }
-
-    if (isset($_POST["modifyCard"])) {
+    } else if (isset($_POST["modifyCard"])) {
         modifyCard($_POST["id"]);
-    }
+    } else if (isset($_POST["publishPack"])) {
+        $cards = getAllCardsOfPack($_GET["id"]);
 
-    if (isset($_POST["suppressPack"])) {
+        foreach ($cards as $card) {
+            if ($card["confirmed"] == 0) {
+                array_push($errorOnCards, $card["id"]);
+            }
+        }
+
+        if (count($errorOnCards) > 0) {
+            redirect("editor?id=".$_GET["id"]."&errorType=1");
+        } else {
+            validatePack($_GET["id"]);
+
+            redirectToHome();
+        }
+    } else if (isset($_POST["suppressPack"])) {
         removePack($_GET["id"]);
 
         redirectToHome();
-    }
-
-    if (isset($_POST["publishPack"])) {
-        validatePack($_GET["id"]);
-
-        redirectToHome();
-    }
-
-    if (isset($_POST["editPack"])) {
+    } else if (isset($_POST["editPack"])) {
         redirect("editor/modify?id=".$_GET["id"]);
     }
 
@@ -92,9 +106,20 @@ $cards = getAllCardsOfPack($_GET["id"]);
             </section>
             <br>
 
+            <?php
+            if ($pack["description"] != "") {
+            ?>
+                <section>
+                    <h3>Description</h3>
+                    <h4 style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
+                </section>
+                <br>
+            <?php
+            }
+            ?>
+
             <section class="section-cards">
                 <h4 style="margin-bottom: 20px;">Cartes</h4>
-
                 <?php
                 foreach ($cards as $value) {
                     ?>
@@ -133,6 +158,21 @@ $cards = getAllCardsOfPack($_GET["id"]);
                                 </div>
                             </div>
                         </div>
+                        <?php
+                        if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {
+                        ?>
+                            <div style="width: 100%; margin: 20px 10px;">
+                                <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!<?php echo $_GET["error"] ?></p>
+                            </div>
+                        <?php
+                        } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 && $value["confirmed"] == 0) {
+                        ?>
+                            <div style="width: 100%; margin: 20px 10px;">
+                                <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!<br>- Veuillez valider ou supprimer cette carte!</p>
+                            </div>
+                        <?php
+                        }
+                        ?>
                     </form>
                 <?php
                 }
@@ -148,6 +188,11 @@ $cards = getAllCardsOfPack($_GET["id"]);
                         </form>
                     </div>
                 </div>
+            </section>
+            <br>
+
+            <section>
+                <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Pensez à valider vos cartes avant de quitter!<br>Ou leur contenu ne sera pas enregistrer.</h6>
             </section>
         </article>
     </div>
