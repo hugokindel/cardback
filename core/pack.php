@@ -271,6 +271,51 @@ function getAllPacks() {
     return $return;
 }
 
+function getAllPublishedPacks() {
+    global $db;
+
+    $return = [];
+
+    $results = mysqli_query($db, "SELECT * FROM packs WHERE published = 1");
+
+    if (!$results) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($results) == 0) {
+        return [];
+    }
+
+    while ($result = mysqli_fetch_assoc($results)) {
+        $results2 = mysqli_query($db, "SELECT userId FROM userPacks WHERE packId = ".$result["id"]);
+
+        if (!$results2) {
+            echo mysqli_error($db);
+            mysqli_close($db);
+            exit;
+        }
+
+        $results2 = mysqli_query($db, "SELECT firstName, lastName FROM users WHERE id = "
+            .mysqli_fetch_assoc($results2)["userId"]);
+
+        if (!$results2) {
+            echo mysqli_error($db);
+            mysqli_close($db);
+            exit;
+        }
+
+        $results2 = mysqli_fetch_assoc($results2);
+
+        $result["author"] = $results2["firstName"]." ".$results2["lastName"];
+
+        array_push($return, $result);
+    }
+
+    return $return;
+}
+
 function getAllPacksCreatedLastWeek() {
     global $db;
 

@@ -31,7 +31,7 @@ $data = getAccount($_SESSION["accountId"])[1];
 
         <article id="content-main">
             <?php
-            $packs = getAllPacks();
+            $packs = getAllPublishedPacks();
 
             if (count($packs) > 0):
                 ?>
