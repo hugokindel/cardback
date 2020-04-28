@@ -33,11 +33,13 @@ if (!empty($_POST)) {
 
     if (isset($_POST["suppressPack"])) {
         removePack($_GET["id"]);
+
         redirectToHome();
     }
 
     if (isset($_POST["publishPack"])) {
         validatePack($_GET["id"]);
+
         redirectToHome();
     }
 

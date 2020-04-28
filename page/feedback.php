@@ -11,7 +11,7 @@ if (isset($_POST["submit"])) {
     if ($error === "") {
         createFeedback($_SESSION["accountId"], $_POST["message"], isset($_POST["recommended"]));
 
-        redirect("feedback");
+        redirectToHome();
     } else {
         redirect("feedback?error=".urlencode($error)."&recommended=".(isset($_POST["recommended"]) ? "1" : "0"));
     }

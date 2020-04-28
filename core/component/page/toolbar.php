@@ -1,10 +1,10 @@
 <?php
-function makeToolbar($mainButtonType = 0, $hideSuppresButton = TRUE) {
+function makeToolbar($mainButtonType = 0, $hideSuppressButton = TRUE) {
     $data = getAccount($_SESSION["accountId"])[1];
 
     return '
         <div id="right-toolbar">
-                '.($hideSuppresButton ? '' : '<form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack" value="Supprimer le paquet" /></form>').'
+                '.($hideSuppressButton ? '' : '<form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack" value="Supprimer le paquet" /></form>').'
                 '.($mainButtonType == 0 ? '<a id="right-toolbar-main-button" class="link-main" href="editor/create">Créer un paquet</a>' : '<form method="post" id="remove-pack-form"><input type="submit" id="right-toolbar-main-button" class="button-main" name="publishPack" value="Publier le paquet"/></form>'). '
                 <div id="right-toolbar-menu" onclick="toggleToolbarMenu(event, this)">
                     <div id="right-toolbar-menu-button">
