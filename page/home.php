@@ -1,11 +1,6 @@
 <?php
 checkIsConnectedToAccount();
 
-if (isset($_POST["disconnect"])) {
-    disconnectAccount();
-    redirect();
-}
-
 require_once 'core/component/page/title.php';
 require_once 'core/component/page/sidebar.php';
 require_once 'core/component/page/toolbar.php';
@@ -35,12 +30,6 @@ $data = getAccount($_SESSION["accountId"])[1];
         ?>
 
         <article id="content-main">
-            <section>
-                <form method="post" id="remove-pack-form">
-                    <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="disconnect" value="Se déconnecter" />
-                </form>
-            </section>
-
             <section style="width: 100%;">
                 <h2><?php echo (date("H") >= 19 ? "Bonsoir" : "Bonjour").", ".$data["firstName"]." ".$data["lastName"] ?></h2>
             </section>

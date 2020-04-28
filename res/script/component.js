@@ -1,3 +1,30 @@
+function toggleToolbarMenu(event, element) {
+    let menu = document.getElementById("right-toolbar-menu-content");
+
+    if (menu.style.display === "none" || menu.style.display === "") {
+        menu.style.display = "block";
+        document.getElementById("right-toolbar-menu-button-arrow").innerHTML = "􀆇";
+    } else {
+        menu.style.display = "none";
+        document.getElementById("right-toolbar-menu-button-arrow").innerHTML = "􀆈";
+    }
+
+    event.stopPropagation();
+}
+
+function setupToolbarComponent() {
+    function hideToolbar(element) {
+        let menu = document.getElementById("right-toolbar-menu-content");
+
+        if (menu.style.display === "block") {
+            menu.style.display = "none";
+            document.getElementById("right-toolbar-menu-button-arrow").innerHTML = "􀆈";
+        }
+    }
+
+    document.addEventListener("click", hideToolbar);
+}
+
 function setupSelectComponent() {
     let i, selectSelectedDiv, selectListDiv;
 
@@ -89,14 +116,14 @@ function setupSelectComponent() {
         });
     }
 
-    function hideList(elmnt) {
+    function hideList(element) {
         let x, y, i, arrNo = [];
 
         x = document.getElementsByClassName("select-list");
         y = document.getElementsByClassName("select-selected");
 
         for (i = 0; i < y.length; i++) {
-            if (elmnt === y[i]) {
+            if (element === y[i]) {
                 arrNo.push(i)
             } else {
                 y[i].getElementsByClassName("select-selected-arrow")[0].innerHTML = "􀆈";
@@ -113,4 +140,5 @@ function setupSelectComponent() {
     document.addEventListener("click", hideList);
 }
 
+setupToolbarComponent();
 setupSelectComponent();
