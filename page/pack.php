@@ -33,7 +33,7 @@ $cards = getAllCardsOfPack($_GET["id"]);
         </div>
 
         <?php
-        echo makeToolbar(1, FALSE);
+        echo makeToolbar(0, !isAuthorOfPack($_SESSION["accountId"], $pack["id"]));
         ?>
 
         <article id="content-main">

@@ -40,6 +40,24 @@ function getPack($id) {
     return [TRUE, $result];
 }
 
+function isAuthorOfPack($userId, $packId) {
+    global $db;
+
+    $result = mysqli_query($db, "SELECT * FROM userPacks WHERE userId = '".$userId."' AND packId = '".$packId."'");
+
+    if (!$result) {
+        echo mysqli_error($db);
+        mysqli_close($db);
+        exit;
+    }
+
+    if (mysqli_num_rows($result) == 0) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
 function getFirstPackId()
 {
     global $db;
