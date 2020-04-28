@@ -50,7 +50,8 @@ changeTitle("Création d'un paquet");
         ($error !== "" ? '<p class="form-label-error">􀁡 Création impossible!'.$error.'</p>' : "").
         '<form method="post" id="page-form">
             '.makeTextboxWithAccessory("name", "text", "Nom", "􀅯",
-                isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox")
+                isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox").'
+            <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir au minimum 2 caractères.</h6>'
              .makeSelectWithAccessory("difficulty", "􀛸", "Difficulté", ["Facile", "Moyen", "Difficile"], isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue, "form-select")
              .makeSelectWithAccessory("theme", "􀈕", "Thème", ["Informatique", "Mathématiques", "Géographie", "Histoire", "Langues", "Divertissement", "Autres"], isset($_POST["theme"]) ? $_POST["theme"] : "", $themeIssue, "form-select").'
         </form>');

@@ -46,5 +46,5 @@ function checkPassword($password) {
 }
 
 function checkName($name) {
-    return preg_match('/^[\dA-Za-z ,.\'-]{3,}$/', $name);
+    return preg_match('/^[\dA-Za-z ,.\'-]{2,}$/', $name);
 }
