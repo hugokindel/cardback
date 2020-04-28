@@ -57,9 +57,9 @@ changeTitle("S'inscrire");
         '<form method="post" id="page-form">
             '.makeTextboxWithAccessory("email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox")
              .makeTextboxWithAccessory("firstname", "text", "Prénom", "􀉩", isset($_POST["firstname"]) ? $_POST["firstname"] : "", $firstNameIssue, "form-textbox").'
-            <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir au minimum 2 caractères.</h6>
+            <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir entre 2 et 50 caractères.</h6>
             '.makeTextboxWithAccessory("lastname", "text", "Nom de famille", "􀉩", isset($_POST["lastname"]) ? $_POST["lastname"] : "", $lastNameIssue, "form-textbox").'
-            <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir au minimum 2 caractères.</h6>
+            <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir entre 2 et 50 caractères.</h6>
             '.makeTextboxWithAccessory("password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox").'
             <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir entre 8 et 64 caractères, au moins une minuscule, une majuscule, un chiffre et un symbole parmi la liste suivante « @$!%*#?&. ».</h6>
         </form>');

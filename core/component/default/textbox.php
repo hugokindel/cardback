@@ -14,3 +14,10 @@ function makeTextboxWithAccessory($name, $type, $placeholder, $accessory, $value
         <h4 class="image-accessory" style="font-weight: 400">'.$accessory.'</h4>
     </div>';
 }
+
+function makeTextboxMultiline($name, $type, $placeholder, $value = "", $error = FALSE) {
+    return '
+        <label for="'.$name.'-textbox"></label>
+        <textarea class="textbox-main textbox-multiline'.($error ? ' textbox-error' : '').'" id="'.$name.'-textbox" type="'.$type.'" name="'.$name.'" placeholder="'.$placeholder.'" maxlength="5000">'.$value.'</textarea>
+        ';
+}
