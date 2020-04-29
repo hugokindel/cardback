@@ -37,18 +37,18 @@ if (!file_exists($link.".php")) {
 
     <!-- Favicon -->
     <meta name="theme-color" content="#FFFFFF">
-    <link rel="icon" type="image/png" sizes="32x32" href="/res/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/res/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo $baseUrl ?>/res/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo $baseUrl ?>/res/favicon/favicon-16x16.png">
 
     <!-- Feuille de style -->
-    <link rel="stylesheet" href="/res/style/utility/normalize.css">
-    <link rel="stylesheet" href="/res/style/base.css">
-    <link rel="stylesheet" href="/res/style/sf-pro-rounded.css">
-    <link rel="stylesheet" href="/res/style/component.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/utility/normalize.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/base.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/sf-pro-rounded.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/component.css">
     <?php
     // Indique le lien vers le CSS de la page voulu
     if (file_exists("res/style/".$link.".css")) {
-        echo '<link rel="stylesheet" href="/res/style/'.$link.'.css">';
+        echo '<link rel="stylesheet" href="'.$baseUrl.'/res/style/'.$link.'.css">';
     }
     ?>
 </head>
@@ -58,7 +58,7 @@ if (!file_exists($link.".php")) {
 require $link.".php";
 ?>
 
-<script src="/res/script/component.js"></script>
+<script src="<?php echo $baseUrl ?>/res/script/component.js"></script>
 
 </body>
 </html>

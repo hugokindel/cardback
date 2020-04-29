@@ -45,7 +45,7 @@ $cards = getAllCardsOfPack($_GET["id"]);
                     </div>
                     <form method="post" id="edit-pack-form">
                         <input type="hidden" name="editPack" value="Éditer" />
-                        <a id="right-toolbar-main-button" class="link-main" style="margin-left: 50px;">Jouer</a> <!-- TODO: play -->
+                        <a id="right-toolbar-main-button" class="link-main" style="margin-left: 50px;" href="<?php echo $baseUrl ?>/play?id=<?php echo $_GET["id"] ?>">Jouer</a>
                     </form>
                 </div>
             </section>

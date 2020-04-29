@@ -15,8 +15,8 @@ changeTitle("Bienvenue");
     echo makeTitle();
     ?>
     <div id="sign-container">
-        <a class="link-secondary" id="signin-link" href="signin">Se connecter</a>
-        <a class="link-main" id="signup-link" href="signup">S'inscrire</a>
+        <a class="link-secondary" id="signin-link" href="<?php echo $baseUrl ?>/signin">Se connecter</a>
+        <a class="link-main" id="signup-link" href="<?php echo $baseUrl ?>/signup">S'inscrire</a>
     </div>
 </header>
 
