@@ -45,7 +45,7 @@ $data = getAccount($_SESSION["accountId"])[1];
                         <div class="cards">
                             <?php
                             foreach ($packs as $pack) {
-                                echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])), "pack?id=".$pack["id"]);
+                                echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/pack?id=".$pack["id"]);
                             }
                             ?>
                         </div>
