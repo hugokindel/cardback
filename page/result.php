@@ -5,8 +5,10 @@ $firstId = getFirstPackId();
 $lastId = getLastPackId();
 $pack = getPack($_GET["id"])[1];
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"] || $pack["published"] == 0 || !isset($_SESSION["game-".$_GET["id"]]) || (isset($_SESSION["game-".$_GET["id"]]) && $_SESSION["game-".$_GET["id"]] != 1)) {
+if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"] || $pack["published"] == 0 || (isset($_SESSION["game-".$_GET["id"]]) && $_SESSION["game-".$_GET["id"]] != 1)) {
     redirectTo404();
+} else if (!isset($_SESSION["game-".$_GET["id"]])) {
+    redirectToHome();
 }
 
 // TODO: Persistance
@@ -16,10 +18,6 @@ $error = "";
 $errorOnCards = [];
 $cards = getAllCardsOfPack($_GET["id"]);
 $data = getAccount($_SESSION["accountId"])[1];
-
-if (!empty($_POST)) {
-    redirectToHome();
-}
 
 require_once 'core/component/page/title.php';
 require_once 'core/component/page/sidebar.php';
@@ -36,11 +34,11 @@ changeTitle("Résultat pour « ".$pack["name"]." »");
 
     <div id="page-main">
         <div id="content-title-container">
-            <h2>Voici vos résultats, <span style="font-weight: 800;"><?php echo $data["firstName"]." ".$data["lastName"] ?></span></h2>
+            <h2>Voici vos résultats, <span style="font-weight: 800;"><?php echo $data["firstName"]." ".$data["lastName"] ?>!</span></h2>
         </div>
 
         <?php
-        echo makeToolbarNew(FALSE, '<form method="post" id="ok-form"><input type="submit" id="right-toolbar-main-button" class="button-main" name="ok" value="OK" /></form>');
+        echo makeToolbarNew(FALSE, '<a id="right-toolbar-main-button" class="link-main" href="'.$baseUrl.'/home">OK</a>');
         ?>
 
         <article id="content-main">
