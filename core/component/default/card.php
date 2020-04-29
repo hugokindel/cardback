@@ -57,7 +57,7 @@ function makeCardPlus() {
      </div>';
 }
 
-function makeCardEditable($name, $placeholder, $value = "", $readonly = FALSE) {
+function makeCardEditable($name, $placeholder, $value = "", $readonly = FALSE, $autocomplete = TRUE, $showStamp = 0) {
     global $baseUrl;
 
     return '
@@ -66,8 +66,13 @@ function makeCardEditable($name, $placeholder, $value = "", $readonly = FALSE) {
             <div class="card-front">
                 <img class="card-image" src="'.$baseUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
                 <label for="'.$name.'"></label>
-                <input id="'.$name.'-textbox" class="textbox-main textbox-card" type="text" name="'.$name.'" value="'.$value.'" placeholder="'.$placeholder.'" maxlength="159"'.($readonly ? ' readonly' : '').'>
+                <input autocomplete="'.($autocomplete ? "on" : "off").'" id="'.$name.'-textbox" class="textbox-main textbox-card" type="text" name="'.$name.'" value="'.$value.'" placeholder="'.$placeholder.'" maxlength="159"'.($readonly ? ' readonly' : '').'>
             </div>
+            '.($showStamp != 0 ? '
+            <div style="display: flex; align-items: center; justify-content: center; margin-left: 240px; margin-top: 10px;">
+                <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
+                <div style="font-size: 34px; color: '.($showStamp == 1 ? '#1FCAAC' : '#FF3B30').'; font-weight: bold; position: absolute;">'.($showStamp == 1 ? '􀁣' : '􀁡').'</div>
+            </div>' : '').'
          </div>
      </div>';
 }

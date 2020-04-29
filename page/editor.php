@@ -17,9 +17,7 @@ $errorOnCards = [];
 if (!empty($_POST)) {
     if (isset($_POST["addCard"])) {
         createCard($_GET["id"]);
-    }
-
-    if (isset($_POST["validateCard"])) {
+    } else if (isset($_POST["validateCard"])) {
         if ($_POST["qcard-".$_POST["id"]] === "") {
             $error .= "<br>- Veuillez entrer une question.";
         }
@@ -85,7 +83,7 @@ $cards = getAllCardsOfPack($_GET["id"]);
         </div>
 
         <?php
-        echo makeToolbar(1, FALSE);
+        echo makeToolbarNew(1, FALSE);
         ?>
 
         <article id="content-main">

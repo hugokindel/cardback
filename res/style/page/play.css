@@ -1,0 +1,15 @@
+#content-title-container {
+    justify-content: left;
+}
+
+#cards-container {
+    margin-bottom: 20px;
+}
+
+::placeholder {
+    color: black;
+}
+
+input {
+    font-weight: bold;
+}
