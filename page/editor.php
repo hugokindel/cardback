@@ -83,7 +83,13 @@ $cards = getAllCardsOfPack($_GET["id"]);
         </div>
 
         <?php
-        echo makeToolbarNew(1, FALSE);
+        echo makeToolbar(0, '
+            <form method="post" id="remove-pack-form">
+                <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack" value="Supprimer le paquet" />
+            </form>
+            <form method="post" id="remove-pack-form">
+                <input type="submit" id="right-toolbar-main-button" class="button-main" name="publishPack" value="Publier le paquet"/>
+            </form>');
         ?>
 
         <article id="content-main">

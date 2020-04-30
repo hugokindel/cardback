@@ -38,7 +38,7 @@ changeTitle("Résultat pour « ".$pack["name"]." »");
         </div>
 
         <?php
-        echo makeToolbarNew(FALSE, '<a id="right-toolbar-main-button" class="link-main" href="'.$baseUrl.'/home">OK</a>');
+        echo makeToolbar(FALSE, '<a id="right-toolbar-main-button" class="link-main" href="'.$baseUrl.'/home">OK</a>');
         ?>
 
         <article id="content-main">

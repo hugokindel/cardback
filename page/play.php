@@ -102,7 +102,13 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
         </div>
 
         <?php
-        echo makeToolbar(2, TRUE, FALSE);
+        echo makeToolbar(FALSE, '
+        <form method="post" id="abandon-pack-form">
+            <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="abandonPack" value="Abandonner" />
+        </form>
+        <form method="post" id="get-result-form">
+            <input type="submit" id="right-toolbar-main-button" class="button-main" name="getResult" value="Obtenir mon résultat"/>
+        </form>');
         ?>
 
         <article id="content-main">

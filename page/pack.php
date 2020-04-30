@@ -33,7 +33,10 @@ $cards = getAllCardsOfPack($_GET["id"]);
         </div>
 
         <?php
-        echo makeToolbar(0, !isAuthorOfPack($_SESSION["accountId"], $pack["id"]));
+        echo makeToolbar(TRUE, !isAuthorOfPack($_SESSION["accountId"], $pack["id"]) ? '' : '
+            <form method="post" id="remove-pack-form">
+                <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack" value="Supprimer le paquet" />
+            </form>');
         ?>
 
         <article id="content-main">
