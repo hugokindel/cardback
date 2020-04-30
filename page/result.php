@@ -53,47 +53,45 @@ changeTitle("Résultat pour « ".$pack["name"]." »");
             <br>
 
             <section class="section-cards">
-                <h4 style="margin-bottom: 20px;">Cartes</h4>
+                <h4>Cartes</h4>
                 <?php
                 foreach ($cards as $card) {
                     ?>
                     <form method="post" id="card-<?php echo $card["id"] ?>-form">
                         <input type="hidden" name="id" value="<?php echo $card["id"] ?>" />
                         <div class="cards-container">
-                            <div class="cards">
-                                <?php
-                                echo makeCardEditable("qcard-".$card["id"], "", $card["question"], TRUE);
-                                echo makeCardEditable("acard-".$card["id"],
-                                    $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ? "Écrivez votre réponse..." :
-                                        ($_SESSION["game-".$_GET["id"]."-".$card["id"]] < 3 ? $_SESSION["game-".$_GET["id"]."-".$card["id"]."-answer"] : "?"),
-                                    "",
-                                    $_SESSION["game-".$_GET["id"]."-".$card["id"]] != 0,
-                                    FALSE,
-                                    $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ? 0 : ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 1 ? 1 : 2));
-                                ?>
+                            <?php
+                            echo makeCardEditable("qcard-".$card["id"], "", $card["question"], TRUE);
+                            echo makeCardEditable("acard-".$card["id"],
+                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ? "Écrivez votre réponse..." :
+                                    ($_SESSION["game-".$_GET["id"]."-".$card["id"]] < 3 ? $_SESSION["game-".$_GET["id"]."-".$card["id"]."-answer"] : "?"),
+                                "",
+                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] != 0,
+                                FALSE,
+                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ? 0 : ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 1 ? 1 : 2));
+                            ?>
 
+                            <?php
+                            if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] != 1) {
+                                ?>
+                                <div style="display: flex; align-items: center; justify-content: left; margin-right: 25px; margin-top: 25px;">
+                                    <h1>􀄫</h1>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: left;">
+                                    <?php echo makeCardEditable("qcard-".$card["id"], "", $card["answer"], TRUE, TRUE, 1); ?>
+                                </div>
                                 <?php
-                                if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] != 1) {
+                            }
+                            ?>
+                            <div style="display: flex; align-items: center; justify-content: center;">
+                                <?php
+                                if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0) {
                                     ?>
-                                    <div style="display: flex; align-items: center; justify-content: left;">
-                                            <h1>􀄫</h1>
-                                    </div>
-                                    <div style="display: flex; align-items: center; justify-content: left;">
-                                        <?php echo makeCardEditable("qcard-".$card["id"], "", $card["answer"], TRUE, TRUE, 1); ?>
-                                    </div>
+                                    <input id="abandon-card-<?php echo $card["id"] ?>-button" class="button-main" type="submit" name="abandonCard" value="Abandonner" style="width: 150px; height: 32px; background-color: #FF3B30;"/>
+                                    <input id="validate-card-<?php echo $card["id"] ?>-button" class="button-main" type="submit" name="validateCard" value="Valider" style="width: 150px; height: 32px; "/>
                                     <?php
                                 }
                                 ?>
-                                <div style="display: flex; align-items: center; justify-content: center;">
-                                    <?php
-                                    if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0) {
-                                        ?>
-                                        <input id="abandon-card-<?php echo $card["id"] ?>-button" class="button-main" type="submit" name="abandonCard" value="Abandonner" style="width: 150px; height: 32px; background-color: #FF3B30;"/>
-                                        <input id="validate-card-<?php echo $card["id"] ?>-button" class="button-main" type="submit" name="validateCard" value="Valider" style="width: 150px; height: 32px; "/>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
                             </div>
                         </div>
                         <?php

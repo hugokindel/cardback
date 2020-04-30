@@ -38,13 +38,11 @@ $data = getAccount($_SESSION["accountId"])[1];
                 <section class="section-cards">
                     <h3>Tout</h3>
                     <div class="cards-container">
-                        <div class="cards">
-                            <?php
-                            foreach ($packs as $pack) {
-                                echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/pack?id=".$pack["id"]);
-                            }
-                            ?>
-                        </div>
+                        <?php
+                        foreach ($packs as $pack) {
+                            echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/pack?id=".$pack["id"]);
+                        }
+                        ?>
                     </div>
                 </section>
                 <br>

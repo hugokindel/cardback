@@ -43,7 +43,6 @@ if (!file_exists($link.".php")) {
     <!-- Feuille de style -->
     <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/utility/normalize.css">
     <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/base.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/sf-pro-rounded.css">
     <link rel="stylesheet" href="<?php echo $baseUrl ?>/res/style/component.css">
     <?php
     // Indique le lien vers le CSS de la page voulu
@@ -53,12 +52,18 @@ if (!file_exists($link.".php")) {
     ?>
 </head>
 <body>
-<?php
-// Charge la page voulu
-require $link.".php";
-?>
+    <style>
+        <?php
+        require "core/font/sf-pro-rounded.css.php";
+         ?>
+    </style>
 
-<script src="<?php echo $baseUrl ?>/res/script/component.js"></script>
+    <?php
+    // Charge la page voulu
+    require $link.".php";
+    ?>
+
+    <script src="<?php echo $baseUrl ?>/res/script/component.js"></script>
 
 </body>
 </html>

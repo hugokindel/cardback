@@ -1,66 +1,66 @@
 /* ---- Famille de police "SF-Pro-Rounded" ---- */
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Ultralight.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Ultralight.otf');
     font-weight: 100;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Thin.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Thin.otf');
     font-weight: 200;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Light.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Light.otf');
     font-weight: 300;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Regular.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Regular.otf');
     font-weight: 400;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Regular.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Regular.otf');
     font-weight: normal;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Medium.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Medium.otf');
     font-weight: 500;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Semibold.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Semibold.otf');
     font-weight: 600;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Bold.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Bold.otf');
     font-weight: 700;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Bold.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Bold.otf');
     font-weight: bold;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Heavy.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Heavy.otf');
     font-weight: 800;
 }
 
 @font-face {
     font-family: SF-Pro-Rounded;
-    src: url('../font/SF-Pro-Rounded-Black.otf');
+    src: url('<?php echo $baseUrl ?>/res/font/SF-Pro-Rounded-Black.otf');
     font-weight: 900;
 }

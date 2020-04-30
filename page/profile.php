@@ -43,20 +43,21 @@ $data = getAccount($_GET["id"])[1];
                         <h1><?php echo $data["firstName"]." ".$data["lastName"]; ?></h1>
                         <h4 style="margin-left: 1px;"><?php echo $data["admin"] == 0 ? "Utilisateur" : "Administrateur"; ?></h4>
                     </div>
-                    <?php
-                    if ($_SESSION["accountId"] === $_GET["id"]) {
-                    ?>
-                        <form method="post" id="edit-pack-form">
-                            <input type="hidden" name="editPack" value="Éditer"/>
-                            <div style="display: flex; align-items: center; justify-content: center; margin-left: 50px; cursor: pointer;"
-                                 onclick="document.forms['edit-pack-form'].submit();">
-                                <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
-                                <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
-                            </div>
-                        </form>
-                    <?php
-                    }
-                    ?>
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                        <?php
+                        if ($_SESSION["accountId"] === $_GET["id"]) {
+                            ?>
+                            <form method="post" id="edit-pack-form">
+                                <input type="hidden" name="editPack" value="Éditer"/>
+                                <div style="display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="document.forms['edit-pack-form'].submit();">
+                                    <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
+                                    <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
+                                </div>
+                            </form>
+                            <?php
+                        }
+                        ?>
+                    </div>
                 </div>
             </section>
             <br>
@@ -90,13 +91,11 @@ $data = getAccount($_GET["id"])[1];
                 <section class="section-cards">
                     <h3>Paquets de cartes</h3>
                     <div class="cards-container">
-                        <div class="cards">
-                            <?php
-                            foreach ($unpublishedPacks as $pack) {
-                                echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/pack?id=".$pack["id"]);
-                            }
-                            ?>
-                        </div>
+                        <?php
+                        foreach ($unpublishedPacks as $pack) {
+                            echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/pack?id=".$pack["id"]);
+                        }
+                        ?>
                     </div>
                 </section>
                 <br>
@@ -112,13 +111,11 @@ $data = getAccount($_GET["id"])[1];
             <section class="section-cards">
                 <h3>Paquets de cartes en cours de création</h3>
                 <div class="cards-container">
-                    <div class="cards">
-                        <?php
-                            foreach ($unpublishedPacks as $pack) {
-                                echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/editor?id=".$pack["id"], "Voulez-vous continuer à créer ce paquet?");
-                            }
-                        ?>
-                    </div>
+                    <?php
+                    foreach ($unpublishedPacks as $pack) {
+                        echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/editor?id=".$pack["id"], "Voulez-vous continuer à créer ce paquet?");
+                    }
+                    ?>
                 </div>
             </section>
             <br>

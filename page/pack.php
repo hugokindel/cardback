@@ -43,10 +43,12 @@ $cards = getAllCardsOfPack($_GET["id"]);
                         <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
                         <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
                     </div>
-                    <form method="post" id="edit-pack-form">
-                        <input type="hidden" name="editPack" value="Éditer" />
-                        <a id="right-toolbar-main-button" class="link-main" style="margin-left: 50px;" href="<?php echo $baseUrl ?>/play?id=<?php echo $_GET["id"] ?>">Jouer</a>
-                    </form>
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                        <form method="post" id="edit-pack-form">
+                            <input type="hidden" name="editPack" value="Éditer" />
+                            <a id="right-toolbar-main-button" class="link-main" href="<?php echo $baseUrl ?>/play?id=<?php echo $_GET["id"] ?>">Jouer</a>
+                        </form>
+                    </div>
                 </div>
             </section>
             <br>

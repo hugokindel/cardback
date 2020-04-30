@@ -93,13 +93,15 @@ $cards = getAllCardsOfPack($_GET["id"]);
                         <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
                         <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
                     </div>
-                    <form method="post" id="edit-pack-form">
-                        <input type="hidden" name="editPack" value="Éditer" />
-                        <div style="display: flex; align-items: center; justify-content: center; margin-left: 50px; cursor: pointer;" onclick="document.forms['edit-pack-form'].submit();">
-                            <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
-                            <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
-                        </div>
-                    </form>
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                        <form method="post" id="edit-pack-form">
+                            <input type="hidden" name="editPack" value="Éditer" />
+                            <div style="display: flex; align-items: center; justify-content: center;" onclick="document.forms['edit-pack-form'].submit();">
+                                <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
+                                <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </section>
             <br>
@@ -117,43 +119,41 @@ $cards = getAllCardsOfPack($_GET["id"]);
             ?>
 
             <section class="section-cards">
-                <h4 style="margin-bottom: 20px;">Cartes</h4>
+                <h4>Cartes</h4>
                 <?php
                 foreach ($cards as $value) {
                     ?>
                     <form method="post" id="card-<?php echo $value["id"] ?>-form">
                         <input type="hidden" name="id" value="<?php echo $value["id"] ?>" />
                         <div class="cards-container">
-                            <div class="cards">
-                                <?php
-                                echo makeCardEditable("qcard-".$value["id"], "Écrivez votre question...", $value["question"], $value["confirmed"]);
-                                echo makeCardEditable("acard-".$value["id"], "Écrivez votre réponse...", $value["answer"], $value["confirmed"]);
-                                ?>
+                            <?php
+                            echo makeCardEditable("qcard-".$value["id"], "Écrivez votre question...", $value["question"], $value["confirmed"]);
+                            echo makeCardEditable("acard-".$value["id"], "Écrivez votre réponse...", $value["answer"], $value["confirmed"]);
+                            ?>
 
-                                <?php
-                                if ($value["confirmed"] == 1) {
-                                ?>
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <h4>Question validé!</h4>
-                                    </div>
-                                <?php
-                                }
+                            <?php
+                            if ($value["confirmed"] == 1) {
                                 ?>
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="suppressCard" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
-
-                                    <?php
-                                    if ($value["confirmed"] == 0) {
-                                    ?>
-                                        <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="validateCard" value="Valider" style="width: 150px; height: 32px; "/>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <input id="modify-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="modifyCard" value="Modifier" style="width: 150px; height: 32px; "/>
-                                    <?php
-                                    }
-                                    ?>
+                                    <h4>Question validé!</h4>
                                 </div>
+                                <?php
+                            }
+                            ?>
+                            <div style="display: flex; align-items: center; justify-content: center;">
+                                <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="suppressCard" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
+
+                                <?php
+                                if ($value["confirmed"] == 0) {
+                                    ?>
+                                    <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="validateCard" value="Valider" style="width: 150px; height: 32px; "/>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <input id="modify-card-<?php echo $value["id"] ?>-button" class="button-main" type="submit" name="modifyCard" value="Modifier" style="width: 150px; height: 32px; "/>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         <?php
@@ -177,14 +177,12 @@ $cards = getAllCardsOfPack($_GET["id"]);
                 ?>
 
                 <div class="cards-container">
-                    <div class="cards">
-                        <form method="post" id="add-card-form">
-                            <input type="hidden" name="addCard" value="Ajouter" />
-                            <?php
-                            echo makeCardPlus();
-                            ?>
-                        </form>
-                    </div>
+                    <form method="post" id="add-card-form">
+                        <input type="hidden" name="addCard" value="Ajouter" />
+                        <?php
+                        echo makeCardPlus();
+                        ?>
+                    </form>
                 </div>
             </section>
             <br>

@@ -24,22 +24,20 @@ changeTitle("Bienvenue");
 <main id="main-with-footer">
     <h1 id="welcome">Bienvenue sur <span style="font-weight: 900;">cardback</span>!</h1>
     <div class="cards-container">
-        <div class="cards">
-            <?php
-            echo makeCard('Qu\'est-ce que <span style="font-weight: 900;">cardback</span>?',
-                '<span style="font-weight: 900;">cardback</span> est un outil d\'apprentissage faisant appel à votre mémoire.');
-            echo makeCard('À qui <span style="font-weight: 900;">cardback</span> est destiné?',
-                '<span style="font-weight: 900;">cardback</span> est destiné à n\'importe qui!');
-            echo makeCard('Combien coûte <span style="font-weight: 900;">cardback</span>?',
-                '<span style="font-weight: 900;">cardback</span> est complètement gratuit!');
-            echo makeCard('Où puis-je utiliser <span style="font-weight: 900;">cardback</span>?',
-                '<span style="font-weight: 900;">cardback</span> n\'est pour l\'instant compatible que sur vos ordinateurs.');
-            echo makeCard('Que puis-je apprendre sur <span style="font-weight: 900;">cardback</span>?',
-                'Avec l\'aide de la communauté, <span style="font-weight: 900;">cardback</span> compte bien vous permettre d\'apprendre sur pleins de sujets variés.');
-            echo makeCard('Qui développe <span style="font-weight: 900;">cardback</span>?',
-                'Pour le moment <span style="font-weight: 900;">cardback</span> est développé par deux étudiants.');
-            ?>
-        </div>
+        <?php
+        echo makeCard('Qu\'est-ce que <span style="font-weight: 900;">cardback</span>?',
+            '<span style="font-weight: 900;">cardback</span> est un outil d\'apprentissage faisant appel à votre mémoire.');
+        echo makeCard('À qui <span style="font-weight: 900;">cardback</span> est destiné?',
+            '<span style="font-weight: 900;">cardback</span> est destiné à n\'importe qui!');
+        echo makeCard('Combien coûte <span style="font-weight: 900;">cardback</span>?',
+            '<span style="font-weight: 900;">cardback</span> est complètement gratuit!', TRUE, "margin-right: 0;");
+        echo makeCard('Où puis-je utiliser <span style="font-weight: 900;">cardback</span>?',
+            '<span style="font-weight: 900;">cardback</span> n\'est pour l\'instant compatible que sur vos ordinateurs.');
+        echo makeCard('Que puis-je apprendre sur <span style="font-weight: 900;">cardback</span>?',
+            'Avec l\'aide de la communauté, <span style="font-weight: 900;">cardback</span> compte bien vous permettre d\'apprendre sur pleins de sujets variés.');
+        echo makeCard('Qui développe <span style="font-weight: 900;">cardback</span>?',
+            'Pour le moment <span style="font-weight: 900;">cardback</span> est développé par deux étudiants.', TRUE, "margin-right: 0;");
+        ?>
     </div>
 </main>
 
