@@ -42,7 +42,7 @@ function checkEmail($email) {
 }
 
 function checkPassword($password) {
-    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&.])[A-Za-z\d@$!%*#?&.]{8,64}$/', $password);
+    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&.+-*/|?\])[A-Za-z\d@$!%*#?&.+-*/|?\]{8,64}$/', $password);
 }
 
 function checkName($name) {
