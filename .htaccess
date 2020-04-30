@@ -13,6 +13,3 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?link=$1 [L,QSA]
 
 # Sinon, on ne redirige rien (c'est le lien direct d'un fichier/dossier, par exemple une ressource ou un dossier du site)
-Header set Access-Control-Allow-Origin "*"
-Allow From All
-Satisfy Any
