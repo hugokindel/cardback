@@ -53,6 +53,10 @@ if (!file_exists($link.".php")) {
     ?>
 </head>
 <body>
+    <script>
+        let baseUrl = "<?php echo $baseUrl ?>";
+    </script>
+
     <?php
     // Charge la page voulu
     require $link.".php";

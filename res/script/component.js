@@ -16,13 +16,24 @@ function setupToolbarComponent() {
     function hideToolbar(element) {
         let menu = document.getElementById("right-toolbar-menu-content");
 
-        if (menu.style.display === "block") {
+        if (menu != null && menu.style.display === "block") {
             menu.style.display = "none";
             document.getElementById("right-toolbar-menu-button-arrow").innerHTML = "􀆈";
         }
     }
 
     document.addEventListener("click", hideToolbar);
+}
+
+function setupSearchComponent() {
+    let searchBar = document.getElementById("search-textbox");
+
+    searchBar.addEventListener("keyup", function(event) {
+        console.log("test");
+        if (event.key === "Enter") {
+            window.location.href = baseUrl + "/search?search=" + encodeURIComponent(searchBar.value);
+        }
+    });
 }
 
 function setupSelectComponent() {
@@ -141,4 +152,5 @@ function setupSelectComponent() {
 }
 
 setupToolbarComponent();
+setupSearchComponent();
 setupSelectComponent();
