@@ -1,1 +1,1 @@
-chmod -R 755 res
+chmod -R 777 res
