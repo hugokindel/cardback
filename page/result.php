@@ -19,6 +19,28 @@ $errorOnCards = [];
 $cards = getAllCardsOfPack($_GET["id"]);
 $data = getAccount($_SESSION["accountId"])[1];
 
+if (isset($_POST)) {
+    if (isset($_POST["replay"])) {
+        unset($_SESSION["game-".$_GET["id"]]);
+
+        foreach($cards as $card) {
+            unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
+            unset($_SESSION["game-".$_GET["id"]."-answer"]);
+        }
+
+        redirect("play?id=".$_GET["id"]);
+    } else if (isset($_POST["ok"])) {
+        unset($_SESSION["game-".$_GET["id"]]);
+
+        foreach($cards as $card) {
+            unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
+            unset($_SESSION["game-".$_GET["id"]."-answer"]);
+        }
+
+        redirectToHome();
+    }
+}
+
 require_once 'core/component/page/title.php';
 require_once 'core/component/page/sidebar.php';
 require_once 'core/component/page/toolbar.php';
@@ -38,7 +60,13 @@ changeTitle("Résultat pour « ".$pack["name"]." »");
         </div>
 
         <?php
-        echo makeToolbar(FALSE, '<a id="right-toolbar-main-button" class="link-main" href="'.$baseUrl.'/home">OK</a>');
+        echo makeToolbar(FALSE, '
+            <form method="post" id="replay-form">
+                <input type="submit" id="right-toolbar-main-button" class="button-main" name="replay" value="Rejouer"/>
+            </form>
+            <form method="post" id="ok-form">
+                <input type="submit" id="right-toolbar-main-button" class="button-main" name="ok" value="OK"/>
+            </form>');
         ?>
 
         <article id="content-main">
@@ -112,14 +140,3 @@ changeTitle("Résultat pour « ".$pack["name"]." »");
         </article>
     </div>
 </main>
-
-<?php
-
-unset($_SESSION["game-".$_GET["id"]]);
-
-foreach($cards as $card) {
-    unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
-    unset($_SESSION["game-".$_GET["id"]."-answer"]);
-}
-
-?>

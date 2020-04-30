@@ -107,7 +107,7 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
             <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="abandonPack" value="Abandonner" />
         </form>
         <form method="post" id="get-result-form">
-            <input type="submit" id="right-toolbar-main-button" class="button-main" name="getResult" value="Obtenir mon résultat"/>
+            <input type="submit" id="right-toolbar-main-button" class="button-main" name="getResult" value="Obtenir mes résultats"/>
         </form>');
         ?>
 

@@ -9,6 +9,19 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET[
     redirectTo404();
 }
 
+if (isset($_POST) && isset($_POST["replay"])) {
+    $cards = getAllCardsOfPack($_GET["id"]);
+
+    unset($_SESSION["game-".$_GET["id"]]);
+
+    foreach($cards as $card) {
+        unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
+        unset($_SESSION["game-".$_GET["id"]."-answer"]);
+    }
+
+    redirect("play?id=".$_GET["id"]);
+}
+
 require_once 'core/component/page/title.php';
 require_once 'core/component/page/search.php';
 require_once 'core/component/page/sidebar.php';
@@ -47,10 +60,27 @@ $cards = getAllCardsOfPack($_GET["id"]);
                         <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
-                        <form method="post" id="edit-pack-form">
-                            <input type="hidden" name="editPack" value="Éditer" />
-                            <a id="right-toolbar-main-button" class="link-main" href="<?php echo $baseUrl ?>/play?id=<?php echo $_GET["id"] ?>">Jouer</a>
-                        </form>
+                        <?php
+                        if (!isset($_SESSION["game-".$_GET["id"]]) || $_SESSION["game-".$_GET["id"]] == 0) {
+                            ?>
+                            <form method="post" id="play-form">
+                                <input type="hidden" name="editPack" value="Éditer" />
+                                <a id="right-toolbar-main-button" class="link-main" href="<?php echo $baseUrl ?>/play?id=<?php echo $_GET["id"] ?>">Jouer</a>
+                            </form>
+                            <?php
+                        } else {
+                            ?>
+                            <form method="post" id="replay-form">
+                                <input type="hidden" name="editPack" value="Éditer" />
+                                <input type="submit" id="right-toolbar-main-button" class="button-main" name="replay" value="Rejouer"/>
+                            </form>
+                            <form method="post" id="results-form">
+                                <input type="hidden" name="editPack" value="Éditer" />
+                                <a id="right-toolbar-main-button" class="link-main" href="<?php echo $baseUrl ?>/result?id=<?php echo $_GET["id"] ?>">Voir mes résultats</a>
+                            </form>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </section>
