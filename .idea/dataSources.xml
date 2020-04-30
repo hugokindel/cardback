@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="MariaDB - cardback@localhost" uuid="e8809898-9400-4d04-b1ab-45c7dbc8b6e3">
-      <driver-ref>mariadb</driver-ref>
+    <data-source source="LOCAL" name="cardback" uuid="eaf050ce-22e0-4454-ab81-558d1ae3bb24">
+      <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://localhost:3306/cardback</jdbc-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://35.205.34.35:3306/cardback</jdbc-url>
     </data-source>
   </component>
 </project>
