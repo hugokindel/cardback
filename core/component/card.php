@@ -68,7 +68,7 @@ function makeCardEditable($name, $placeholder, $value = "", $readonly = FALSE, $
                 <div class="card-front">
                     <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
                     <label for="'.$name.'"></label>
-                    <input autocomplete="'.($autocomplete ? "on" : "off").'" id="'.$name.'-textbox" class="textbox-main textbox-card" type="text" name="'.$name.'" value="'.$value.'" placeholder="'.$placeholder.'" maxlength="159"'.($readonly ? ' readonly' : '').'>
+                    <textarea style="text-align: center; resize: none; font-size: 17px; font-weight: bold;" autocomplete="'.($autocomplete ? "on" : "off").'" id="'.$name.'-textbox" class="textbox-main textbox-card" type="textarea" name="'.$name.'" placeholder="'.$placeholder.'" maxlength="159"'.($readonly ? ' readonly' : '').'>'.$value.'</textarea>
                 </div>
                 '.($showStamp != 0 ? '
                 <div style="display: flex; align-items: center; justify-content: center; margin-left: 240px; margin-top: 10px;">

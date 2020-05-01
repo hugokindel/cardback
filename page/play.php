@@ -123,6 +123,7 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
                 <h4>Cartes</h4>
                 <?php
                 foreach ($cards as $card) {
+                    $sessionCardId = $_SESSION["game-".$_GET["id"]."-".$card["id"]];
                     ?>
                     <form method="post" id="card-<?php echo $card["id"] ?>-form">
                         <input type="hidden" name="id" value="<?php echo $card["id"] ?>" />
@@ -131,33 +132,26 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
                             echo \cardback\component\makeCardEditable("qcard-".$card["id"],
                                 "", $card["question"], TRUE);
                             echo \cardback\component\makeCardEditable("acard-".$card["id"],
-                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ?
-                                    "Écrivez votre réponse..." :
-                                    ($_SESSION["game-".$_GET["id"]."-".$card["id"]] < 3 ?
-                                        $_SESSION["game-".$_GET["id"]."-".$card["id"]."-answer"] :
-                                        "?"),
-                                "",
-                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] != 0,
-                                FALSE,
-                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ?
-                                    0 :
-                                    ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 1 ? 1 : 2));
-                            ?>
+                                $sessionCardId == 0 ?
+                                    "Écrivez votre réponse..." : ($sessionCardId < 3 ?
+                                        $_SESSION["game-".$_GET["id"]."-".$card["id"]."-answer"] :  "?"),
+                                "", $sessionCardId != 0, FALSE,
+                                $sessionCardId == 0 ?
+                                    0 : ($sessionCardId == 1 ? 1 : 2));
 
-                            <?php
-                            if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] != 0) {
+                            if ($sessionCardId != 0) {
                                 ?>
                                 <div style="display: flex; align-items: center; justify-content: left;">
                                     <?php
-                                    if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 1) {
+                                    if ($sessionCardId == 1) {
                                         ?>
                                         <h4 style="color: #1FCAAC;">Bonne réponse!</h4>
                                         <?php
-                                    } else if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 2) {
+                                    } else if ($sessionCardId == 2) {
                                         ?>
                                         <h4 style="color: #FF3B30;">Mauvaise réponse!</h4>
                                         <?php
-                                    } else if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 3) {
+                                    } else if ($sessionCardId == 3) {
                                         ?>
                                         <h4 style="color: #FF3B30;">Question abandonnée!</h4>
                                         <?php
@@ -169,7 +163,7 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
                             ?>
                             <div style="display: flex; align-items: center; justify-content: center;">
                                 <?php
-                                if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0) {
+                                if ($sessionCardId == 0) {
                                     ?>
                                     <input id="abandon-card-<?php echo $card["id"] ?>-button" class="button-main"
                                            type="submit" name="abandonCard" value="Abandonner" style="width: 150px; height: 32px; background-color: #FF3B30;"/>
