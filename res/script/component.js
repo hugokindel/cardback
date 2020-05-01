@@ -13,27 +13,28 @@ function toggleToolbarMenu(event, element) {
 }
 
 function setupToolbarComponent() {
-    function hideToolbar(element) {
-        let menu = document.getElementById("right-toolbar-menu-content");
+    let menu = document.getElementById("right-toolbar-menu-content");
 
-        if (menu != null && menu.style.display === "block") {
-            menu.style.display = "none";
-            document.getElementById("right-toolbar-menu-button-arrow").innerHTML = "􀆈";
-        }
+    if (menu != null) {
+        document.addEventListener("click", function () {
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+                document.getElementById("right-toolbar-menu-button-arrow").innerHTML = "􀆈";
+            }
+        });
     }
-
-    document.addEventListener("click", hideToolbar);
 }
 
 function setupSearchComponent() {
     let searchBar = document.getElementById("search-textbox");
 
-    searchBar.addEventListener("keyup", function(event) {
-        console.log("test");
-        if (event.key === "Enter") {
-            window.location.href = baseUrl + "/search?search=" + encodeURIComponent(searchBar.value);
-        }
-    });
+    if (searchBar != null) {
+        searchBar.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                window.location.href = baseUrl + "/search?search=" + encodeURIComponent(searchBar.value);
+            }
+        });
+    }
 }
 
 function setupSelectComponent() {

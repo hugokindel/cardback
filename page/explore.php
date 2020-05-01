@@ -21,15 +21,15 @@
 
         <article id="content-main">
             <?php
-            $packs = \cardback\system\getAllPacks(1)[1];
+            $packs = \cardback\system\getAllPacks(1);
 
-            if (count($packs) > 0):
+            if ($packs[0] == 1 && count($packs[1]) > 0):
                 ?>
                 <section class="section-cards">
                     <h3>Tout</h3>
                     <div class="cards-container">
                         <?php
-                        foreach ($packs as $pack) {
+                        foreach ($packs[1] as $pack) {
                             echo \cardback\component\makeCardDetailed(
                                 $pack["name"],
                                 $pack["author"],

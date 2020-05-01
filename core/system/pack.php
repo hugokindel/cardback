@@ -6,7 +6,7 @@ function _checkPackExists($name) {
         "id",
         "WHERE name = '$name'");
 
-    return $result[0] == 1;
+    return $result[0] == 1 ? $result[1][0]["id"] : 0;
 }
 
 // Associe le nom de l'auteur (obtenu dans la table 'users') à un paquet de cartes
@@ -36,7 +36,7 @@ function createPack($userId, $name, $description, $difficulty, $theme) {
 
     $name = mysqli_real_escape_string($db, $name);
 
-    if (_checkPackExists($name)) {
+    if (_checkPackExists($name) > 0) {
         return [0, "Un paquet avec ce nom existe déjà."];
     }
 
@@ -70,8 +70,9 @@ function changePack($packId, $name, $description, $difficulty, $theme) {
     global $db;
 
     $name = mysqli_real_escape_string($db, $name);
+    $packExists = _checkPackExists($name);
 
-    if (_checkPackExists($name)) {
+    if ($packExists > 0 && $packExists != $packId) {
         return [0, "Un paquet avec ce nom existe déjà."];
     }
 
@@ -82,6 +83,8 @@ function changePack($packId, $name, $description, $difficulty, $theme) {
     \cardback\database\update("packs",
         "name = '$name', description = '$description', difficulty = '$difficulty', theme = '$theme'",
         "WHERE id = $packId");
+
+    return [1];
 }
 
 // Supprime un paquet de cartes
@@ -147,7 +150,9 @@ function getAllPacksOfUser($userId, $published = -1) {
             "",
             "WHERE id = '$userPack'".($published != -1 ? " AND published = $published" : ""));
 
-        array_push($array, $pack[1][0]);
+        if ($pack[0] == 1) {
+            array_push($array, $pack[1][0]);
+        }
     }
 
     return [1, _associateAuthorToPack($array)];

@@ -4,7 +4,7 @@
 $firstId = \cardback\database\selectMinId("users");
 $lastId = \cardback\database\selectMaxId("users");
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] ||
+if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"]) {
     \cardback\utility\redirect("404");
 }
@@ -59,7 +59,7 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET[
             <section>
                 <h3>Informations</h3>
                 <h4 style="font-weight: 500;">Arrivé le <span style="font-weight: 600;">
-                    <? echo \cardback\utility\getFormatedDate($accountData["creationDate"]); ?></span>.
+                    <?php echo \cardback\utility\getFormatedDate($accountData["creationDate"]); ?></span>.
                 </h4>
                 <h4 style="font-weight: 500;">Vu pour la dernière fois le <span style="font-weight: 600;">
                     <?php echo \cardback\utility\getFormatedDate($accountData["lastConnectionDate"]); ?></span>.
@@ -82,15 +82,15 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET[
             <!-- TODO: Statistiques -->
 
             <?php
-            $unpublishedPacks = \cardback\system\getAllPacksOfUser($_GET["id"], 1)[1];
+            $unpublishedPacks = \cardback\system\getAllPacksOfUser($_GET["id"], 1);
 
-            if (count($unpublishedPacks) > 0) {
+            if ($unpublishedPacks[0] == 1 && count($unpublishedPacks[1]) > 0) {
                 ?>
                 <section class="section-cards">
                     <h3>Paquets de cartes</h3>
                     <div class="cards-container">
                         <?php
-                        foreach ($unpublishedPacks as $pack) {
+                        foreach ($unpublishedPacks[1] as $pack) {
                             echo \cardback\component\makeCardDetailed(
                                 $pack["name"],
                                 $accountData["firstName"]." ".$accountData["lastName"],
@@ -108,13 +108,13 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET[
             <?php
             $unpublishedPacks = \cardback\system\getAllPacksOfUser($_SESSION["accountId"], 0);
 
-            if (count($unpublishedPacks) > 0) {
+            if ($unpublishedPacks[0] == 1 && count($unpublishedPacks[1]) > 0) {
                 ?>
                 <section class="section-cards">
                     <h3>Paquets de cartes en cours de création</h3>
                     <div class="cards-container">
                         <?php
-                        foreach ($unpublishedPacks as $pack) {
+                        foreach ($unpublishedPacks[1] as $pack) {
                             echo \cardback\component\makeCardDetailed($pack["name"],
                                 $accountData["firstName"]." ".$accountData["lastName"],
                                 \cardback\utility\getFormatedDate($pack["creationDate"]),

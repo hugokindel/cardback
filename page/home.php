@@ -29,14 +29,13 @@
             <?php
             $packs = \cardback\system\getAllPacksFromAWeek();
 
-            if (count($packs) > 0):
+            if ($packs[0] == 1 && count($packs[1]) > 0):
                 ?>
                 <section class="section-cards">
-                    <h3>Paquet<?php echo count($packs) > 1 ? "s" : "" ?> créé<?php echo count($packs) > 1 ? "s" : "" ?>
-                        depuis une semaine</h3>
+                    <h3>Paquets créés depuis une semaine</h3>
                     <div class="cards-container">
                         <?php
-                        foreach ($packs as $pack) {
+                        foreach ($packs[1] as $pack) {
                             echo \cardback\component\makeCardDetailed(
                                 $pack["name"],
                                 $pack["author"],

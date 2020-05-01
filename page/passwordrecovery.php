@@ -1,5 +1,5 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+\cardback\system\checkAccountConnection(FALSE);
 
 $error = "";
 $emailIssue = FALSE;

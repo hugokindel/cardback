@@ -19,7 +19,7 @@ if (!file_exists($link.".php")) {
 $accountData = NULL;
 
 if (isset($_SESSION["accountId"])) {
-    $accountData = \cardback\system\getAccount($_SESSION["accountId"])[1];
+    $accountData = \cardback\system\getAccount($_SESSION["accountId"])[1][0];
 }
 ?>
 

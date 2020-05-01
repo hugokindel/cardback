@@ -3,9 +3,9 @@
 
 $firstId = \cardback\database\selectMinId("packs");
 $lastId = \cardback\database\selectMaxId("packs");
-$pack = \cardback\system\getPack($_GET["id"])[1];
+$pack = \cardback\system\getPack($_GET["id"])[1][0];
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] ||
+if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] || !\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) ||
     $pack["published"] == 1) {
     \cardback\utility\redirect("404");
@@ -15,7 +15,13 @@ if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET[
 
 $error = "";
 $errorOnCards = [];
-$cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
+$cards = \cardback\system\getAllCardsOfPack($_GET["id"]);
+
+if ($cards[0] == 0) {
+    $cards = [];
+} else {
+    $cards = $cards[1];
+}
 
 if (!empty($_POST)) {
     if (isset($_POST["addCard"])) {
@@ -40,6 +46,10 @@ if (!empty($_POST)) {
     } else if (isset($_POST["modifyCard"])) {
         \cardback\system\unconfirmCard($_POST["id"]);
     } else if (isset($_POST["publishPack"])) {
+        if (count($cards) == 0) {
+            \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=2");
+        }
+
         foreach ($cards as $card) {
             if ($card["confirmed"] == 0) {
                 array_push($errorOnCards, $card["id"]);
@@ -112,18 +122,28 @@ if (!empty($_POST)) {
 
             <?php
             if ($pack["description"] != "") {
-            ?>
+                ?>
                 <section>
                     <h3>Description</h3>
                     <h4 style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
                 </section>
                 <br>
-            <?php
+                <?php
             }
             ?>
 
             <section class="section-cards">
                 <h4>Cartes</h4>
+                <?php if (isset($_GET["errorType"]) && $_GET["errorType"] == 2) {
+                    ?>
+                    <div style="width: 100%; margin: 20px 10px;">
+                        <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
+                            <br>- Veuillez créer au moins une carte!</p>
+                    </div>
+                    <?php
+                }
+                ?>
+
                 <?php
                 foreach ($cards as $value) {
                     ?>

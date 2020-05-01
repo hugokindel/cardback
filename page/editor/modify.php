@@ -4,9 +4,9 @@
 $firstId = \cardback\database\selectMinId("packs");
 $lastId = \cardback\database\selectMaxId("packs");
 
-$pack = \cardback\system\getPack($_GET["id"])[1];
+$pack = \cardback\system\getPack($_GET["id"])[1][0];
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] ||
+if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] || !\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) ||
     $pack["published"] == 1) {
     \cardback\utility\redirect("404");
@@ -31,7 +31,7 @@ if (isset($_POST["submit"])) {
             $_POST["difficulty"],
             $_POST["theme"]);
 
-        if ($result[0] == TRUE) {
+        if ($result[0] == 1) {
             \cardback\utility\redirect("editor?id=".$_GET["id"]);
         } else {
             $error .= "<br>- ".$result[1];
@@ -60,7 +60,7 @@ $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
             .\cardback\component\makeTextboxWithAccessory("description", "text", "Description", "􀌄",
                 isset($_POST["description"]) ? $_POST["description"] : $pack["description"], FALSE, "form-textbox", 255).'
             <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Optionnel, il peut contenir au maximum 255 caractères.</h6>'
-            .\cardback\component\makeTextboxWithAccessory(
+            .\cardback\component\makeSelectWithAccessory(
                 "difficulty",
                 "􀛸",
                 "Difficulté",
@@ -68,7 +68,7 @@ $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
                 isset($_POST["difficulty"]) ? $_POST["difficulty"] : $pack["difficulty"],
                 $difficultyIssue,
                 "form-select")
-            .\cardback\component\makeTextboxWithAccessory(
+            .\cardback\component\makeSelectWithAccessory(
                 "theme",
                 "􀈕",
                 "Thème",

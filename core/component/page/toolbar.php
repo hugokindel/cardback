@@ -2,6 +2,7 @@
 
 function makeToolbar($showCreatePack = TRUE, $customButtons = "") {
     global $serverUrl;
+    global $accountData;
 
     return '
         <div id="right-toolbar">'

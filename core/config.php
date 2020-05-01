@@ -25,7 +25,7 @@ function configure() {
     setlocale(LC_TIME, $serverLocale);
 
     // Démarre une session si une session n'est pas déjà en cours
-    if (session_status() == PHP_SESSION_ACTIVE) {
+    if (!isset($_SESSION)) {
         session_start();
     }
 }
