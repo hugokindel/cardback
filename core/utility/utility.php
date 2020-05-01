@@ -35,7 +35,7 @@ function checkEmail($email) {
 
 // Vérifie que la syntaxe d'un mot de passe est valide
 function checkPassword($password) {
-    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&.+\\\\|\/\-^])[A-Za-z\d@$!%*#?&.+\\\\|\/\-^]{8,64}$/', $password);
+    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E])[A-Za-z\d\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E]{8,64}$/', $password);
 }
 
 // Vérifie que la syntaxe d'un nom est valide
