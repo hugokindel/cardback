@@ -1,4 +1,6 @@
-<?php
+<?php namespace cardback\utility;
+
+// Permet de changer le titre de la page web
 function changeTitle($title)
 {
     // Prend le contenu actuel de la page
@@ -18,33 +20,25 @@ function changeTitle($title)
     echo $page;
 }
 
+// Permet de rediriger à l'URL voulu
 function redirect($url = "") {
-    global $baseUrl;
+    global $serverUrl;
 
-    header("Location: ".$baseUrl."/".$url);
+    header("Location: ".$serverUrl."/".$url);
     exit();
 }
 
-function redirectToHome() {
-    redirect("home");
-}
-
-function redirectToEditor($packId) {
-    redirect("editor?id=".$packId);
-}
-
-function redirectTo404() {
-    redirect("404");
-}
-
+// Vérifie que la syntaxe d'une adresse e-mail est valide
 function checkEmail($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
+// Vérifie que la syntaxe d'un mot de passe est valide
 function checkPassword($password) {
-    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&.])[A-Za-z\d@$!%*#?&.]{8,64}$/', $password);
+    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&.+\\\\|\/\-^])[A-Za-z\d@$!%*#?&.+\\\\|\/\-^]{8,64}$/', $password);
 }
 
+// Vérifie que la syntaxe d'un nom est valide
 function checkName($name) {
     return preg_match('/^[\dA-Za-z ,.\'-]{2,}$/', $name);
 }
