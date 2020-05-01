@@ -20,7 +20,7 @@ function _associateAuthorToPack($packs) {
             "userId",
         "WHERE packId = '$packId'")[1];
 
-        $result = \cardback\system\getAccount($result["userId"])[1];
+        $result = \cardback\system\getAccount($result[0]["userId"])[1][0];
 
         $pack["author"] = $result["firstName"]." ".$result["lastName"];
 
@@ -52,7 +52,7 @@ function createPack($userId, $name, $description, $difficulty, $theme) {
     $packId = \cardback\database\selectMaxId("packs")[1];
 
     \cardback\database\insert("userPacks",
-        "userId, feedbackId",
+        "userId, packId",
         "$userId, $packId");
 
     return [1];
@@ -155,9 +155,9 @@ function getAllPacksOfUser($userId, $published = -1) {
 
 // Vérifie si un utilisateur est l'auteur d'un paquet de cartes ou non
 function checkUserOwnsPack($userId, $packId) {
-    $result = \cardback\database\select("packs",
+    $result = \cardback\database\select("userPacks",
         "",
-        "WHERE userId = '$userId' AND packId = '$packId");
+        "WHERE userId = '$userId' AND packId = '$packId'");
 
     return $result[0] == 1;
 }

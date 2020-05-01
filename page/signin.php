@@ -1,26 +1,27 @@
 <?php
-checkIsNotConnectedToAccount();
+\cardback\system\checkAccountConnection(FALSE);
 
 $error = "";
 $emailIssue = FALSE;
 $passwordIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!checkEmail($_POST["email"])) {
+    if (!\cardback\utility\checkEmail($_POST["email"])) {
         $error .= "<br>- Veuillez entrer une adresse mail valide.";
         $emailIssue = TRUE;
     }
 
-    if (!checkPassword($_POST["password"])) {
-        $error .= "<br>- Veuillez entrer un mot de passe valide (entre 8 et 64 caractères, au moins une minuscule, une majuscule, un chiffre et un symbole parmi @$!%*#?&.).";
+    if (!\cardback\utility\checkPassword($_POST["password"])) {
+        $error .= "<br>- Veuillez entrer un mot de passe valide (entre 8 et 64 caractères, au moins une minuscule, une 
+            majuscule, un chiffre et un symbole parmi la liste suivante « !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ».).";
         $passwordIssue = TRUE;
     }
 
     if ($error === "") {
-        $result = connectAccount($_POST["email"], $_POST["password"]);
+        $result = \cardback\system\connectAccount($_POST["email"], $_POST["password"]);
 
         if ($result[0] == TRUE) {
-            redirectToHome();
+            \cardback\utility\redirect("home");
         } else {
             $error .= "<br>- ".$result[1];
 
@@ -33,28 +34,34 @@ if (isset($_POST["submit"])) {
     }
 }
 
-require_once 'core/component/default/textbox.php';
-require_once 'core/component/default/form.php';
-require_once 'core/component/page/footer.php';
-
-changeTitle("Se connecter");
+\cardback\utility\changeTitle("Se connecter");
 ?>
 
 <!-- Contenu principal de la page -->
 <main id="main-with-footer">
     <?php
-    echo makeForm('S\'identifier sur <span style="font-weight: 900;">cardback', 'Se connecter',
+    echo \cardback\component\makeForm('S\'identifier sur <span style="font-weight: 900;">cardback',
+        'Se connecter',
         ($error !== "" ? '<p class="form-label-error">􀁡 Connexion impossible!'.$error.'</p>' : "").
-        '<form method="post" id="page-form">
-            '.makeTextboxWithAccessory("email", "email", "E-mail", "􀍕", isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue, "form-textbox", 254)
-             .makeTextboxWithAccessory("password", "password", "Mot de passe", "􀎠", isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue, "form-textbox", 64).'
-        </form>
+            '<form method="post" id="page-form">
+                '.cardback\component\makeTextboxWithAccessory(
+                    "email", "email", "E-mail", "􀍕",
+                    isset($_POST["email"]) ? $_POST["email"] : "", $emailIssue,
+                    "form-textbox",
+                    254)
+                .cardback\component\makeTextboxWithAccessory(
+                    "password", "password", "Mot de passe", "􀎠",
+                    isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue,
+                    "form-textbox",
+                    64).'
+            </form>
 
-        <a id="passwordforgotten-label" href="'.$baseUrl.'/passwordrecovery">Mot de passe <span style="font-weight: 700;">oublié</span>?</a>');
+        <a id="passwordforgotten-label" href="'.$serverUrl.'/passwordrecovery">Mot de passe 
+            <span style="font-weight: 700;">oublié</span>?</a>');
     ?>
 </main>
 
 <!-- Pied de page -->
 <?php
-echo makeFooter();
+echo \cardback\component\page\makeFooter();
 ?>

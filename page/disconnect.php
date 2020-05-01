@@ -1,4 +1,3 @@
 <?php
-
-disconnectAccount();
-redirect();
+\cardback\system\disconnectAccount();
+\cardback\utility\redirect();

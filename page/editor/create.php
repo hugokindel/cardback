@@ -1,5 +1,5 @@
 <?php
-checkIsConnectedToAccount();
+\cardback\system\checkAccountConnection(TRUE);
 
 $error = "";
 $nameIssue = FALSE;
@@ -7,7 +7,7 @@ $difficultyIssue = FALSE;
 $themeIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!checkName($_POST["name"])) {
+    if (!\cardback\utility\checkName($_POST["name"])) {
         $error .= "<br>- Veuillez entrer un nom valide.";
         $nameIssue = TRUE;
     }
@@ -23,10 +23,14 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        $result = createPack($_SESSION["accountId"], $_POST["name"], $_POST["description"], $_POST["difficulty"], $_POST["theme"]);
+        $result = \cardback\system\createPack($_SESSION["accountId"],
+            $_POST["name"],
+            $_POST["description"],
+            $_POST["difficulty"],
+            $_POST["theme"]);
 
         if ($result[0] == TRUE) {
-            redirectToEditor(getLastPackId()[1]);
+            \cardback\utility\redirect("editor?id=".\cardback\database\selectMaxId("packs")[1]);
         } else {
             $error .= "<br>- ".$result[1];
 
@@ -35,33 +39,49 @@ if (isset($_POST["submit"])) {
     }
 }
 
-require_once 'core/component/default/textbox.php';
-require_once 'core/component/default/select.php';
-require_once 'core/component/default/form.php';
-require_once 'core/component/page/footer.php';
-
-changeTitle("Création d'un paquet");
+\cardback\utility\changeTitle("Création d'un paquet");
 ?>
 
 <!-- Contenu principal de la page -->
 <main id="main-with-footer">
     <?php
-    echo makeForm('Création d\'un paquet', 'Créer',
+    echo \cardback\component\makeForm('Création d\'un paquet', 'Créer',
         ($error !== "" ? '<p class="form-label-error">􀁡 Création impossible!'.$error.'</p>' : "").
         '<form method="post" id="page-form">
-            '.makeTextboxWithAccessory("name", "text", "Nom", "􀅯",
-                isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox", 50).'
+            '.\cardback\component\makeTextboxWithAccessory(
+                "name",
+                "text",
+                "Nom",
+                "􀅯",
+                isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox",
+                50).'
             <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir entre 2 et 50 caractères.</h6>'
-             .makeTextboxWithAccessory("description", "text", "Description", "􀌄",
-            isset($_POST["description"]) ? $_POST["description"] : "", FALSE, "form-textbox", 255).'
+            .\cardback\component\makeTextboxWithAccessory(
+                "description",
+                "text",
+                "Description",
+                "􀌄",
+                isset($_POST["description"]) ? $_POST["description"] : "", FALSE, "form-textbox",
+                255).'
             <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Optionnel, il peut contenir au maximum 255 caractères.</h6>'
-             .makeSelectWithAccessory("difficulty", "􀛸", "Difficulté", ["Facile", "Moyen", "Difficile"], isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue, "form-select")
-             .makeSelectWithAccessory("theme", "􀈕", "Thème", ["Informatique", "Mathématiques", "Géographie", "Histoire", "Langues", "Divertissement", "Autres"], isset($_POST["theme"]) ? $_POST["theme"] : "", $themeIssue, "form-select").'
+            .\cardback\component\makeSelectWithAccessory(
+                "difficulty",
+                "􀛸",
+                "Difficulté",
+                ["Facile", "Moyen", "Difficile"],
+                isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue,
+                "form-select")
+            .\cardback\component\makeSelectWithAccessory(
+                "theme",
+                "􀈕",
+                "Thème",
+                ["Informatique", "Mathématiques", "Géographie", "Histoire", "Langues", "Divertissement", "Autres"],
+                isset($_POST["theme"]) ? $_POST["theme"] : "",$themeIssue, "form-select").'
         </form>');
     ?>
 </main>
 
 <!-- Pied de page -->
 <?php
-echo makeFooter();
+echo \cardback\component\page\makeFooter();
 ?>

@@ -1,17 +1,18 @@
 <?php
-checkIsConnectedToAccount();
+\cardback\system\checkAccountConnection(TRUE);
 
-$firstId = getFirstPackId();
-$lastId = getLastPackId();
-$pack = getPack($_GET["id"])[1];
+$firstId = \cardback\database\selectMinId("packs");
+$lastId = \cardback\database\selectMaxId("packs");
+$pack = \cardback\system\getPack($_GET["id"])[1];
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"] || $pack["published"] == 0) {
-    redirectTo404();
+if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] ||
+    $lastId[1] < $_GET["id"] || $pack["published"] == 0) {
+    \cardback\utility\redirect("404");
 }
 
-if (isset($_POST) && isset($_POST["replay"])) {
-    $cards = getAllCardsOfPack($_GET["id"]);
+$cards = \cardback\system\getAllCardsOfPack($_GET["id"]);
 
+if (isset($_POST) && isset($_POST["replay"])) {
     unset($_SESSION["game-".$_GET["id"]]);
 
     foreach($cards as $card) {
@@ -19,36 +20,30 @@ if (isset($_POST) && isset($_POST["replay"])) {
         unset($_SESSION["game-".$_GET["id"]."-answer"]);
     }
 
-    redirect("play?id=".$_GET["id"]);
+    \cardback\utility\redirect("play?id=".$_GET["id"]);
 }
 
-require_once 'core/component/page/title.php';
-require_once 'core/component/page/search.php';
-require_once 'core/component/page/sidebar.php';
-require_once 'core/component/page/toolbar.php';
-require_once "core/component/default/card.php";
-
-changeTitle($pack["name"]);
-
-$cards = getAllCardsOfPack($_GET["id"]);
+\cardback\utility\changeTitle($pack["name"]);
 ?>
 
 <main>
     <?php
-    echo makeSidebar(-1);
+    echo \cardback\component\page\makeSidebar(-1);
     ?>
 
     <div id="page-main">
         <div id="content-title-container">
             <?php
-            echo makeSearchBar("Chercher un de vos paquet ou un thème");
+            echo \cardback\component\page\makeSearchBar("Chercher un de vos paquet ou un thème");
             ?>
         </div>
 
         <?php
-        echo makeToolbar(TRUE, !isAuthorOfPack($_SESSION["accountId"], $pack["id"]) ? '' : '
+        echo \cardback\component\page\makeToolbar(TRUE,
+            !\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $pack["id"]) ? '' : '
             <form method="post" id="remove-pack-form">
-                <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack" value="Supprimer le paquet" />
+                <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack"
+                value="Supprimer le paquet" />
             </form>');
         ?>
 
@@ -57,7 +52,8 @@ $cards = getAllCardsOfPack($_GET["id"]);
                 <div class="grid-container">
                     <div>
                         <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                        <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
+                        <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
+                            <?php echo count($cards) ?> cartes</h4>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
                         <?php
@@ -65,18 +61,22 @@ $cards = getAllCardsOfPack($_GET["id"]);
                             ?>
                             <form method="post" id="play-form">
                                 <input type="hidden" name="editPack" value="Éditer" />
-                                <a id="right-toolbar-main-button" class="link-main" href="<?php echo $baseUrl ?>/play?id=<?php echo $_GET["id"] ?>">Jouer</a>
+                                <a id="right-toolbar-main-button" class="link-main"
+                                   href="<?php echo $serverUrl ?>/play?id=<?php echo $_GET["id"] ?>">Jouer</a>
                             </form>
                             <?php
                         } else {
                             ?>
                             <form method="post" id="replay-form">
                                 <input type="hidden" name="editPack" value="Éditer" />
-                                <input type="submit" id="right-toolbar-main-button" class="button-main" name="replay" value="Rejouer"/>
+                                <input type="submit" id="right-toolbar-main-button" class="button-main" name="replay"
+                                    value="Rejouer"/>
                             </form>
                             <form method="post" id="results-form">
                                 <input type="hidden" name="editPack" value="Éditer" />
-                                <a id="right-toolbar-main-button" class="link-main" href="<?php echo $baseUrl ?>/result?id=<?php echo $_GET["id"] ?>">Voir mes résultats</a>
+                                <a id="right-toolbar-main-button" class="link-main"
+                                    href="<?php echo $serverUrl ?>/result?id=<?php echo $_GET["id"] ?>">
+                                    Voir mes résultats</a>
                             </form>
                             <?php
                         }
@@ -88,7 +88,8 @@ $cards = getAllCardsOfPack($_GET["id"]);
 
             <section>
                 <h3>Informations supplémentaires</h3>
-                <h4 style="font-weight: 500;">Créé le <span style="font-weight: 600;"><?php echo strftime("%e %B %G", strtotime($pack["creationDate"])) ?></span></h4>
+                <h4 style="font-weight: 500;">Créé le <span style="font-weight: 600;">
+                        <?php echo strftime("%e %B %G", strtotime($pack["creationDate"])) ?></span></h4>
                 <h4 style="font-weight: 500;">Par <span style="font-weight: 600;"><?php echo $pack["author"] ?></span></h4>
             </section>
             <br>

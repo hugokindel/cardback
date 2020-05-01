@@ -1,4 +1,4 @@
-<?php
+<?php namespace cardback\component;
 
 function makeTextbox($name, $type, $placeholder, $value = "", $error = FALSE, $maxlength = 0) {
     return '

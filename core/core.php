@@ -8,3 +8,5 @@ require_once "database/database.php";
 require_once "system/system.php";
 // Importe le contenu de "cardback\utility"
 require_once "utility/utility.php";
+// Importe le contenu de "cardback\component"
+require_once "component/component.php";

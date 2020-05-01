@@ -1,5 +1,5 @@
 <?php
-checkIsConnectedToAccount();
+\cardback\system\checkAccountConnection(TRUE);
 
 $error = "";
 
@@ -9,31 +9,26 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        createFeedback($_SESSION["accountId"], $_POST["message"], isset($_POST["recommended"]));
+        \cardback\system\createFeedback($_SESSION["accountId"], $_POST["message"], isset($_POST["recommended"]));
 
-        redirectToHome();
+        \cardback\utility\redirect("home");
     } else {
-        redirect("feedback?error=".urlencode($error)."&recommended=".(isset($_POST["recommended"]) ? "1" : "0"));
+        \cardback\utility\redirect(
+                "feedback?error=".urlencode($error)."&recommended=".(isset($_POST["recommended"]) ? "1" : "0"));
     }
 }
 
-require_once 'core/component/page/title.php';
-require_once 'core/component/page/sidebar.php';
-require_once 'core/component/page/toolbar.php';
-require_once 'core/component/page/search.php';
-require_once 'core/component/default/textbox.php';
-
-changeTitle("Feedback");
+\cardback\utility\changeTitle("Feedback");
 ?>
 
 <main>
     <?php
-    echo makeSidebar(4);
+    echo \cardback\component\page\makeSidebar(4);
     ?>
 
     <div id="page-main">
         <?php
-        echo makeToolbar();
+        echo \cardback\component\page\makeToolbar();
         ?>
 
         <div id="content-title-container">
@@ -55,16 +50,22 @@ changeTitle("Feedback");
                     ?>
                     <div style="width: 100%; margin-bottom: 10px;">
                         <?php
-                        echo makeTextboxMultiline("message", "text", "Écrivez votre avis (5000 caractères maximum)", "", isset($_GET["error"]), 5000);
+                        echo \cardback\component\makeTextboxMultiline(
+                            "message",
+                            "text",
+                            "Écrivez votre avis (5000 caractères maximum)",
+                            "", isset($_GET["error"]), 5000);
                         ?>
                     </div>
                     <div style="width: 100%; margin-bottom: 20px;">
                         <label class="checkbox-label">Recommanderiez-vous ce site à un proche?
-                            <input type="checkbox" name="recommended"<?php echo isset($_GET["recommended"]) && $_GET["recommended"] == 1 ? " checked" : "" ?>>
+                            <input type="checkbox" name="recommended"<?php
+                            echo isset($_GET["recommended"]) && $_GET["recommended"] == 1 ? " checked" : "" ?>>
                             <span class="checkmark"></span>
                         </label>
                     </div>
-                    <input class="button-main" type="submit" form="feedback-form" name="submit" value="Envoyer" style="margin: 0;" />
+                    <input class="button-main" type="submit" form="feedback-form" name="submit" value="Envoyer"
+                        style="margin: 0;" />
                 </form>
             </section>
         </article>

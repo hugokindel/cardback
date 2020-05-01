@@ -1,4 +1,4 @@
-<?php
+<?php namespace cardback\component\page;
 
 function makeFooter() {
     return '

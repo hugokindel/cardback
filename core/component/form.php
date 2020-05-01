@@ -1,14 +1,15 @@
-<?php
+<?php namespace cardback\component;
+
 function makeForm($descriptionText, $buttonText, $content, $cancelUrl = "") {
-    global $baseUrl;
+    global $serverUrl;
 
     if ($cancelUrl === "") {
-        $cancelUrl = $baseUrl;
+        $cancelUrl = $serverUrl;
     }
 
     return '
         <div class="form-main">
-            <a class="label-title1 form-label-title" href="'.$baseUrl.'">cardback</a>
+            <a class="label-title1 form-label-title" href="'.$serverUrl.'">cardback</a>
             <h3 class="form-label-description">'.$descriptionText.'</h3>
             
             '.$content.'

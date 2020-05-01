@@ -31,3 +31,7 @@ main {
 #cards {
     width: 778px;
 }
+
+.span-title {
+    font-weight: 900;
+}

@@ -1,41 +1,34 @@
 <?php
-checkIsConnectedToAccount();
+\cardback\system\checkAccountConnection(TRUE);
 
 if (!isset($_GET["search"])) {
-    redirect("explore");
+    \cardback\utility\redirect("explore");
 }
 
-require_once 'core/component/page/title.php';
-require_once 'core/component/page/sidebar.php';
-require_once 'core/component/page/toolbar.php';
-require_once 'core/component/page/search.php';
-require_once 'core/component/default/textbox.php';
-require_once "core/component/default/card.php";
-
-changeTitle("Recherche de « ".$_GET["search"]." »");
-
-$data = getAccount($_SESSION["accountId"])[1];
+\cardback\utility\changeTitle("Recherche de « ".$_GET["search"]." »");
 ?>
 
 <main>
     <?php
-    echo makeSidebar(-1);
+    echo \cardback\component\page\makeSidebar(-1);
     ?>
 
     <div id="page-main">
         <div id="content-title-container">
             <?php
-            echo makeSearchBar("Chercher un de vos paquet ou un thème", $_GET["search"]);
+            echo \cardback\component\page\makeSearchBar(
+                    "Chercher un de vos paquet ou un thème",
+                    $_GET["search"]);
             ?>
         </div>
 
         <?php
-        echo makeToolbar();
+        echo \cardback\component\page\makeToolbar();
         ?>
 
         <article id="content-main">
             <?php
-            $packs = getAllPublishedPacks();
+            $packs = \cardback\system\getAllPacks(1);
 
             if (count($packs) > 0):
                 ?>
@@ -44,7 +37,11 @@ $data = getAccount($_SESSION["accountId"])[1];
                     <div class="cards-container">
                         <?php
                         foreach ($packs as $pack) {
-                            echo makeCardDetailed($pack["name"], $pack["author"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/pack?id=".$pack["id"]);
+                            echo \cardback\component\makeCardDetailed(
+                                $pack["name"],
+                                $pack["author"],
+                                \cardback\utility\getFormatedDate($pack["creationDate"]),
+                                $serverUrl."/pack?id=".$pack["id"]);
                         }
                         ?>
                     </div>

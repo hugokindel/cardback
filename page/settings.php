@@ -1,21 +1,16 @@
 <?php
-checkIsConnectedToAccount();
-
-require_once 'core/component/page/title.php';
-require_once 'core/component/page/sidebar.php';
-require_once 'core/component/page/toolbar.php';
-
-changeTitle("Paramètres");
+\cardback\system\checkAccountConnection(TRUE);
+\cardback\utility\changeTitle("Paramètres");
 ?>
 
 <main>
     <?php
-    echo makeSidebar(3);
+    echo \cardback\component\page\makeSidebar(3);
     ?>
 
     <div id="page-main">
         <?php
-        echo makeToolbar();
+        echo \cardback\component\page\makeToolbar();
         ?>
 
         <article id="content-main">

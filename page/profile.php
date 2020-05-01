@@ -1,38 +1,30 @@
 <?php
-checkIsConnectedToAccount();
+\cardback\system\checkAccountConnection(TRUE);
 
-$firstId = getFirstUserId();
-$lastId = getLastUserId();
+$firstId = \cardback\database\selectMinId("users");
+$lastId = \cardback\database\selectMaxId("users");
 
-if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"]) {
-    redirectTo404();
+if (!isset($_GET["id"]) || $firstId[0] == FALSE || $lastId[0] == FALSE || $_GET["id"] < $firstId[1] ||
+    $lastId[1] < $_GET["id"]) {
+    \cardback\utility\redirect("404");
 }
 
-require_once "core/component/page/title.php";
-require_once "core/component/page/sidebar.php";
-require_once "core/component/page/toolbar.php";
-require_once "core/component/page/search.php";
-require_once "core/component/default/textbox.php";
-require_once "core/component/default/card.php";
-
-changeTitle("Profil");
-
-$data = getAccount($_GET["id"])[1];
+\cardback\utility\changeTitle("Profil");
 ?>
 <main>
     <?php
-    echo makeSidebar(2);
+    echo \cardback\component\page\makeSidebar(2);
     ?>
 
     <div id="page-main">
         <div id="content-title-container">
             <?php
-            echo makeSearchBar("Chercher un de vos paquet ou un thème");
+            echo \cardback\component\page\makeSearchBar("Chercher un de vos paquet ou un thème");
             ?>
         </div>
 
         <?php
-        echo makeToolbar();
+        echo \cardback\component\page\makeToolbar();
         ?>
 
         <article id="content-main">
@@ -40,8 +32,10 @@ $data = getAccount($_GET["id"])[1];
                 <div style="display: flex; align-items: center; justify-content: center;">
                     <img id="avatar-image" src="/res/image/default-avatar.png" alt="Avatar">
                     <div style="margin-left: 32px;">
-                        <h1><?php echo $data["firstName"]." ".$data["lastName"]; ?></h1>
-                        <h4 style="margin-left: 1px;"><?php echo $data["admin"] == 0 ? "Utilisateur" : "Administrateur"; ?></h4>
+                        <h1><?php echo $accountData["firstName"]." ".$accountData["lastName"]; ?></h1>
+                        <h4 style="margin-left: 1px;"><?php echo $accountData["admin"] == 0 ?
+                                "Utilisateur" :
+                                "Administrateur"; ?></h4>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
                         <?php
@@ -64,17 +58,21 @@ $data = getAccount($_GET["id"])[1];
 
             <section>
                 <h3>Informations</h3>
-                <h4 style="font-weight: 500;">Arrivé le <span style="font-weight: 600;"><?php echo strftime("%e %B %G", strtotime($data["creationDate"])); ?></span>.</h4>
-                <h4 style="font-weight: 500;">Vu pour la dernière fois le <span style="font-weight: 600;"><?php echo strftime("%e %B %G", strtotime($data["lastConnectionDate"])); ?></span>.</h4>
+                <h4 style="font-weight: 500;">Arrivé le <span style="font-weight: 600;">
+                    <? echo \cardback\utility\getFormatedDate($accountData["creationDate"]); ?></span>.
+                </h4>
+                <h4 style="font-weight: 500;">Vu pour la dernière fois le <span style="font-weight: 600;">
+                    <?php echo \cardback\utility\getFormatedDate($accountData["lastConnectionDate"]); ?></span>.
+                </h4>
             </section>
             <br>
 
             <?php
-            if ($data["description"] != ""):
+            if ($accountData["description"] != ""):
             ?>
             <section>
                 <h3>Description</h3>
-                <h4 style="font-weight: 500;"><?php echo $data["description"] ?></h4>
+                <h4 style="font-weight: 500;"><?php echo $accountData["description"] ?></h4>
             </section>
             <br>
             <?php
@@ -84,43 +82,51 @@ $data = getAccount($_GET["id"])[1];
             <!-- TODO: Statistiques -->
 
             <?php
-            $unpublishedPacks = getAllPublishedPacksOfUser($_GET["id"]);
+            $unpublishedPacks = \cardback\system\getAllPacksOfUser($_GET["id"], 1)[1];
 
-            if (count($unpublishedPacks) > 0):
+            if (count($unpublishedPacks) > 0) {
                 ?>
                 <section class="section-cards">
                     <h3>Paquets de cartes</h3>
                     <div class="cards-container">
                         <?php
                         foreach ($unpublishedPacks as $pack) {
-                            echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/pack?id=".$pack["id"]);
+                            echo \cardback\component\makeCardDetailed(
+                                $pack["name"],
+                                $accountData["firstName"]." ".$accountData["lastName"],
+                                \cardback\utility\getFormatedDate($pack["creationDate"]),
+                                $serverUrl."/pack?id=".$pack["id"]);
                         }
                         ?>
                     </div>
                 </section>
                 <br>
-            <?php
-            endif;
+                <?php
+            }
             ?>
 
             <?php
-            $unpublishedPacks = getAllUnpublishedPacksOfUser($_SESSION["accountId"]);
+            $unpublishedPacks = \cardback\system\getAllPacksOfUser($_SESSION["accountId"], 0);
 
-            if (count($unpublishedPacks) > 0):
-            ?>
-            <section class="section-cards">
-                <h3>Paquets de cartes en cours de création</h3>
-                <div class="cards-container">
-                    <?php
-                    foreach ($unpublishedPacks as $pack) {
-                        echo makeCardDetailed($pack["name"], $data["firstName"]." ".$data["lastName"], strftime("%e %B %G", strtotime($pack["creationDate"])), $baseUrl."/editor?id=".$pack["id"], "Voulez-vous continuer à créer ce paquet?");
-                    }
-                    ?>
-                </div>
-            </section>
-            <br>
-            <?php
-            endif;
+            if (count($unpublishedPacks) > 0) {
+                ?>
+                <section class="section-cards">
+                    <h3>Paquets de cartes en cours de création</h3>
+                    <div class="cards-container">
+                        <?php
+                        foreach ($unpublishedPacks as $pack) {
+                            echo \cardback\component\makeCardDetailed($pack["name"],
+                                $accountData["firstName"]." ".$accountData["lastName"],
+                                \cardback\utility\getFormatedDate($pack["creationDate"]),
+                                $serverUrl."/editor?id=".$pack["id"],
+                                "Voulez-vous continuer à créer ce paquet?");
+                        }
+                        ?>
+                    </div>
+                </section>
+                <br>
+                <?php
+            }
             ?>
         </article>
     </div>

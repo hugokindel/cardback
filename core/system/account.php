@@ -4,7 +4,7 @@
 function _checkAccountExists($email) {
     $result = \cardback\database\select("users",
         "id",
-        "WHERE name = '$email'");
+        "WHERE email = '$email'");
 
     return $result[0] == 1;
 }
@@ -81,7 +81,15 @@ function removeAccount($userId) {
 
 // Retourne le contenu d'un compte
 function getAccount($userId) {
-    return \cardback\database\select("users", "", "WHERE id = '$userId'");
+    $result = \cardback\database\select("users", "", "WHERE id = '$userId'");
+
+    if ($result[0] == 0) {
+        return $result;
+    }
+
+    $result[1][0]["name"] = $result[1][0]["firstName"]." ".$result[1][0]["lastName"];
+
+    return $result;
 }
 
 // Vérifie si un compte est connecté, ou non. Et redirige au bon endroit du site selon les cas

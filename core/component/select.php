@@ -1,6 +1,4 @@
-<?php
-
-// TODO: Add "tabbable"
+<?php namespace cardback\component;
 
 function makeSelectWithAccessory($name, $accessory, $placeholder, $options, $value = "", $error = FALSE, $class = "") {
     $optionsInnerHtml = "";
