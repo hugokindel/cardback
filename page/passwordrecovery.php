@@ -11,7 +11,13 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        // TODO: récupération d'email
+        $to = "kindelhugo.per@gmail.com";
+        $subject = "Test mail";
+        $message = "Hello! This is a simple email message.";
+        $from = "info@cardback.tech";
+        $headers = "From:" . $from;
+        mail($to,$subject,$message,$headers);
+        echo "Mail Sent.";
     }
 }
 
