@@ -2,7 +2,7 @@
 
 function makeToolbar($showCreatePack = TRUE, $customButtons = "") {
     global $serverUrl;
-    global $accountData;
+    global $account;
 
     return '
         <div id="right-toolbar">'
@@ -18,8 +18,8 @@ function makeToolbar($showCreatePack = TRUE, $customButtons = "") {
                         <a style="display: flex; justify-content: center; align-items: center; cursor: pointer; padding: 10px 20px; text-decoration: none; color: black;" href="'.$serverUrl.'/profile?id='.$_SESSION["accountId"].'">
                             <img id="right-toolbar-menu-button-avatar" src="'.$serverUrl.'/res/image/default-avatar.png" alt="Avatar">
                             <div style="padding-left: 16px;">
-                                <h4 style="font-weight: 600;">'.$accountData["firstName"]." ".$accountData["lastName"].'</h4>
-                                <h5 style="font-weight: 400;">'.$accountData["email"].'</h5>
+                                <h4 style="font-weight: 600;">'.$account["name"].'</h4>
+                                <h5 style="font-weight: 400;">'.$account["email"].'</h5>
                             </div>
                         </a>
                     </div>

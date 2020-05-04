@@ -21,6 +21,8 @@ CREATE TABLE users(
     lastConnectionDate DATE NOT NULL,
     admin TINYINT(1) NOT NULL DEFAULT 0,
     description VARCHAR(255) NOT NULL DEFAULT '',
+    hideFirstName TINYINT(1) NOT NULL DEFAULT 0,
+    hideLastName TINYINT(1) NOT NULL DEFAULT 0,
 
     PRIMARY KEY(id),
     UNIQUE KEY(email)

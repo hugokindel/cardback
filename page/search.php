@@ -17,7 +17,7 @@ if (!isset($_GET["search"])) {
         <div id="content-title-container">
             <?php
             echo \cardback\component\page\makeSearchBar(
-                    "Chercher un de vos paquet ou un thème",
+                    "Chercher un paquet",
                     $_GET["search"]);
             ?>
         </div>
@@ -28,9 +28,9 @@ if (!isset($_GET["search"])) {
 
         <article id="content-main">
             <?php
-            $packs = \cardback\system\getAllPacks(1);
+            $packs = \cardback\system\searchPacks($_GET["search"]."%");
 
-            if ($packs[0] == 1 && count($packs[1]) > 0):
+            if ($packs[0] == 1 && count($packs[1]) > 0) {
                 ?>
                 <section class="section-cards">
                     <h3>Résultats</h3> <!-- TODO: pluriel -->
@@ -41,14 +41,24 @@ if (!isset($_GET["search"])) {
                                 $pack["name"],
                                 $pack["author"],
                                 \cardback\utility\getFormatedDate($pack["creationDate"]),
-                                $serverUrl."/pack?id=".$pack["id"]);
+                                $serverUrl . "/pack?id=" . $pack["id"]);
                         }
                         ?>
                     </div>
                 </section>
                 <br>
-            <?php
-            endif;
+                <?php
+            } else {
+                ?>
+                <section class="section-cards">
+                    <h3>Résultats</h3>
+                    <div class="cards-container">
+                        <h4 style="font-weight: 500;">Il n'y a aucun résultats à votre recherche!</h4>
+                    </div>
+                </section>
+                <br>
+                <?php
+            }
             ?>
         </article>
     </div>

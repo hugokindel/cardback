@@ -16,10 +16,10 @@ if (!file_exists($link.".php")) {
     $link = "page/404";
 }
 
-$accountData = NULL;
+$account = NULL;
 
 if (isset($_SESSION["accountId"])) {
-    $accountData = \cardback\system\getAccount($_SESSION["accountId"])[1][0];
+    $account = \cardback\system\getAccount($_SESSION["accountId"])[1][0];
 }
 ?>
 

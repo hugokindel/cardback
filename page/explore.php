@@ -11,7 +11,7 @@
     <div id="page-main">
         <div id="content-title-container">
             <?php
-            echo \cardback\component\page\makeSearchBar("Chercher un de vos paquet ou un thème");
+            echo \cardback\component\page\makeSearchBar();
             ?>
         </div>
 

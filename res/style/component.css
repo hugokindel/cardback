@@ -591,10 +591,13 @@ footer {
     position: absolute;
     float: right;
     right: 0;
+    top: 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    z-index: 99;
 }
 
 #right-toolbar-menu-button-avatar {
@@ -718,4 +721,72 @@ footer {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+}
+
+/* ---- Paramètres ---- */
+#content-settings-main {
+    position: fixed;
+    margin-left: -20px;
+    top: 0;
+    margin-top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#content-settings-main section {
+    height: 100%;
+    border-right: 1px solid #E6ECF0;
+}
+
+#content-settings-main section {
+    width: 100%;
+}
+
+.settings-top-category-container {
+    height: 48px;
+    line-height: 48px;
+    width: 100%;
+    border-bottom: 1px solid #E6ECF0;
+}
+
+.settings-top-category-container .settings-title {
+    font-weight: 800;
+    margin-left: 20px;
+}
+
+.settings-category-container {
+    height: 48px;
+    line-height: 48px;
+    width: 100%;
+    border-bottom: 1px solid #E6ECF0;
+}
+
+.settings-option-accessory {
+    font-weight: 500;
+    float: right;
+    margin-right: 20px;
+}
+
+.settings-category-container .settings-title {
+    font-weight: 700;
+    margin-left: 20px;
+}
+
+.settings-option-container {
+    height: 48px;
+    line-height: 48px;
+    width: 100%;
+    border-bottom: 1px solid #E6ECF0;
+    cursor: pointer;
+}
+
+.settings-option-container a {
+    text-decoration: none;
+}
+
+.settings-option-container .settings-title {
+    font-weight: normal;
+    font-size: 20px;
+    margin-left: 20px;
+    color: black;
 }

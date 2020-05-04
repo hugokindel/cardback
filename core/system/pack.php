@@ -23,6 +23,7 @@ function _associateAuthorToPack($packs) {
         $result = \cardback\system\getAccount($result[0]["userId"])[1][0];
 
         $pack["author"] = $result["firstName"]." ".$result["lastName"];
+        $pack["authorId"] = $result["id"];
 
         array_push($array, $pack);
     }
@@ -89,6 +90,16 @@ function changePack($packId, $name, $description, $difficulty, $theme) {
 
 // Supprime un paquet de cartes
 function removePack($packId) {
+    $result = getAllCardsOfPack($packId);
+
+    print_r($result);
+
+    if ($result[0] == 1) {
+        foreach ($result[1] as $card) {
+            removeCard($card["id"]);
+        }
+    }
+
     \cardback\database\delete("packs", "WHERE id = '$packId'");
 }
 
@@ -96,7 +107,7 @@ function removePack($packId) {
 function getPack($packId) {
     $result = \cardback\database\select("packs", "", "WHERE id = '$packId'");
 
-    if ($result == 0) {
+    if ($result[0] == 0) {
         return $result;
     } else {
         return [1, _associateAuthorToPack($result[1])];
@@ -109,7 +120,19 @@ function getAllPacks($published = -1) {
         "",
         ($published != -1 ? "WHERE published = $published" : ""));
 
-    if ($result == 0) {
+    if ($result[0] == 0) {
+        return $result;
+    } else {
+        return [1, _associateAuthorToPack($result[1])];
+    }
+}
+
+function searchPacks($name) {
+    $result = \cardback\database\select("packs",
+        "",
+        "WHERE published = 1 AND name LIKE '$name'");
+
+    if ($result[0] == 0) {
         return $result;
     } else {
         return [1, _associateAuthorToPack($result[1])];
@@ -123,7 +146,7 @@ function getAllPacksFromAWeek($published = -1) {
         "WHERE creationDate BETWEEN DATE_ADD(now(), INTERVAL -1 WEEK) AND now()"
             .($published != -1 ? " AND published = $published" : ""));
 
-    if ($result == 0) {
+    if ($result[0] == 0) {
         return $result;
     } else {
         return [1, _associateAuthorToPack($result[1])];

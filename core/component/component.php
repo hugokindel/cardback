@@ -15,9 +15,13 @@ require_once "textbox.php";
 require_once "page/footer.php";
 // Importe le contenu de l'élément correspondant à la barre de recherche
 require_once "page/searchBar.php";
+// Importe le contenu de l'élément correspondant aux catégories des paramètres
+require_once "page/settingsCategories.php";
 // Importe le contenu de l'élément correspondant à la barre latéral de gauche
 require_once "page/sidebar.php";
 // Importe le contenu de l'élément correspondant au titre "cardback"
 require_once "page/title.php";
 // Importe le contenu de l'élément correspondant à la barre d'outils de droite
 require_once "page/toolbar.php";
+// Importe le contenu de l'élément correspondant aux cartes de la FAQ
+require_once "page/faqCards.php";

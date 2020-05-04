@@ -75,7 +75,16 @@ function disconnectAccount() {
 
 // Supprime un compte
 function removeAccount($userId) {
+    $result = getAllPacksOfUser($userId);
+
+    if ($result[0] == 1) {
+        foreach ($result[1] as $pack) {
+            removePack($pack["id"]);
+        }
+    }
+
     \cardback\database\delete("users", "WHERE id = '$userId'");
+
     disconnectAccount();
 }
 

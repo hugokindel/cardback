@@ -11,7 +11,7 @@
     <div id="page-main">
         <div id="content-title-container">
             <?php
-            echo \cardback\component\page\makeSearchBar("Chercher un de vos paquet ou un thème");
+            echo \cardback\component\page\makeSearchBar();
             ?>
         </div>
 
@@ -23,13 +23,34 @@
             <section style="width: 100%;">
                 <h2><?php echo (date("H") >= 19 ?
                             "Bonsoir" :
-                            "Bonjour").", ".$accountData["firstName"]." ".$accountData["lastName"] ?></h2>
+                            "Bonjour").", ".$account["name"] ?>!</h2>
             </section>
 
             <?php
-            $packs = \cardback\system\getAllPacksFromAWeek();
+            $packs = \cardback\system\getAllPacksOfUser($account["id"], 1);
 
-            if ($packs[0] == 1 && count($packs[1]) > 0):
+            if ($packs[0] == 0 || count($packs[1]) == 0) {
+                ?>
+                <section class="section-cards">
+                    <h3>Bienvenue sur <span style="font-weight: 900;">cardback</span>!</h3>
+                    <h4 style="font-weight: 500;">- Vous pouvez accéder aux différentes parties du site à l'aide du menu
+                        latéral à votre gauche.</h4>
+                    <h4 style="font-weight: 500;">- Si vous souhaitez créer un paquet de carte, l'éditeur est
+                        accessible à l'aide du bouton qui se situe<br> en haut à droite du site, vous ne pouvez pas le rater!</h4>
+                    <h4 style="font-weight: 500;">- Si vous avez ne serais-ce qu'une recommandation à nous faire, nous
+                        vous prions de bien vouloir nous<br> contacter par notre espace de feedback.</h4>
+                    <br>
+                    <h4 style="font-weight: 500;">Nous vous souhaitons un bon moment sur notre site.</h4>
+                </section>
+                <br>
+                <?php
+            }
+            ?>
+
+            <?php
+            $packs = \cardback\system\getAllPacksFromAWeek(1);
+
+            if ($packs[0] == 1 && count($packs[1]) > 0) {
                 ?>
                 <section class="section-cards">
                     <h3>Paquets créés depuis une semaine</h3>
@@ -40,14 +61,14 @@
                                 $pack["name"],
                                 $pack["author"],
                                 \cardback\utility\getFormatedDate($pack["creationDate"]),
-                                $serverUrl."/pack?id=".$pack["id"]);
+                                $serverUrl . "/pack?id=" . $pack["id"]);
                         }
                         ?>
                     </div>
                 </section>
                 <br>
-            <?php
-            endif;
+                <?php
+            }
             ?>
 
             <!-- TODO: Paquet créé depuis un mois -->

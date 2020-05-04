@@ -1,6 +1,6 @@
 <?php namespace cardback\component\page;
 
-function makeSearchBar($placeholder = "Chercher un paquet, un thème ou un auteur", $value = "", $showFilter = TRUE) {
+function makeSearchBar($placeholder = "Chercher un paquet", $value = "", $showFilter = FALSE) {
     return '
         <div id="search-main" '.($showFilter ? 'style="margin-top: 27px;"' : '').'>'
             .\cardback\component\makeTextboxWithAccessory("search", "text", $placeholder, "􀊫", $value)

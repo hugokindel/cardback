@@ -1,0 +1,21 @@
+/* ---- Contenu principal de la page ---- */
+main {
+    margin: 0 20px;
+}
+
+#main-with-footer {
+    margin-top: 150px;
+}
+
+#cards {
+    width: 778px;
+}
+
+button {
+    padding-top: 50px;
+    width: 770px;
+}
+
+.span-title {
+    font-weight: 900;
+}

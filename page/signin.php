@@ -54,10 +54,7 @@ if (isset($_POST["submit"])) {
                     isset($_POST["password"]) ? $_POST["password"] : "", $passwordIssue,
                     "form-textbox",
                     64).'
-            </form>
-
-        <a id="passwordforgotten-label" href="'.$serverUrl.'/passwordrecovery">Mot de passe 
-            <span style="font-weight: 700;">oublié</span>?</a>');
+            </form>');
     ?>
 </main>
 

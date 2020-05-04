@@ -34,7 +34,7 @@ if (isset($_POST) && isset($_POST["replay"])) {
     <div id="page-main">
         <div id="content-title-container">
             <?php
-            echo \cardback\component\page\makeSearchBar("Chercher un de vos paquet ou un thème");
+            echo \cardback\component\page\makeSearchBar();
             ?>
         </div>
 
@@ -90,7 +90,7 @@ if (isset($_POST) && isset($_POST["replay"])) {
                 <h3>Informations supplémentaires</h3>
                 <h4 style="font-weight: 500;">Créé le <span style="font-weight: 600;">
                         <?php echo strftime("%e %B %G", strtotime($pack["creationDate"])) ?></span></h4>
-                <h4 style="font-weight: 500;">Par <span style="font-weight: 600;"><?php echo $pack["author"] ?></span></h4>
+                <h4 style="font-weight: 500;">Par <a style="font-weight: 600; color: black; text-decoration: none;" href="<?php echo $serverUrl."/profile?id=".$pack["authorId"] ?>"><?php echo $pack["author"] ?></a></h4>
             </section>
             <br>
 

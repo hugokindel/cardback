@@ -92,7 +92,7 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
     <div id="page-main">
         <div id="content-title-container">
             <h2>Bonne chance, <span style="font-weight: 800;">
-                    <?php echo $accountData["firstName"]." ".$accountData["lastName"] ?>!</span></h2>
+                    <?php echo $account["name"] ?>!</span></h2>
         </div>
 
         <?php

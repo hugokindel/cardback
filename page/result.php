@@ -50,7 +50,7 @@ if (isset($_POST)) {
     <div id="page-main">
         <div id="content-title-container">
             <h2>Voici vos résultats, <span style="font-weight: 800;">
-                    <?php echo $accountData["firstName"]." ".$accountData["lastName"] ?>!</span></h2>
+                    <?php echo $account["name"] ?>!</span></h2>
         </div>
 
         <?php
