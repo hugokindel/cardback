@@ -24,16 +24,17 @@ if (!empty($_POST)) {
         }
 
         if ($error === "") {
-            $answerUser = strtolower(trim($_POST["acard-".$_POST["id"]], " "));
+            $answerUser = strtolower(str_replace(" ", "", $_POST["acard-".$_POST["id"]]));
             $answerDb = "";
 
             foreach($cards as $card) {
                 if ($card["id"] == $_POST["id"]) {
-                    $answerDb = strtolower(trim($card["answer"], " "));
+                    $answerDb = strtolower(str_replace(" ", "", $card["answer"]));
+                    break;
                 }
             }
 
-            if ($answerUser == $answerDb) {
+            if (preg_match('/'.$answerDb.'/', $answerUser) == TRUE) {
                 $_SESSION["game-".$_GET["id"]."-".$_POST["id"]] = 1;
                 $_SESSION["game-".$_GET["id"]."-".$_POST["id"]."-answer"] = $_POST["acard-".$_POST["id"]];
             } else {
