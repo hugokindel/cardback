@@ -774,7 +774,12 @@ footer {
 .settings-option-container .settings-title {
     font-weight: normal;
     font-size: 20px;
-    margin-left: 20px;
+    padding-left: 20px;
+}
+
+.settings-category-selected {
+    background-color: #1FCAAC;
+    color: black !important;
 }
 
 /* ---- */
@@ -812,6 +817,7 @@ footer {
 
 .radio-buttons-container input[type="radio"]:checked + label {
     background-color: #1FCAAC;
+    color: black;
 }
 
 .radio-buttons-container label:hover {

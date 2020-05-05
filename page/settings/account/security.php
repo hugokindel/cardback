@@ -26,7 +26,7 @@ if (isset($_POST)) {
 
         <article id="content-settings-main">
             <?php
-            echo \cardback\component\page\makeSettingsCategories();
+            echo \cardback\component\page\makeSettingsCategories(4);
             ?>
 
             <section style="width: 540px; position: fixed; top: 0;">

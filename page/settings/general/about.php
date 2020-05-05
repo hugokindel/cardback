@@ -15,7 +15,7 @@
 
         <article id="content-settings-main">
             <?php
-            echo \cardback\component\page\makeSettingsCategories();
+            echo \cardback\component\page\makeSettingsCategories(1);
             ?>
 
             <section style="width: 540px; position: fixed; top: 0;">
