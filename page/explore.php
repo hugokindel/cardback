@@ -26,13 +26,13 @@
             if ($packs[0] == 1 && count($packs[1]) > 0):
                 ?>
                 <section class="section-cards">
-                    <h3>Tout</h3>
+                    <h3 class="theme-default-text">Tout</h3>
                     <div class="cards-container">
                         <?php
                         foreach ($packs[1] as $pack) {
                             echo \cardback\component\makeCardDetailed(
                                 $pack["name"],
-                                $pack["author"],
+                                \cardback\utility\getAnonymousNameFromAccount($pack),
                                 \cardback\utility\getFormatedDate($pack["creationDate"]),
                                 $serverUrl."/pack?id=".$pack["id"]);
                         }

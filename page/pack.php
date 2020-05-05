@@ -12,15 +12,22 @@ if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < 
 
 $cards = \cardback\system\getAllCardsOfPack($_GET["id"]);
 
-if (isset($_POST) && isset($_POST["replay"])) {
-    unset($_SESSION["game-".$_GET["id"]]);
+if (isset($_POST)) {
+    if (isset($_POST["replay"])) {
+        unset($_SESSION["game-".$_GET["id"]]);
 
-    foreach($cards as $card) {
-        unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
-        unset($_SESSION["game-".$_GET["id"]."-answer"]);
+        foreach($cards as $card) {
+            unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
+            unset($_SESSION["game-".$_GET["id"]."-answer"]);
+        }
+
+        \cardback\utility\redirect("play?id=".$_GET["id"]);
+    } else if (isset($_POST["suppressPack"])) {
+        \cardback\system\removePack($_GET["id"]);
+        \cardback\utility\redirect("home");
+    } else if (isset($_POST["editPack"])) {
+        \cardback\utility\redirect("editor?id=".$_GET["id"]);
     }
-
-    \cardback\utility\redirect("play?id=".$_GET["id"]);
 }
 
 \cardback\utility\changeTitle($pack["name"]);
@@ -40,19 +47,22 @@ if (isset($_POST) && isset($_POST["replay"])) {
 
         <?php
         echo \cardback\component\page\makeToolbar(TRUE,
-            !\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $pack["id"]) ? '' : '
+            (\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $pack["id"]) || $account["admin"] == 1 ? '
             <form method="post" id="remove-pack-form">
                 <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack"
                 value="Supprimer le paquet" />
-            </form>');
+            </form>' : '').($account["admin"] == 1 ? '<form method="post" id="edit-pack-form">
+                <input type="submit" id="right-toolbar-main-button" class="button-main" name="editPack" style="margin-right: 20px;"
+                value="Éditer le paquet"/>
+            </form>' : ''));
         ?>
 
         <article id="content-main">
             <section>
                 <div class="grid-container">
                     <div>
-                        <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                        <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
+                        <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
+                        <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
@@ -87,10 +97,10 @@ if (isset($_POST) && isset($_POST["replay"])) {
             <br>
 
             <section>
-                <h3>Informations supplémentaires</h3>
-                <h4 style="font-weight: 500;">Créé le <span style="font-weight: 600;">
+                <h3 class="theme-default-text">Informations supplémentaires</h3>
+                <h4 class="theme-default-text" style="font-weight: 500;">Créé le <span style="font-weight: 600;">
                         <?php echo strftime("%e %B %G", strtotime($pack["creationDate"])) ?></span></h4>
-                <h4 style="font-weight: 500;">Par <a style="font-weight: 600; color: black; text-decoration: none;" href="<?php echo $serverUrl."/profile?id=".$pack["authorId"] ?>"><?php echo $pack["author"] ?></a></h4>
+                <h4 class="theme-default-text" style="font-weight: 500;">Par <a class="theme-default-text" style="font-weight: 600; text-decoration: none;" href="<?php echo $serverUrl."/profile?id=".$pack["authorId"] ?>"><?php echo \cardback\utility\getAnonymousNameFromAccount($pack) ?></a></h4>
             </section>
             <br>
 
@@ -98,8 +108,8 @@ if (isset($_POST) && isset($_POST["replay"])) {
             if ($pack["description"] != "") {
                 ?>
                 <section>
-                    <h3>Description</h3>
-                    <h4 style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
+                    <h3 class="theme-default-text">Description</h3>
+                    <h4 class="theme-default-text" style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
                 </section>
                 <br>
                 <?php

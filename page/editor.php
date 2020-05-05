@@ -6,12 +6,10 @@ $lastId = \cardback\database\selectMaxId("packs");
 $pack = \cardback\system\getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
-    $lastId[1] < $_GET["id"] || !\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) ||
-    $pack["published"] == 1) {
+    $lastId[1] < $_GET["id"] || (!\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
+    ($pack["published"] == 1 && $account["admin"] == 0)) {
     \cardback\utility\redirect("404");
 }
-
-// TODO: Persistance
 
 $error = "";
 $errorOnCards = [];
@@ -60,7 +58,6 @@ if (!empty($_POST)) {
             \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=1");
         } else {
             \cardback\system\publishPack($_GET["id"]);
-
             \cardback\utility\redirect("home");
         }
     } else if (isset($_POST["suppressPack"])) {
@@ -69,6 +66,8 @@ if (!empty($_POST)) {
         \cardback\utility\redirect("home");
     } else if (isset($_POST["editPack"])) {
         \cardback\utility\redirect("editor/modify?id=".$_GET["id"]);
+    } else if (isset($_POST["unpublishPack"])) {
+        \cardback\system\unpublishPack($_GET["id"]);
     }
 
     \cardback\utility\redirect("editor?id=".$_GET["id"]);
@@ -84,7 +83,7 @@ if (!empty($_POST)) {
 
     <div id="page-main">
         <div id="content-title-container">
-            <h2>Créateur de paquet</h2>
+            <h2 class="theme-default-text">Créateur de paquet</h2>
         </div>
 
         <?php
@@ -94,8 +93,8 @@ if (!empty($_POST)) {
                 value="Supprimer le paquet" />
             </form>
             <form method="post" id="remove-pack-form">
-                <input type="submit" id="right-toolbar-main-button" class="button-main" name="publishPack"
-                value="Publier le paquet"/>
+                <input type="submit" id="right-toolbar-main-button" class="button-main" name="'.($pack["published"] == 1 ? 'un' : '').'publishPack"
+                value="'.($pack["published"] == 1 ? 'Dép' : 'P').'ublier le paquet"/>
             </form>');
         ?>
 
@@ -103,15 +102,15 @@ if (!empty($_POST)) {
             <section>
                 <div class="grid-container">
                     <div>
-                        <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                        <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
+                        <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
+                        <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
                         <form method="post" id="edit-pack-form">
                             <input type="hidden" name="editPack" value="Éditer" />
                             <div style="display: flex; align-items: center; justify-content: center;" onclick="document.forms['edit-pack-form'].submit();">
-                                <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
+                                <div style="font-size: 30px; position: absolute;">􀛷</div>
                                 <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
                             </div>
                         </form>
@@ -124,8 +123,8 @@ if (!empty($_POST)) {
             if ($pack["description"] != "") {
                 ?>
                 <section>
-                    <h3>Description</h3>
-                    <h4 style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
+                    <h3 class="theme-default-text">Description</h3>
+                    <h4 class="theme-default-text" style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
                 </section>
                 <br>
                 <?php
@@ -133,7 +132,7 @@ if (!empty($_POST)) {
             ?>
 
             <section class="section-cards">
-                <h4>Cartes</h4>
+                <h4 class="theme-default-text">Cartes</h4>
                 <?php if (isset($_GET["errorType"]) && $_GET["errorType"] == 2) {
                     ?>
                     <div style="width: 100%; margin: 20px 10px;">
@@ -161,7 +160,7 @@ if (!empty($_POST)) {
                             if ($value["confirmed"] == 1) {
                                 ?>
                                 <div style="display: flex; align-items: center; justify-content: center;">
-                                    <h4>Question validé!</h4>
+                                    <h4 class="theme-default-text">Question validé!</h4>
                                 </div>
                                 <?php
                             }

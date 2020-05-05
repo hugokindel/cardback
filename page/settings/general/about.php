@@ -20,11 +20,11 @@
 
             <section style="width: 540px; position: fixed; top: 0;">
                 <div class="settings-top-category-container">
-                    <h3 class="settings-title">À propos de <span style="font-weight: 900;">cardback</span></h3>
+                    <h3 class="settings-title theme-default-text">À propos de <span style="font-weight: 900;">cardback</span></h3>
                 </div>
 
                 <div class="settings-option-container">
-                    <a href="<?php echo $serverUrl; ?>/faq"><h3 class="settings-title">Foire aux questions</h3></a>
+                    <a href="<?php echo $serverUrl; ?>/faq"><h3 class="settings-title theme-default-text">Foire aux questions</h3></a>
                 </div>
             </section>
         </article>

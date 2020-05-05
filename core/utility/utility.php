@@ -46,3 +46,19 @@ function checkName($name) {
 function getFormatedDate($date) {
     return strftime("%e %B %G", strtotime($date));
 }
+
+function getAnonymousName($firstName, $lastName, $hideFirstName, $hideLastName) {
+    if ($hideFirstName == 1 && $hideLastName == 1) {
+        return substr($firstName, 0, 1).".".substr($lastName, 0, 1).".";
+    } else if ($hideFirstName == 1) {
+        return substr($firstName, 0, 1).". ".$lastName;
+    } else if ($hideLastName == 1) {
+        return $firstName." ".substr($lastName, 0, 1).".";
+    } else {
+        return $firstName." ".$lastName;
+    }
+}
+
+function getAnonymousNameFromAccount($account) {
+    return getAnonymousName($account["firstName"], $account["lastName"], $account["hideFirstName"], $account["hideLastName"]);
+}

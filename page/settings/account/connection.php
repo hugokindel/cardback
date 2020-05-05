@@ -20,11 +20,11 @@
 
             <section style="width: 540px; position: fixed; top: 0;">
                 <div class="settings-top-category-container">
-                    <h3 class="settings-title">Connexion</h3>
+                    <h3 class="settings-title theme-default-text">Connexion</h3>
                 </div>
 
                 <div class="settings-option-container">
-                    <a href="<?php echo $serverUrl; ?>/disconnect"><h3 class="settings-title">Se déconnecter</h3></a>
+                    <a href="<?php echo $serverUrl; ?>/disconnect"><h3 class="settings-title theme-default-text">Se déconnecter</h3></a>
                 </div>
 
                 <div class="settings-option-container">

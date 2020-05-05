@@ -9,8 +9,8 @@ function makeForm($descriptionText, $buttonText, $content, $cancelUrl = "") {
 
     return '
         <div class="form-main">
-            <a class="label-title1 form-label-title" href="'.$serverUrl.'">cardback</a>
-            <h3 class="form-label-description">'.$descriptionText.'</h3>
+            <a class="label-title1 form-label-title theme-default-text" href="'.$serverUrl.'">cardback</a>
+            <h3 class="form-label-description theme-default-text">'.$descriptionText.'</h3>
             
             '.$content.'
     

@@ -50,7 +50,7 @@ function setupSelectComponent() {
         selectSelectedDiv.setAttribute("tabindex", "0");
         selectSelectedDiv.innerHTML = '' +
             '<p class="select-selected-icon">' + selectRootDiv[i].getAttribute("data-icon") + '</p>' +
-            '<p class="select-selected-text ' + (selectElement.selectedIndex > 0 && selectElement.options[selectElement.selectedIndex].selected ? ' select-selectect-text-choosen' : '') + '">' + selectElement.options[selectElement.selectedIndex].innerHTML + '</p>' +
+            '<p class="select-selected-text ' + (selectElement.selectedIndex > 0 && selectElement.options[selectElement.selectedIndex].selected ? ' select-selected-text-choosen' : '') + '">' + selectElement.options[selectElement.selectedIndex].innerHTML + '</p>' +
             '<p class="select-selected-arrow">􀆈</p>';
 
         if (selectRootDiv[i].classList.contains("select-error")) {
@@ -85,7 +85,7 @@ function setupSelectComponent() {
                     if (selectElement.options[i].innerHTML === this.innerHTML) {
                         selectElement.selectedIndex = i;
                         previousSibling.getElementsByClassName("select-selected-text")[0].innerHTML = this.innerHTML;
-                        previousSibling.getElementsByClassName("select-selected-text")[0].className = "select-selected-text select-selectect-text-choosen";
+                        previousSibling.getElementsByClassName("select-selected-text")[0].className = "select-selected-text select-selected-text-choosen theme-default-text";
 
                         selectListDiv = this.parentNode.getElementsByClassName("select-list-selected");
 

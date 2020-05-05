@@ -50,7 +50,7 @@ function makeCardPlus() {
             <div class="card-main">
                 <div class="card-front">
                     <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
-                    <div class="card-text-middle" style="font-size: 28px; color: black;">􀛷</div>
+                    <div class="card-text-middle theme-default-text" style="font-size: 28px; color: black;">􀛷</div>
                     <div class="card-text-middle" style="font-size: 34px; color: #1FCAAC;">􀁍</div>
                 </div>
              </div>

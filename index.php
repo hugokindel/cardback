@@ -17,9 +17,14 @@ if (!file_exists($link.".php")) {
 }
 
 $account = NULL;
-
 if (isset($_SESSION["accountId"])) {
-    $account = \cardback\system\getAccount($_SESSION["accountId"])[1][0];
+    $account = \cardback\system\getAccount($_SESSION["accountId"]);
+
+    if ($account[0] == 0) {
+        \cardback\system\disconnectAccount();
+    } else {
+        $account = $account[1][0];
+    }
 }
 ?>
 
@@ -50,6 +55,16 @@ if (isset($_SESSION["accountId"])) {
         echo '<link rel="stylesheet" href="'.$serverUrl.'/res/style/'.$link.'.css">';
     }
     ?>
+
+    <?php
+    $theme = "light";
+
+    if (isset($_COOKIE["theme"])) {
+        $theme = $_COOKIE["theme"];
+    }
+    ?>
+
+    <link rel="stylesheet" href="<?php echo $serverUrl ?>/res/style/theme-<?php echo $theme; ?>.css">
 </head>
 <body>
     <script>

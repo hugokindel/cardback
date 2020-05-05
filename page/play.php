@@ -92,8 +92,8 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
 
     <div id="page-main">
         <div id="content-title-container">
-            <h2>Bonne chance, <span style="font-weight: 800;">
-                    <?php echo $account["name"] ?>!</span></h2>
+            <h2 class="theme-default-text">Bonne chance, <span style="font-weight: 800;">
+                    <?php echo \cardback\utility\getAnonymousNameFromAccount($account) ?>!</span></h2>
         </div>
 
         <?php
@@ -112,8 +112,8 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
             <section>
                 <div class="grid-container">
                     <div>
-                        <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                        <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
+                        <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
+                        <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
             <br>
 
             <section class="section-cards">
-                <h4>Cartes</h4>
+                <h4 class="theme-default-text">Cartes</h4>
                 <?php
                 foreach ($cards as $card) {
                     $sessionCardId = $_SESSION["game-".$_GET["id"]."-".$card["id"]];

@@ -32,13 +32,13 @@ if (isset($_POST["submit"])) {
         ?>
 
         <div id="content-title-container">
-            <h2>Nous avons besoin de votre avis!</h2>
+            <h2 class="theme-default-text">Nous avons besoin de votre avis!</h2>
         </div>
 
         <article id="content-main">
             <section>
                 <form method="post" id="feedback-form">
-                    <h4 style="margin-bottom: 10px;">Donnez votre avis pour améliorer nos services:</h4>
+                    <h4 class="theme-default-text" style="margin-bottom: 10px;">Donnez votre avis pour améliorer nos services:</h4>
                     <?php
                     if (isset($_GET["error"])) {
                     ?>
@@ -58,10 +58,10 @@ if (isset($_POST["submit"])) {
                         ?>
                     </div>
                     <div style="width: 100%; margin-bottom: 20px;">
-                        <label class="checkbox-label">Recommanderiez-vous ce site à un proche?
+                        <label class="checkbox-label theme-default-text" style="border: 0;">Recommanderiez-vous ce site à un proche?
                             <input type="checkbox" name="recommended"<?php
                             echo isset($_GET["recommended"]) && $_GET["recommended"] == 1 ? " checked" : "" ?>>
-                            <span class="checkmark"></span>
+                            <span class="checkmark theme-default-background"></span>
                         </label>
                     </div>
                     <input class="button-main" type="submit" form="feedback-form" name="submit" value="Envoyer"

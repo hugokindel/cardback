@@ -14,7 +14,7 @@
 
 <!-- Contenu principal de la page -->
 <main id="main-with-footer">
-    <h1 id="welcome">Bienvenue sur <span class="span-title">cardback</span>!</h1>
+    <h1 class="theme-default-text" id="welcome">Bienvenue sur <span class="span-title">cardback</span>!</h1>
     <?php echo \cardback\component\page\makeFAQ(); ?>
 </main>
 

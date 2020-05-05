@@ -7,7 +7,7 @@ $lastId = \cardback\database\selectMaxId("packs");
 $pack = \cardback\system\getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
-    $lastId[1] < $_GET["id"] || !\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) ||
+    $lastId[1] < $_GET["id"] || (!\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
     $pack["published"] == 1) {
     \cardback\utility\redirect("404");
 }

@@ -1,3 +1,5 @@
+SET GLOBAL time_zone = 'Europe/Paris';
+
 -- On efface la base de donnée si elle existe déjà
 DROP DATABASE IF EXISTS cardback;
 

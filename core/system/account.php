@@ -1,6 +1,8 @@
 <?php namespace cardback\system;
 
 // Vérifie si un compte existe déjà
+use function cardback\database\update;
+
 function _checkAccountExists($email) {
     $result = \cardback\database\select("users",
         "id",
@@ -101,6 +103,63 @@ function getAccount($userId) {
     return $result;
 }
 
+function updateAccountName($userId, $firstName, $lastName) {
+    global $db;
+
+    $firstName = mysqli_real_escape_string($db, $firstName);
+    $lastName = mysqli_real_escape_string($db, $lastName);
+
+    \cardback\database\update("users",
+        "firstName = '$firstName', lastName = '$lastName'",
+        "WHERE id = '$userId'");
+}
+
+function updateAccountMail($userId, $email) {
+    global $db;
+
+    $email = mysqli_real_escape_string($db, $email);
+
+    \cardback\database\update("users",
+        "email = '$email'",
+        "WHERE id = '$userId'");
+}
+
+function updateAccountDescription($userId, $description) {
+    global $db;
+
+    $description = mysqli_real_escape_string($db, $description);
+
+    \cardback\database\update("users",
+        "description = '$description'",
+        "WHERE id = '$userId'");
+}
+
+function updateAccountPassword($userId, $password) {
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    \cardback\database\update("users",
+        "password = '$password'",
+        "WHERE id = '$userId'");
+}
+
+function updateAccount($userId, $email, $firstName, $lastName, $description) {
+    updateAccountMail($userId, $email);
+    updateAccountName($userId, $firstName, $lastName);
+    updateAccountDescription($userId, $description);
+}
+
+function hideFirstName($userId, $hide) {
+    \cardback\database\update("users",
+        "hideFirstName = ".($hide ? "1" : "0"),
+        "WHERE id = '$userId'");
+}
+
+function hideLastName($userId, $hide) {
+    \cardback\database\update("users",
+        "hideLastName = ".($hide ? "1" : "0"),
+        "WHERE id = '$userId'");
+}
+
 // Vérifie si un compte est connecté, ou non. Et redirige au bon endroit du site selon les cas
 function checkAccountConnection($connected) {
     if ($connected) {
@@ -111,5 +170,13 @@ function checkAccountConnection($connected) {
         if (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == TRUE) {
             \cardback\utility\redirect("home");
         }
+    }
+}
+
+function checkAccountAdministration() {
+    global $account;
+
+    if ($account["admin"] != 1) {
+        \cardback\utility\redirect("403");
     }
 }

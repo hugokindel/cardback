@@ -3,7 +3,7 @@
 function makeTextbox($name, $type, $placeholder, $value = "", $error = FALSE, $maxlength = 0) {
     return '
         <label for="'.$name.'-textbox"></label>
-        <input class="textbox-main'.($error ? ' textbox-error' : '').'" id="'.$name.'-textbox" type="'.$type.'" name="'.$name.'" placeholder="'.$placeholder.'" value="'.$value.'"'.($maxlength > 0 ? ' maxlength="'.$maxlength.'"' : '').'>
+        <input class="textbox-main theme-default-background theme-default-text'.($error ? ' textbox-error' : '').'" id="'.$name.'-textbox" type="'.$type.'" name="'.$name.'" placeholder="'.$placeholder.'" value="'.$value.'"'.($maxlength > 0 ? ' maxlength="'.$maxlength.'"' : '').'>
         ';
 }
 
@@ -18,6 +18,6 @@ function makeTextboxWithAccessory($name, $type, $placeholder, $accessory, $value
 function makeTextboxMultiline($name, $type, $placeholder, $value = "", $error = FALSE, $maxlength = 0) {
     return '
         <label for="'.$name.'-textbox"></label>
-        <textarea class="textbox-main textbox-multiline'.($error ? ' textbox-error' : '').'" id="'.$name.'-textbox" type="'.$type.'" name="'.$name.'" placeholder="'.$placeholder.'"'.($maxlength > 0 ? ' maxlength="'.$maxlength.'"' : '').'>'.$value.'</textarea>
+        <textarea class="textbox-main theme-default-background theme-default-text textbox-multiline'.($error ? ' textbox-error' : '').'" id="'.$name.'-textbox" type="'.$type.'" name="'.$name.'" placeholder="'.$placeholder.'"'.($maxlength > 0 ? ' maxlength="'.$maxlength.'"' : '').'>'.$value.'</textarea>
         ';
 }

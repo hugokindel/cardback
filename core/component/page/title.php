@@ -5,6 +5,6 @@ function makeTitle() {
 
     return '
         <div id="title-container">
-            <a class="label-title1" id="title-label" href="'.$serverUrl.'">cardback</a>
+            <a class="label-title1 theme-default-text" id="title-label" href="'.$serverUrl.'">cardback</a>
         </div>';
 }

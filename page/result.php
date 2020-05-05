@@ -49,8 +49,8 @@ if (isset($_POST)) {
 
     <div id="page-main">
         <div id="content-title-container">
-            <h2>Voici vos résultats, <span style="font-weight: 800;">
-                    <?php echo $account["name"] ?>!</span></h2>
+            <h2 class="theme-default-text">Voici vos résultats, <span style="font-weight: 800;">
+                    <?php echo \cardback\utility\getAnonymousNameFromAccount($account) ?>!</span></h2>
         </div>
 
         <?php
@@ -67,8 +67,8 @@ if (isset($_POST)) {
             <section>
                 <div class="grid-container">
                     <div>
-                        <h1 style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                        <h4 style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
+                        <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
+                        <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ if (isset($_POST)) {
             <br>
 
             <section class="section-cards">
-                <h4>Cartes</h4>
+                <h4 class="theme-default-text">Cartes</h4>
                 <?php
                 foreach ($cards as $card) {
                     ?>
@@ -105,7 +105,7 @@ if (isset($_POST)) {
                             if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] != 1) {
                                 ?>
                                 <div style="display: flex; align-items: center; justify-content: left; margin-right: 25px; margin-top: 25px;">
-                                    <h1>􀄫</h1>
+                                    <h1 class="theme-default-text">􀄫</h1>
                                 </div>
                                 <div style="display: flex; align-items: center; justify-content: left;">
                                     <?php echo \cardback\component\makeCardEditable("qcard-".$card["id"],

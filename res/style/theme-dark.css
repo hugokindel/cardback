@@ -1,0 +1,59 @@
+/* texte: #D3D2D2 */
+
+body, .theme-default-background {
+    background-color: #202121;
+}
+
+.theme-default-text {
+    color: white;
+}
+
+* {
+    border-color: #3B3B3B !important;
+}
+
+.textbox-error {
+    border-color: #FF3B30 !important;
+}
+
+.select-selected-error {
+    border-color: #FF3B30 !important;
+}
+
+.checkbox-label:hover input ~ .checkmark {
+    background-color: #3B3B3B;
+}
+
+.checkbox-label .checkmark:after {
+    border: solid white;
+    border-width: 0 3px 3px 0;
+}
+
+.select-list {
+    background-color: #202121;
+}
+
+.select-list div {
+    color: white;
+}
+
+.sidebar-link-selected {
+    color: black;
+}
+
+.select-selected-text-choosen {
+    color: white !important;
+}
+
+#right-toolbar-menu-content {
+    background-color: #202121;
+    border: 1px solid #3B3B3B;
+}
+
+#right-toolbar-menu-content * {
+    color: white;
+}
+
+.radio-buttons-container label:hover {
+    background-color: #3B3B3B;
+}

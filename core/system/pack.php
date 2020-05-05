@@ -22,6 +22,10 @@ function _associateAuthorToPack($packs) {
 
         $result = \cardback\system\getAccount($result[0]["userId"])[1][0];
 
+        $pack["firstName"] = $result["firstName"];
+        $pack["lastName"] = $result["lastName"];
+        $pack["hideFirstName"] = $result["hideFirstName"];
+        $pack["hideLastName"] = $result["hideLastName"];
         $pack["author"] = $result["firstName"]." ".$result["lastName"];
         $pack["authorId"] = $result["id"];
 
@@ -63,6 +67,13 @@ function createPack($userId, $name, $description, $difficulty, $theme) {
 function publishPack($packId) {
     \cardback\database\update("packs",
         "published = 1",
+        "WHERE id = $packId");
+}
+
+// Dépublie un paquet de cartes
+function unpublishPack($packId) {
+    \cardback\database\update("packs",
+        "published = 0",
         "WHERE id = $packId");
 }
 

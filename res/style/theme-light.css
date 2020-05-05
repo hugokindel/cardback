@@ -1,0 +1,31 @@
+/* texte: #D3D2D2 */
+
+body, .theme-default-background {
+    background-color: white;
+}
+
+.theme-default-text {
+    color: black;
+}
+
+.checkbox-label:hover input ~ .checkmark {
+    background-color: #E6ECF0;
+}
+
+.checkbox-label .checkmark:after {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+}
+
+.select-list {
+    background-color: white;
+}
+
+.select-list div {
+    color: black;
+}
+
+#right-toolbar-menu-content {
+    background-color: white;
+    border: 1px solid #E6ECF0;
+}
