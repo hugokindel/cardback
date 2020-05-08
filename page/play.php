@@ -15,37 +15,18 @@ $error = "";
 $errorOnCards = [];
 $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
 
+function saveDataInUrl($url) {
+    foreach ($_POST as $key => $value) {
+        if (substr($key, 0, 5) === "acard" || substr($key, 0, 5) === "qcard") {
+            $url .= "&$key=".urlencode($value);
+        }
+    }
+
+    return $url;
+}
+
 if (!empty($_POST)) {
-    if (isset($_POST["abandonCard"])) {
-        $_SESSION["game-".$_GET["id"]."-".$_POST["id"]] = 3;
-    } else if (isset($_POST["validateCard"])) {
-        if ($_POST["acard-".$_POST["id"]] === "") {
-            $error .= "<br>- Veuillez entrer une réponse.";
-        }
-
-        if ($error === "") {
-            $answerUser = strtolower(str_replace(" ", "", $_POST["acard-".$_POST["id"]]));
-            $answerDb = "";
-
-            foreach($cards as $card) {
-                if ($card["id"] == $_POST["id"]) {
-                    $answerDb = strtolower(str_replace(" ", "", $card["answer"]));
-                    break;
-                }
-            }
-
-            if (preg_match('/'.$answerDb.'/', $answerUser)) {
-                $_SESSION["game-".$_GET["id"]."-".$_POST["id"]] = 1;
-                $_SESSION["game-".$_GET["id"]."-".$_POST["id"]."-answer"] = $_POST["acard-".$_POST["id"]];
-            } else {
-                $_SESSION["game-".$_GET["id"]."-".$_POST["id"]] = 2;
-                $_SESSION["game-".$_GET["id"]."-".$_POST["id"]."-answer"] = $_POST["acard-".$_POST["id"]];
-            }
-        } else {
-            \cardback\utility\redirect(
-                    "play?id=".$_GET["id"]."&errorType=0&cardId=".$_POST["id"]."&error=".urlencode($error));
-        }
-    } else if (isset($_POST["getResult"])) {
+    if (isset($_POST["getResult"])) {
         foreach ($cards as $card) {
             if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0) {
                 array_push($errorOnCards, $card["id"]);
@@ -76,9 +57,38 @@ if (!empty($_POST)) {
             unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
             unset($_SESSION["game-".$_GET["id"]."-answer"]);
         }
+
+        \cardback\utility\redirect("play?id=".$_GET["id"]);
+    } else {
+        foreach ($cards as $card) {
+            $cardId = $card["id"];
+
+            if (isset($_POST["abandon-$cardId-card"])) {
+                $_SESSION["game-".$_GET["id"]."-$cardId"] = 3;
+            } else if (isset($_POST["validate-$cardId-card"])) {
+                if ($_POST["acard-$cardId"] === "") {
+                    $error .= "<br>- Veuillez entrer une réponse.";
+                }
+
+                if ($error === "") {
+                    $answerUser = strtolower(str_replace(" ", "", $_POST["acard-$cardId"]));
+                    $answerDb = strtolower(str_replace(" ", "", $card["answer"]));
+
+                    if (preg_match('/'.$answerDb.'/', $answerUser)) {
+                        $_SESSION["game-".$_GET["id"]."-$cardId"] = 1;
+                        $_SESSION["game-".$_GET["id"]."-$cardId-answer"] = $_POST["acard-$cardId"];
+                    } else {
+                        $_SESSION["game-".$_GET["id"]."-$cardId"] = 2;
+                        $_SESSION["game-".$_GET["id"]."-$cardId-answer"] = $_POST["acard-$cardId"];
+                    }
+                } else {
+                    \cardback\utility\redirect(saveDataInUrl("play?id=".$_GET["id"]."&errorType=0&cardId=".$_POST["id"]."&error=".urlencode($error)));
+                }
+            }
+        }
     }
 
-    \cardback\utility\redirect("play?id=".$_GET["id"]);
+    \cardback\utility\redirect(saveDataInUrl("play?id=".$_GET["id"]));
 }
 
 if (!isset($_SESSION["game-".$_GET["id"]])) {
@@ -125,103 +135,109 @@ foreach ($cards as $card) {
             </form>');
         ?>
 
-        <article id="content-main">
-            <section>
-                <div class="grid-container">
-                    <div>
-                        <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                        <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
-                            <?php echo count($cards) ?> cartes</h4>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
-                        <form method="post" id="get-result-form">
+        <form method="post" id="card-<?php echo $card["id"] ?>-form">
+            <article id="content-main">
+                <section>
+                    <div class="grid-container">
+                        <div>
+                            <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
+                            <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
+                                <?php echo count($cards) ?> cartes</h4>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
                             <input type="submit" id="right-toolbar-main-button" class="button-main" name="getResult"
                                    value="Voir la correction"/>
-                        </form>
+                        </div>
                     </div>
-                </div>
-            </section>
-            <br>
+                </section>
+                <br>
 
-            <section class="section-cards">
-                <h4 class="theme-default-text">Cartes</h4>
-                <?php
-                foreach ($cards as $card) {
-                    $sessionCardId = $_SESSION["game-".$_GET["id"]."-".$card["id"]];
-                    ?>
-                    <form method="post" id="card-<?php echo $card["id"] ?>-form">
-                        <input type="hidden" name="id" value="<?php echo $card["id"] ?>" />
-                        <div class="cards-container">
-                            <?php
-                            echo \cardback\component\makeCardEditable("qcard-".$card["id"],
-                                "", $card["question"], TRUE);
-                            echo \cardback\component\makeCardEditable("acard-".$card["id"],
-                                $sessionCardId == 0 ?
-                                    "Écrivez votre réponse..." : ($sessionCardId < 3 ?
-                                        $_SESSION["game-".$_GET["id"]."-".$card["id"]."-answer"] :  "?"),
-                                "", $sessionCardId != 0, FALSE,
-                                $sessionCardId == 0 ?
-                                    0 : ($sessionCardId == 1 ? 1 : 2));
+                <section class="section-cards">
+                    <h4 class="theme-default-text">Cartes</h4>
+                    <?php
+                    foreach ($cards as $card) {
+                        $cardId = $card["id"];
+                        $sessionCardId = $_SESSION["game-".$_GET["id"]."-".$card["id"]];
+                        ?>
+                            <input type="hidden" name="id" value="<?php echo $card["id"] ?>" />
+                            <div class="cards-container">
+                                <?php
+                                $question = $card["question"];
+                                $answer = "";
 
-                            if ($sessionCardId != 0) {
-                                ?>
-                                <div style="display: flex; align-items: center; justify-content: left;">
+                                if ($sessionCardId == 0) {
+                                    $answer = isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "";
+                                }
+
+                                echo \cardback\component\makeCardEditable("qcard-".$card["id"],
+                                    "", $question, TRUE);
+                                echo \cardback\component\makeCardEditable("acard-".$card["id"],
+                                    $sessionCardId == 0 ?
+                                        "Écrivez votre réponse..." : ($sessionCardId < 3 ?
+                                            $_SESSION["game-".$_GET["id"]."-".$card["id"]."-answer"] :  "?"),
+                                    $answer, $sessionCardId != 0, FALSE,
+                                    $sessionCardId == 0 ?
+                                        0 : ($sessionCardId == 1 ? 1 : 2));
+
+                                if ($sessionCardId != 0) {
+                                    ?>
+                                    <div style="display: flex; align-items: center; justify-content: left;">
+                                        <?php
+                                        if ($sessionCardId == 1) {
+                                            ?>
+                                            <h4 style="color: #1FCAAC;">Bonne réponse!</h4>
+                                            <?php
+                                        } else if ($sessionCardId == 2) {
+                                            ?>
+                                            <h4 style="color: #FF3B30;">Mauvaise réponse!</h4>
+                                            <?php
+                                        } else if ($sessionCardId == 3) {
+                                            ?>
+                                            <h4 style="color: #FF3B30;">Question abandonnée!</h4>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
                                     <?php
-                                    if ($sessionCardId == 1) {
+                                }
+                                ?>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <?php
+                                    if ($sessionCardId == 0) {
                                         ?>
-                                        <h4 style="color: #1FCAAC;">Bonne réponse!</h4>
-                                        <?php
-                                    } else if ($sessionCardId == 2) {
-                                        ?>
-                                        <h4 style="color: #FF3B30;">Mauvaise réponse!</h4>
-                                        <?php
-                                    } else if ($sessionCardId == 3) {
-                                        ?>
-                                        <h4 style="color: #FF3B30;">Question abandonnée!</h4>
+                                        <input id="abandon-card-<?php echo $card["id"] ?>-button" class="button-main"
+                                               type="submit" name="abandon-<?php echo $card["id"] ?>-card" value="Abandonner" style="width: 150px; height: 32px; background-color: #FF3B30;"/>
+                                        <input id="validate-card-<?php echo $card["id"] ?>-button" class="button-main"
+                                               type="submit" name="validate-<?php echo $card["id"] ?>-card" value="Valider" style="width: 150px; height: 32px; "/>
                                         <?php
                                     }
                                     ?>
                                 </div>
+                            </div>
+                            <?php
+                            if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $card["id"] == $_GET["cardId"]) {
+                                ?>
+                                <div style="width: 100%; margin: 20px 10px;">
+                                    <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!
+                                        <?php echo $_GET["error"] ?></p>
+                                </div>
+                                <?php
+                            } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 &&
+                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0) {
+                                ?>
+                                <div style="width: 100%; margin: 20px 10px;">
+                                    <p class="form-label-error" style="text-align: left;">􀁡 Obtention des résultats impossible!
+                                        <br>- Veuillez valider ou abandonner cette carte!</p>
+                                </div>
                                 <?php
                             }
                             ?>
-                            <div style="display: flex; align-items: center; justify-content: center;">
-                                <?php
-                                if ($sessionCardId == 0) {
-                                    ?>
-                                    <input id="abandon-card-<?php echo $card["id"] ?>-button" class="button-main"
-                                           type="submit" name="abandonCard" value="Abandonner" style="width: 150px; height: 32px; background-color: #FF3B30;"/>
-                                    <input id="validate-card-<?php echo $card["id"] ?>-button" class="button-main"
-                                           type="submit" name="validateCard" value="Valider" style="width: 150px; height: 32px; "/>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
                         <?php
-                        if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $card["id"] == $_GET["cardId"]) {
-                            ?>
-                            <div style="width: 100%; margin: 20px 10px;">
-                                <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!
-                                    <?php echo $_GET["error"] ?></p>
-                            </div>
-                            <?php
-                        } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 &&
-                            $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0) {
-                            ?>
-                            <div style="width: 100%; margin: 20px 10px;">
-                                <p class="form-label-error" style="text-align: left;">􀁡 Obtention des résultats impossible!
-                                    <br>- Veuillez valider ou abandonner cette carte!</p>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                    </form>
-                    <?php
-                }
-                ?>
-            </section>
-            <br>
-        </article>
+                    }
+                    ?>
+                </section>
+                <br>
+            </article>
+        </form>
     </div>
 </main>

@@ -166,7 +166,6 @@ if (!empty($_POST)) {
                             $question = $value["question"] != "" ? $value["question"] : (isset($_GET["qcard-$cardId"]) ? $_GET["qcard-$cardId"] : "");
                             $answer = $value["answer"] != "" ? $value["answer"] : (isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "");
 
-
                             ?>
                                 <div class="cards-container">
                                     <?php

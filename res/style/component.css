@@ -880,3 +880,7 @@ footer {
 #search-main {
     width: 540px;
 }
+
+.label-title1:hover, .author-link:hover {
+    color: #1FCAAC;
+}

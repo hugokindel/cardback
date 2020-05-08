@@ -95,7 +95,7 @@ if (isset($_POST)) {
                 <h3 class="theme-default-text">Informations supplémentaires</h3>
                 <h4 class="theme-default-text" style="font-weight: 500;">Créé le <span style="font-weight: 600;">
                         <?php echo strftime("%e %B %G", strtotime($pack["creationDate"])) ?></span></h4>
-                <h4 class="theme-default-text" style="font-weight: 500;">Par <a class="theme-default-text" style="font-weight: 600; text-decoration: none;" href="<?php echo $serverUrl."/profile?id=".$pack["authorId"] ?>"><?php echo \cardback\utility\getAnonymousNameFromAccount($pack) ?></a></h4>
+                <h4 class="theme-default-text" style="font-weight: 500;">Par <a class="author-link theme-default-text" style="font-weight: 600; text-decoration: none;" href="<?php echo $serverUrl."/profile?id=".$pack["authorId"] ?>"><?php echo \cardback\utility\getAnonymousNameFromAccount($pack) ?></a></h4>
             </section>
             <br>
 
