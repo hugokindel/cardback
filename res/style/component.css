@@ -66,13 +66,16 @@
     padding: 0 16px;
 
     border-radius: 10px;
-    background-color: #1FCAAC;
     color: black;
 }
 
 .link-secondary, .button-secondary {
     background-color: transparent;
-    color: #1FCAAC;
+}
+
+.button-round {
+    color: black;
+    text-decoration: none;
 }
 
 .link-main:hover, .link-secondary:hover, .button-main:hover, .button-secondary:hover, .button-round:hover {
@@ -433,10 +436,6 @@
     border-radius: 10px;
 }
 
-.checkbox-label input:checked ~ .checkmark {
-    background-color: #1FCAAC;
-}
-
 /* Checkmark */
 .checkmark:after {
     content: "";
@@ -530,10 +529,6 @@ footer {
 
 #sidebar-links {
     margin-top: 64px;
-}
-
-.sidebar-link-selected {
-    background-color: #1FCAAC;
 }
 
 
@@ -798,7 +793,6 @@ footer {
 }
 
 .settings-category-selected {
-    background-color: #1FCAAC;
     color: black !important;
 }
 
@@ -836,7 +830,6 @@ footer {
 }
 
 .radio-buttons-container input[type="radio"]:checked + label {
-    background-color: #1FCAAC;
     color: black;
 }
 
@@ -879,8 +872,4 @@ footer {
 
 #search-main {
     width: 540px;
-}
-
-.label-title1:hover, .author-link:hover {
-    color: #1FCAAC;
 }

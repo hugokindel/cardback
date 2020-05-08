@@ -52,7 +52,7 @@ function makeCardPlus() {
                             <div class="card-front">
                                 <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
                                 <div class="card-text-middle theme-default-text" style="font-size: 28px; color: black;">􀛷</div>
-                                <div class="card-text-middle" style="font-size: 34px; color: #1FCAAC;">􀁍</div>
+                                <div class="card-text-middle color-text" style="font-size: 34px;">􀁍</div>
                             </div>
                          </div>
                      </div>
@@ -75,7 +75,7 @@ function makeCardEditable($name, $placeholder, $value = "", $readonly = FALSE, $
                 '.($showStamp != 0 ? '
                 <div style="display: flex; align-items: center; justify-content: center; margin-left: 240px; margin-top: 10px;">
                     <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
-                    <div style="font-size: 34px; color: '.($showStamp == 1 ? '#1FCAAC' : '#FF3B30').'; font-weight: bold; position: absolute;">'.($showStamp == 1 ? '􀁣' : '􀁡').'</div>
+                    <div class="'.($showStamp == 1 ? 'color-text' : '').'" style="font-size: 34px;'.($showStamp == 0 ? ' color: #FF3B30;' : '').'; font-weight: bold; position: absolute;">'.($showStamp == 1 ? '􀁣' : '􀁡').'</div>
                 </div>' : '').'
              </div>
          </div>

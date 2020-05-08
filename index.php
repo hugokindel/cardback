@@ -77,7 +77,16 @@ if (isset($_SESSION["accountId"])) {
     }
     ?>
 
-    <link rel="stylesheet" href="<?php echo $serverUrl ?>/res/style/theme-<?php echo $theme; ?>.css">
+    <?php
+    $color = "green";
+
+    if (isset($_COOKIE["color"])) {
+        $color = $_COOKIE["color"];
+    }
+    ?>
+
+    <link rel="stylesheet" href="<?php echo $serverUrl ?>/res/style/theme/<?php echo $theme; ?>.css">
+    <link rel="stylesheet" href="<?php echo $serverUrl ?>/res/style/color/<?php echo $color; ?>.css">
 </head>
 <body>
     <script>

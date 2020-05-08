@@ -68,10 +68,6 @@ body, .theme-default-background {
 
 .settings-title-button:hover {
      background-color: #3B3B3B;
- }
-
-.settings-category-selected:hover {
-    background-color: #1FCAAC;
 }
 
 #right-toolbar-menu:hover {
@@ -96,10 +92,6 @@ body, .theme-default-background {
 
 .sidebar-link:hover {
     background-color: #3B3B3B;
-}
-
-.sidebar-link-selected:hover {
-    background-color: #1FCAAC;
 }
 
 .select-list div:hover {

@@ -127,7 +127,7 @@ if (!empty($_POST)) {
                                 <input type="submit" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden;" name="editPack">
                                 <div class="button-round" style="display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="document.forms['edit-pack-form'].submit();">
                                     <div style="font-size: 30px; position: absolute;">􀛷</div>
-                                    <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
+                                    <div class="color-text" style="font-size: 34px; position: absolute;">􀈌</div>
                                 </div>
                                 </input>
                             </label>

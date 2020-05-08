@@ -44,7 +44,7 @@ if (!isset($_GET["search"])) {
                             } else {
                                 $type = $searchElement["type"] == 1 ? "Thème" : ($searchElement["admin"] == 1 ? "Administrateur" : "Utilisateur");
                                 $frontText = $searchElement["name"]."<br>".$type;
-                                $backText = "Voulez vous accéder<br>".($searchElement["type"] == 1 ? "à ce thème" : "à ce profile")."?";
+                                $backText = "Voulez vous accéder<br>".($searchElement["type"] == 1 ? "à ce thème" : "à ce profil")."?";
                                 $link = $serverUrl."/".($searchElement["type"] == 1 ? "theme?id=".$searchElement["id"] : "profile?id=".$searchElement["id"]);
 
                                 echo \cardback\component\makeCard($frontText, $backText, TRUE, "", $link);

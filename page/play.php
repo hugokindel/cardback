@@ -185,7 +185,7 @@ foreach ($cards as $card) {
                                         <?php
                                         if ($sessionCardId == 1) {
                                             ?>
-                                            <h4 style="color: #1FCAAC;">Bonne réponse!</h4>
+                                            <h4 class="color-text">Bonne réponse!</h4>
                                             <?php
                                         } else if ($sessionCardId == 2) {
                                             ?>

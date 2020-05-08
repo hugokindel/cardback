@@ -34,10 +34,6 @@ body, .theme-default-background {
     background-color: #E6ECF0;
 }
 
-.settings-category-selected:hover {
-    background-color: #1FCAAC;
-}
-
 #right-toolbar-menu:hover:hover {
     background-color: #E6ECF0;
 }
@@ -60,10 +56,6 @@ body, .theme-default-background {
 
 .sidebar-link:hover {
     background-color: #E6ECF0;
-}
-
-.sidebar-link-selected:hover {
-    background-color: #1FCAAC;
 }
 
 .select-list div:hover {
