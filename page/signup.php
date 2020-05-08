@@ -33,7 +33,7 @@ if (isset($_POST["submit"])) {
             $_POST["email"], $_POST["password"], $_POST["firstname"], $_POST["lastname"]);
 
         if ($result[0] == TRUE) {
-            \cardback\system\connectAccount($_POST["email"], $_POST["password"]);
+            \cardback\system\connectWithCredentials($_POST["email"], $_POST["password"]);
             \cardback\utility\redirect("home");
         } else {
             $error .= "<br>- ".$result[1];

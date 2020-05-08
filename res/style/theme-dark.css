@@ -1,4 +1,7 @@
-/* texte: #D3D2D2 */
+/*
+Couleurs:
+-
+ */
 
 body, .theme-default-background {
     background-color: #202121;
@@ -25,6 +28,11 @@ body, .theme-default-background {
 }
 
 .checkbox-label .checkmark:after {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+}
+
+.checkbox-label .checkmark:hover:after {
     border: solid white;
     border-width: 0 3px 3px 0;
 }
@@ -55,5 +63,45 @@ body, .theme-default-background {
 }
 
 .radio-buttons-container label:hover {
+    background-color: #3B3B3B;
+}
+
+.settings-title-button:hover {
+     background-color: #3B3B3B;
+ }
+
+.settings-category-selected:hover {
+    background-color: #1FCAAC;
+}
+
+#right-toolbar-menu:hover {
+    background-color: #3B3B3B;
+}
+
+#right-toolbar-menu-content div:hover {
+    background-color: #3B3B3B;
+}
+
+#right-toolbar-menu-content div:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #3B3B3B;
+}
+
+#right-toolbar-menu-content div:last-child:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #3B3B3B;
+}
+
+.sidebar-link:hover {
+    background-color: #3B3B3B;
+}
+
+.sidebar-link-selected:hover {
+    background-color: #1FCAAC;
+}
+
+.select-list div:hover {
     background-color: #3B3B3B;
 }

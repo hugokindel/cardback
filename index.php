@@ -17,13 +17,26 @@ if (!file_exists($link.".php")) {
 }
 
 $account = NULL;
-if (isset($_SESSION["accountId"])) {
-    $account = \cardback\system\getAccount($_SESSION["accountId"]);
 
-    if ($account[0] == 0) {
+if (isset($_SESSION["accountId"])) {
+    // Si l'utilisateur est actuellement connecté (sont ID est présent dans la session)
+    $result = \cardback\system\getAccount($_SESSION["accountId"]);
+
+    if ($result[0] == 0) {
         \cardback\system\disconnectAccount();
     } else {
-        $account = $account[1][0];
+        // Si l'utilisateur est trouvable
+        $account = $result[1][0];
+    }
+} else if (isset($_COOKIE["serverToken"])) {
+    // Si l'utilisateur n'est pas connecté, mais qu'il possède un token de connexion
+    $result = \cardback\system\connectWithAuthenticationToken();
+
+    if ($result[0] == 0 || !isset($_SESSION["accountId"])) {
+        \cardback\system\disconnectAccount();
+    } else {
+        // Si le token est valide et par conséquent l'utilisateur trouvable
+        $account = \cardback\system\getAccount($_SESSION["accountId"])[1][0];
     }
 }
 ?>

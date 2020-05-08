@@ -23,8 +23,11 @@
                     <h3 class="settings-title theme-default-text">À propos de <span style="font-weight: 900;">cardback</span></h3>
                 </div>
 
+                <div class="settings-category-container">
+                    <h3 class="settings-title theme-default-text">Pages d'informations</h3>
+                </div>
                 <div class="settings-option-container">
-                    <a href="<?php echo $serverUrl; ?>/faq"><h3 class="settings-title theme-default-text">Foire aux questions</h3></a>
+                    <a href="<?php echo $serverUrl; ?>/faq"><h3 class="settings-title settings-title-button theme-default-text">Foire aux questions</h3></a>
                 </div>
             </section>
         </article>

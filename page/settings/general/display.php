@@ -30,6 +30,9 @@ if (isset($_POST) && isset($_POST["theme"])) {
                     <h3 class="settings-title theme-default-text">Affichage</h3>
                 </div>
 
+                <div class="settings-category-container">
+                    <h3 class="settings-title theme-default-text">Style graphique</h3>
+                </div>
                 <div class="settings-option-container" style="cursor: inherit;">
                     <div>
                         <h4 class="theme-default-text" style="font-weight: normal; margin-left: 20px;">Thème</h4>

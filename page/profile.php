@@ -64,7 +64,7 @@ $accountUser = \cardback\system\getAccount($_GET["id"])[1][0];
                                 }
                                 ?>
 
-                                <a style="display: flex; align-items: center; justify-content: center; cursor: pointer;"
+                                <a class="button-round" style="display: flex; align-items: center; justify-content: center; cursor: pointer;"
                                    href="<?php echo $accountModificationLink; ?>">
                                     <div style="font-size: 30px; position: absolute;">􀛷</div>
                                     <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>

@@ -1,6 +1,10 @@
 <?php namespace cardback\system;
 
 // Vérifie si un compte existe déjà
+use function cardback\database\delete;
+use function cardback\database\insert;
+use function cardback\database\select;
+use function cardback\database\selectMaxId;
 use function cardback\database\update;
 
 function _checkAccountExists($email) {
@@ -33,14 +37,43 @@ function createAccount($email, $password, $firstName, $lastName) {
     return [1];
 }
 
-// Connecte un compte en enregistrant les informations nécessaire dans la SESSION
-function connectAccount($email, $password) {
+function createAuthenticationToken($userId) {
+    $serverToken = uniqid("", TRUE);
+    $userToken = md5($_SERVER['HTTP_USER_AGENT'] .  $_SERVER['REMOTE_ADDR']);
+
+    \cardback\database\insert(
+        "connectionTokens",
+        "serverToken, userToken",
+        "'$serverToken', '$userToken'");
+
+    $tokenId = selectMaxId("connectionTokens")[1];
+
+    \cardback\database\insert(
+        "userConnectionTokens",
+        "userId, tokenId",
+        "'$userId', '$tokenId'");
+
+    setcookie("serverToken", $serverToken, time() + 2592000, "/", null, false, true);
+}
+
+function removeAuthenticationToken() {
+    if (isset($_COOKIE['serverToken'])) {
+        $serverToken = $_COOKIE['serverToken'];
+
+        delete("connectionTokens", "WHERE serverToken = '$serverToken'");
+    }
+
+    unset($_COOKIE['serverToken']);
+    setcookie('serverToken', null, -1, '/');
+}
+
+function connectWithCredentials($email, $password) {
     global $db;
 
     $email = mysqli_real_escape_string($db, $email);
 
     $result = \cardback\database\select("users",
-        "id, password",
+        "id, password, keepConnected",
         "WHERE email = '$email'");
 
     if ($result[0] == 0) {
@@ -50,29 +83,76 @@ function connectAccount($email, $password) {
     }
 
     $lastConnectionDate = date("Y-m-d");
-    $id = $result[1][0]["id"];
+    $userId = $result[1][0]["id"];
     $password = $result[1][0]["password"];
 
     \cardback\database\update("users",
         "lastConnectionDate = '$lastConnectionDate'",
-        "WHERE id = '$id'");
+        "WHERE id = '$userId'");
+
+    if ($result[1][0]["keepConnected"] == 1) {
+        createAuthenticationToken($userId);
+    }
+
+    return connectAccount($userId);
+}
+
+function connectWithAuthenticationToken() {
+    $serverToken = $_COOKIE["serverToken"];
+
+    $connectionToken = \cardback\database\select("connectionTokens",
+        "",
+        "WHERE serverToken = '$serverToken'");
+
+    if ($connectionToken[0] == 0) {
+        return [0, "Token serveur invalide"];
+    }
+
+    $userToken = md5($_SERVER['HTTP_USER_AGENT'] .  $_SERVER['REMOTE_ADDR']);
+
+    if ($connectionToken[1][0]["userToken"] != $userToken) {
+        return [0, "Token utilisateur invalide"];
+    }
+
+    $connectionTokenId = $connectionToken[1][0]["id"];
+
+    $userConnectionToken = \cardback\database\select("userConnectionTokens",
+        "",
+        "WHERE tokenId = '$connectionTokenId'");
+
+    if ($userConnectionToken[0] == 0) {
+        return [0, "Lien user-token invalide"];
+    }
+
+    $userId = $userConnectionToken[1][0]["userId"];
+
+    $user = \cardback\database\select("users",
+        "id, password",
+        "WHERE id = '$userId'");
+
+    if ($user[0] == 0) {
+        return [0, "Utilisateur invalide"];
+    }
+
+    return connectAccount($user[1][0]["id"]);
+}
+
+function connectAccount($id) {
+    $_SESSION["signedIn"] = TRUE;
+    $_SESSION["accountId"] = $id;
 
     session_regenerate_id();
 
-    $_SESSION["signedIn"] = TRUE;
-    $_SESSION["accountId"] = $id;
-    $_SESSION["accountPassword"] = $password;
-
-    return [1];
+    return [1, "Connecté avec succès"];
 }
 
 // Déconnecte le compte actuellement connecté, si il y en a un
 function disconnectAccount() {
-    session_regenerate_id();
-
     unset($_SESSION["signedIn"]);
     unset($_SESSION["accountId"]);
-    unset($_SESSION["accountPassword"]);
+
+    removeAuthenticationToken();
+    session_regenerate_id();
 }
 
 // Supprime un compte
@@ -157,6 +237,18 @@ function hideFirstName($userId, $hide) {
 function hideLastName($userId, $hide) {
     \cardback\database\update("users",
         "hideLastName = ".($hide ? "1" : "0"),
+        "WHERE id = '$userId'");
+}
+
+function hideInSearch($userId, $hide) {
+    \cardback\database\update("users",
+        "hideInSearch = ".($hide ? "1" : "0"),
+        "WHERE id = '$userId'");
+}
+
+function keepConnected($userId, $value) {
+    \cardback\database\update("users",
+        "keepConnected = ".($value ? "1" : "0"),
         "WHERE id = '$userId'");
 }
 

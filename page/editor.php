@@ -109,7 +109,7 @@ if (!empty($_POST)) {
                     <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
                         <form method="post" id="edit-pack-form">
                             <input type="hidden" name="editPack" value="Éditer" />
-                            <div style="display: flex; align-items: center; justify-content: center;" onclick="document.forms['edit-pack-form'].submit();">
+                            <div class="button-round" style="display: flex; align-items: center; justify-content: center;" onclick="document.forms['edit-pack-form'].submit();">
                                 <div style="font-size: 30px; position: absolute;">􀛷</div>
                                 <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
                             </div>

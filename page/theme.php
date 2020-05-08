@@ -53,7 +53,7 @@ if (!isset($_GET["id"]) || $_GET["id"] < 0 || $_GET["id"] >= count($themes)) {
                 <section class="section-cards">
                     <h3 class="theme-default-text">Paquets de cartes du thème « <?php echo $themes[$_GET["id"]]; ?>»</h3>
                     <div class="cards-container">
-                        <h4 class="theme-default-text" style="font-weight: 500;">Il n'y a aucun résultats dans ce thème!</h4>
+                        <h4 class="theme-default-text" style="font-weight: 500;">Il n'y a aucun paquets de cartes dans ce thème!</h4>
                     </div>
                 </section>
                 <br>

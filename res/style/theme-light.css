@@ -29,3 +29,43 @@ body, .theme-default-background {
     background-color: white;
     border: 1px solid #E6ECF0;
 }
+
+.settings-title-button:hover {
+    background-color: #E6ECF0;
+}
+
+.settings-category-selected:hover {
+    background-color: #1FCAAC;
+}
+
+#right-toolbar-menu:hover:hover {
+    background-color: #E6ECF0;
+}
+
+#right-toolbar-menu-content div:hover {
+    background-color: #E6ECF0;
+}
+
+#right-toolbar-menu-content div:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #E6ECF0;
+}
+
+#right-toolbar-menu-content div:last-child:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #E6ECF0;
+}
+
+.sidebar-link:hover {
+    background-color: #E6ECF0;
+}
+
+.sidebar-link-selected:hover {
+    background-color: #1FCAAC;
+}
+
+.select-list div:hover {
+    background-color: #E6ECF0;
+}

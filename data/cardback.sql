@@ -25,9 +25,31 @@ CREATE TABLE users(
     description VARCHAR(255) NOT NULL DEFAULT '',
     hideFirstName TINYINT(1) NOT NULL DEFAULT 0,
     hideLastName TINYINT(1) NOT NULL DEFAULT 0,
+    hideInSearch TINYINT(1) NOT NULL DEFAULT 0,
+    keepConnected TINYINT(1) NOT NULL DEFAULT 1,
 
     PRIMARY KEY(id),
     UNIQUE KEY(email)
+);
+
+-- On crée la table connectionToken
+CREATE TABLE connectionTokens(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    serverToken CHAR(23) NOT NULL,
+    userToken CHAR(32) NOT NULL,
+
+    PRIMARY KEY(id),
+    UNIQUE KEY(serverToken)
+);
+
+-- On crée la table "feedbacks"
+CREATE TABLE feedbacks(
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    message VARCHAR(5000) NOT NULL,
+    recommended TINYINT(1) NOT NULL,
+    creationDate DATE NOT NULL,
+
+    PRIMARY KEY(id)
 );
 
 -- On crée la table "packs"
@@ -54,18 +76,8 @@ CREATE TABLE cards(
     PRIMARY KEY(id)
 );
 
--- On crée la table "feedbacks"
-CREATE TABLE feedbacks(
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    message VARCHAR(5000) NOT NULL,
-    recommended TINYINT(1) NOT NULL,
-    creationDate DATE NOT NULL,
-
-    PRIMARY KEY(id)
-);
-
 -- On crée la table "userPacks" (lien utilisateur-paquet)
-CREATE TABLE userPacks (
+CREATE TABLE userPacks(
     userId INT UNSIGNED NOT NULL,
     packId INT UNSIGNED NOT NULL,
 
@@ -75,8 +87,30 @@ CREATE TABLE userPacks (
     PRIMARY KEY (userId, packId)
 );
 
+-- On crée la table "userToken" (lien utilisateur-connectionToken)
+CREATE TABLE userConnectionTokens(
+    userId INT UNSIGNED NOT NULL,
+    tokenId INT UNSIGNED NOT NULL,
+
+    FOREIGN KEY(userId) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(tokenId) REFERENCES connectionTokens(id) ON DELETE CASCADE,
+
+    PRIMARY KEY (userId, tokenId)
+);
+
+-- On crée la table "userFeedback" (lien utilisateur-feedback)
+CREATE TABLE userFeedbacks(
+    userId INT UNSIGNED NOT NULL,
+    feedbackId INT UNSIGNED NOT NULL,
+
+    FOREIGN KEY(userId) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(feedbackId) REFERENCES feedbacks(id) ON DELETE CASCADE,
+
+    PRIMARY KEY (userId, feedbackId)
+);
+
 -- On crée la table "packCards" (lien paquet-carte)
-CREATE TABLE packCards (
+CREATE TABLE packCards(
     packId INT UNSIGNED NOT NULL,
     cardId INT UNSIGNED NOT NULL,
 
@@ -85,14 +119,3 @@ CREATE TABLE packCards (
 
     PRIMARY KEY (packId, cardId)
 );
-
--- On crée la table "userFeedback" (lien utilisateur-feedback)
-CREATE TABLE userFeedbacks (
-    userId INT UNSIGNED NOT NULL,
-    feedbackId INT UNSIGNED NOT NULL,
-
-    FOREIGN KEY(userId) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY(feedbackId) REFERENCES feedbacks(id) ON DELETE CASCADE,
-
-    PRIMARY KEY (userId, feedbackId)
-)

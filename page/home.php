@@ -48,7 +48,7 @@
             ?>
 
             <?php
-            $packs = \cardback\system\getAllPacksFromAWeek(1);
+            $packs = \cardback\system\getAllPacksFromWeeks(1, 1);
 
             if ($packs[0] == 1 && count($packs[1]) > 0) {
                 ?>
@@ -68,6 +68,28 @@
                 </section>
                 <br>
                 <?php
+            } else {
+                $packs = \cardback\system\getAllPacksFromWeeks(4, 1);
+
+                if ($packs[0] == 1 && count($packs[1]) > 0) {
+                    ?>
+                    <section class="section-cards">
+                        <h3 class="theme-default-text">Paquets créés depuis un mois</h3>
+                        <div class="cards-container">
+                            <?php
+                            foreach ($packs[1] as $pack) {
+                                echo \cardback\component\makeCardDetailed(
+                                    $pack["name"],
+                                    \cardback\utility\getAnonymousNameFromAccount($pack),
+                                    \cardback\utility\getFormatedDate($pack["creationDate"]),
+                                    $serverUrl . "/pack?id=" . $pack["id"]);
+                            }
+                            ?>
+                        </div>
+                    </section>
+                    <br>
+                    <?php
+                }
             }
             ?>
 

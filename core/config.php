@@ -1,19 +1,20 @@
 <?php namespace cardback;
 
-// URL du site.
+// URL du site
 $serverUrl = "https://cardback.tech";
 
-// Informations générales du site.
+// Informations générales du site
 $serverTimezone = "Europe/Paris";
 $serverLocale = "fr_FR.UTF-8";
 
-// Informations de connexion à la base de donnée.
+// Informations de connexion à la base de donnée
 $dbHost = "35.205.34.35";
 $dbUser = "root";
 $dbPassword = "@!hk-fpv-io2-2019!@";
 $dbBase = "cardback";
 $dbPort = "3306";
 
+// Les différents thèmes
 $themes = array(
     0 => "Informatique",
     1 => "Mathématiques",
@@ -24,6 +25,7 @@ $themes = array(
     6 => "Autres"
 );
 
+// Les différentes difficultés
 $difficulties = array(
     0 => "Facile",
     1 => "Moyen",
@@ -43,5 +45,6 @@ function configure() {
     // Démarre une session si une session n'est pas déjà en cours
     if (!isset($_SESSION)) {
         session_start();
+        session_regenerate_id();
     }
 }

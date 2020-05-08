@@ -21,12 +21,31 @@
 
         <article id="content-main">
             <?php
+            $allThemes = \cardback\system\getAllThemes();
+            ?>
+            <section class="section-cards">
+                <h3 class="theme-default-text">Thèmes</h3>
+                <div class="cards-container">
+                    <?php
+                    foreach ($allThemes[1] as $theme) {
+                        $frontText = $theme["name"];
+                        $backText = "Voulez vous accéder<br>à ce thème";
+                        $link = $serverUrl."/theme?id=".$theme["id"];
+
+                        echo \cardback\component\makeCard($frontText, $backText, TRUE, "", $link);
+                    }
+                    ?>
+                </div>
+            </section>
+            <br>
+
+            <?php
             $packs = \cardback\system\getAllPacks(1);
 
-            if ($packs[0] == 1 && count($packs[1]) > 0):
+            if ($packs[0] == 1 && count($packs[1]) > 0) {
                 ?>
                 <section class="section-cards">
-                    <h3 class="theme-default-text">Tout</h3>
+                    <h3 class="theme-default-text">Tous les paquets de carte</h3>
                     <div class="cards-container">
                         <?php
                         foreach ($packs[1] as $pack) {
@@ -34,14 +53,14 @@
                                 $pack["name"],
                                 \cardback\utility\getAnonymousNameFromAccount($pack),
                                 \cardback\utility\getFormatedDate($pack["creationDate"]),
-                                $serverUrl."/pack?id=".$pack["id"]);
+                                $serverUrl . "/pack?id=" . $pack["id"]);
                         }
                         ?>
                     </div>
                 </section>
                 <br>
-            <?php
-            endif;
+                <?php
+            }
             ?>
         </article>
     </div>

@@ -18,7 +18,7 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        $result = \cardback\system\connectAccount($_POST["email"], $_POST["password"]);
+        $result = \cardback\system\connectWithCredentials($_POST["email"], $_POST["password"]);
 
         if ($result[0] == TRUE) {
             \cardback\utility\redirect("home");

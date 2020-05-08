@@ -8,6 +8,9 @@ if (isset($_POST)) {
     } else if (isset($_POST["hideLastName"])) {
         \cardback\system\hideLastName($account["id"], isset($_POST["hideLastNameCheckbox"]));
         \cardback\utility\redirect("settings/account/security");
+    } else if (isset($_POST["hideSearch"])) {
+        \cardback\system\hideInSearch($account["id"], isset($_POST["hideSearchCheckbox"]));
+        \cardback\utility\redirect("settings/account/security");
     }
 }
 
@@ -34,6 +37,9 @@ if (isset($_POST)) {
                     <h3 class="settings-title theme-default-text">Confidentialité et sécurité</h3>
                 </div>
 
+                <div class="settings-category-container">
+                    <h3 class="settings-title theme-default-text">Gestion de l'anonymat</h3>
+                </div>
                 <div class="settings-option-container">
                     <form method="post" id="hide-first-name-form">
                         <input type="hidden" name="hideFirstName" value="" />
@@ -50,6 +56,16 @@ if (isset($_POST)) {
                         <label class="checkbox-label theme-default-text" style="padding-left: 20px; line-height: 48px; font-size: 20px; font-weight: normal; border: 0;">Anonymiser mon nom
                             <input type="checkbox" name="hideLastNameCheckbox" onclick="document.getElementById('hide-last-name-form').submit();"<?php
                             echo $account["hideLastName"] == 1 ? " checked" : "" ?>>
+                            <span class="checkmark theme-default-background" style="left: unset; right: 20px; top: 11px;"></span>
+                        </label>
+                    </form>
+                </div>
+                <div class="settings-option-container">
+                    <form method="post" id="hide-search-form">
+                        <input type="hidden" name="hideSearch" value="" />
+                        <label class="checkbox-label theme-default-text" style="padding-left: 20px; line-height: 48px; font-size: 20px; font-weight: normal; border: 0;">Ne pas apparaître dans les recherches
+                            <input type="checkbox" name="hideSearchCheckbox" onclick="document.getElementById('hide-search-form').submit();"<?php
+                            echo $account["hideInSearch"] == 1 ? " checked" : "" ?>>
                             <span class="checkmark theme-default-background" style="left: unset; right: 20px; top: 11px;"></span>
                         </label>
                     </form>

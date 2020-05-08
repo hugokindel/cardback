@@ -134,7 +134,7 @@ function getAllPacks($published = -1) {
     if ($result[0] == 0) {
         return $result;
     } else {
-        return [1, _associateAuthorToPack($result[1])];
+        return [1, array_reverse(_associateAuthorToPack($result[1]))];
     }
 }
 
@@ -170,17 +170,29 @@ function searchTheme($themeSearch) {
     return $array;
 }
 
+function getAllThemes() {
+    global $themes;
+
+    $array = [];
+
+    foreach ($themes as $id => $theme) {
+        array_push($array, ["id" => $id, "name" => $theme]);
+    }
+
+    return [1, $array];
+}
+
 // Retourne le contenu de tous les paquets créé dans les 7 derniers jours
-function getAllPacksFromAWeek($published = -1) {
+function getAllPacksFromWeeks($weeks = 1, $published = -1) {
     $result = \cardback\database\select("packs",
         "",
-        "WHERE creationDate BETWEEN DATE_ADD(now(), INTERVAL -1 WEEK) AND now()"
+        "WHERE creationDate BETWEEN DATE_ADD(now(), INTERVAL -".$weeks." WEEK) AND now()"
             .($published != -1 ? " AND published = $published" : ""));
 
     if ($result[0] == 0) {
         return $result;
     } else {
-        return [1, _associateAuthorToPack($result[1])];
+        return [1, array_reverse(_associateAuthorToPack($result[1]))];
     }
 }
 
@@ -193,7 +205,7 @@ function getAllPacksOfTheme($theme, $published = -1) {
     if ($result[0] == 0) {
         return $result;
     } else {
-        return [1, _associateAuthorToPack($result[1])];
+        return [1, array_reverse(_associateAuthorToPack($result[1]))];
     }
 }
 
@@ -222,7 +234,7 @@ function getAllPacksOfUser($userId, $published = -1) {
         }
     }
 
-    return [1, _associateAuthorToPack($array)];
+    return [1, array_reverse(_associateAuthorToPack($array))];
 }
 
 // Vérifie si un utilisateur est l'auteur d'un paquet de cartes ou non
