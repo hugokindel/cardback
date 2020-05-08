@@ -34,7 +34,7 @@ if (!empty($_POST)) {
         }
 
         if (count($errorOnCards) > 0) {
-            \cardback\utility\redirect("play?id=".$_GET["id"]."&errorType=1");
+            \cardback\utility\redirect(saveDataInUrl("play?id=".$_GET["id"]."&errorType=1"));
         } else {
             $_SESSION["game-".$_GET["id"]] = 1;
 
