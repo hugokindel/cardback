@@ -663,6 +663,10 @@ footer {
     display: block;
 }
 
+#right-toolbar-menu:hover div img, #right-toolbar-menu:hover div p {
+    filter: brightness(90%);
+}
+
 #right-toolbar-menu-content div:hover a img {
     filter: brightness(90%);
 }

@@ -56,7 +56,7 @@ if (!empty($_POST)) {
 
         \cardback\utility\redirect("home");
     } else if (isset($_POST["editPack"])) {
-        \cardback\utility\redirect("editor/modify?id=".$_GET["id"]);
+        redirectEditor("editor/modify?id=".$_GET["id"]);
     } else if (isset($_POST["unpublishPack"])) {
         \cardback\system\unpublishPack($_GET["id"]);
     } else {
@@ -113,130 +113,131 @@ if (!empty($_POST)) {
             </form>');
         ?>
 
-        <article id="content-main">
-            <section>
-                <div class="grid-container">
-                    <div>
-                        <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                        <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
-                            <?php echo count($cards) ?> cartes</h4>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
-                        <form method="post" id="edit-pack-form">
-                            <input type="hidden" name="editPack" value="Éditer" />
-                            <div class="button-round" style="display: flex; align-items: center; justify-content: center;" onclick="document.forms['edit-pack-form'].submit();">
-                                <div style="font-size: 30px; position: absolute;">􀛷</div>
-                                <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </section>
-            <br>
-
-            <?php
-            if ($pack["description"] != "") {
-                ?>
+        <form method="post" id="page-general-form">
+            <article id="content-main">
                 <section>
-                    <h3 class="theme-default-text">Description</h3>
-                    <h4 class="theme-default-text" style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
+                    <div class="grid-container">
+                        <div>
+                            <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
+                            <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
+                                <?php echo count($cards) ?> cartes</h4>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
+                            <label class="card" style="position: relative; display: block;">
+                                <input type="submit" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden;" name="editPack">
+                                <div class="button-round" style="display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="document.forms['edit-pack-form'].submit();">
+                                    <div style="font-size: 30px; position: absolute;">􀛷</div>
+                                    <div style="font-size: 34px; color: #1FCAAC; position: absolute;">􀈌</div>
+                                </div>
+                                </input>
+                            </label>
+                        </div>
+                    </div>
                 </section>
                 <br>
-                <?php
-            }
-            ?>
 
-            <section class="section-cards">
-                <h4 class="theme-default-text">Cartes</h4>
-                <?php if (isset($_GET["errorType"]) && $_GET["errorType"] == 2) {
+                <?php
+                if ($pack["description"] != "") {
                     ?>
-                    <div style="width: 100%; margin: 20px 10px;">
-                        <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
-                            <br>- Veuillez créer au moins une carte!</p>
-                    </div>
+                    <section>
+                        <h3 class="theme-default-text">Description</h3>
+                        <h4 class="theme-default-text" style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
+                    </section>
+                    <br>
                     <?php
                 }
                 ?>
 
-                <form method="post" id="page-general-form">
-                    <?php
-                    foreach ($cards as $value) {
-                        $cardId = $value["id"];
-                        $question = $value["question"] != "" ? $value["question"] : (isset($_GET["qcard-$cardId"]) ? $_GET["qcard-$cardId"] : "");
-                        $answer = $value["answer"] != "" ? $value["answer"] : (isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "");
-
-
+                <section class="section-cards">
+                    <h4 class="theme-default-text">Cartes</h4>
+                    <?php if (isset($_GET["errorType"]) && $_GET["errorType"] == 2) {
                         ?>
-                            <div class="cards-container">
-                                <?php
-                                echo \cardback\component\makeCardEditable(
-                                        "qcard-".$value["id"],
-                                        "Écrivez votre question...", $question, $value["confirmed"]);
-                                echo \cardback\component\makeCardEditable(
-                                        "acard-".$value["id"],
-                                        "Écrivez votre réponse...", $answer, $value["confirmed"]);
-
-                                if ($value["confirmed"] == 1) {
-                                    ?>
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <h4 class="theme-default-text">Question validé!</h4>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-                                <div style="display: flex; align-items: center; justify-content: center;">
-                                    <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                           type="submit" name="suppress-<?php echo $value["id"] ?>-card" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
-
-                                    <?php
-                                    if ($value["confirmed"] == 0) {
-                                        ?>
-                                        <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                               type="submit" name="validate-<?php echo $value["id"] ?>-card" value="Valider" style="width: 150px; height: 32px; "/>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <input id="modify-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                               type="submit" name="modify-<?php echo $value["id"] ?>-card" value="Modifier" style="width: 150px; height: 32px; "/>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <?php
-                            if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {
-                            ?>
-                                <div style="width: 100%; margin: 20px 10px;">
-                                    <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!
-                                        <?php echo $_GET["error"] ?></p>
-                                </div>
-                            <?php
-                            } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 && $value["confirmed"] == 0) {
-                            ?>
-                                <div style="width: 100%; margin: 20px 10px;">
-                                    <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
-                                        <br>- Veuillez valider ou supprimer cette carte!</p>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                    <?php
+                        <div style="width: 100%; margin: 20px 10px;">
+                            <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
+                                <br>- Veuillez créer au moins une carte!</p>
+                        </div>
+                        <?php
                     }
                     ?>
 
-                    <div class="cards-container">
-                            <?php
-                            echo \cardback\component\makeCardPlus();
-                            ?>
-                    </div>
-                </form>
-            </section>
-            <br>
+                        <?php
+                        foreach ($cards as $value) {
+                            $cardId = $value["id"];
+                            $question = $value["question"] != "" ? $value["question"] : (isset($_GET["qcard-$cardId"]) ? $_GET["qcard-$cardId"] : "");
+                            $answer = $value["answer"] != "" ? $value["answer"] : (isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "");
 
-            <section>
-                <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
-                    Écrivez et valider vos questions une par une, pour éviter la perte de donnée!<br>Et pensez à valider vos cartes avant de quitter!<br>Ou leur contenu ne sera pas enregistrer.</h6>
-            </section>
-        </article>
+
+                            ?>
+                                <div class="cards-container">
+                                    <?php
+                                    echo \cardback\component\makeCardEditable(
+                                            "qcard-".$value["id"],
+                                            "Écrivez votre question...", $question, $value["confirmed"]);
+                                    echo \cardback\component\makeCardEditable(
+                                            "acard-".$value["id"],
+                                            "Écrivez votre réponse...", $answer, $value["confirmed"]);
+
+                                    if ($value["confirmed"] == 1) {
+                                        ?>
+                                        <div style="display: flex; align-items: center; justify-content: center;">
+                                            <h4 class="theme-default-text">Question validé!</h4>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main"
+                                               type="submit" name="suppress-<?php echo $value["id"] ?>-card" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
+
+                                        <?php
+                                        if ($value["confirmed"] == 0) {
+                                            ?>
+                                            <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main"
+                                                   type="submit" name="validate-<?php echo $value["id"] ?>-card" value="Valider" style="width: 150px; height: 32px; "/>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <input id="modify-card-<?php echo $value["id"] ?>-button" class="button-main"
+                                                   type="submit" name="modify-<?php echo $value["id"] ?>-card" value="Modifier" style="width: 150px; height: 32px; "/>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                <?php
+                                if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {
+                                ?>
+                                    <div style="width: 100%; margin: 20px 10px;">
+                                        <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!
+                                            <?php echo $_GET["error"] ?></p>
+                                    </div>
+                                <?php
+                                } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 && $value["confirmed"] == 0) {
+                                ?>
+                                    <div style="width: 100%; margin: 20px 10px;">
+                                        <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
+                                            <br>- Veuillez valider ou supprimer cette carte!</p>
+                                    </div>
+                                <?php
+                                }
+                                ?>
+                        <?php
+                        }
+                        ?>
+
+                        <div class="cards-container">
+                                <?php
+                                echo \cardback\component\makeCardPlus();
+                                ?>
+                        </div>
+                </section>
+                <br>
+
+                <section>
+                    <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
+                        Écrivez et valider vos questions une par une, pour éviter la perte de donnée!<br>Et pensez à valider vos cartes avant de quitter!<br>Ou leur contenu ne sera pas enregistrer.</h6>
+                </section>
+            </article>
+        </form>
     </div>
 </main>

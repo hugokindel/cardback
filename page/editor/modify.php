@@ -17,6 +17,16 @@ $nameIssue = FALSE;
 $difficultyIssue = FALSE;
 $themeIssue = FALSE;
 
+function dataSaver($url) {
+    foreach ($_GET as $key => $value) {
+        if (substr($key, 0, 5) === "acard" || substr($key, 0, 5) === "qcard") {
+            $url .= "&$key=".urlencode($value);
+        }
+    }
+
+    return $url;
+}
+
 if (isset($_POST["submit"])) {
     if (!\cardback\utility\checkName($_POST["name"])) {
         $error .= "<br>- Veuillez entrer un nom valide.";
@@ -32,7 +42,7 @@ if (isset($_POST["submit"])) {
             $_POST["theme"]);
 
         if ($result[0] == 1) {
-            \cardback\utility\redirect("editor?id=".$_GET["id"]);
+            \cardback\utility\redirect(dataSaver("editor?id=".$_GET["id"]));
         } else {
             $error .= "<br>- ".$result[1];
 
@@ -88,7 +98,7 @@ $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
                 isset($_POST["theme"]) ? $_POST["theme"] : $pack["theme"],
                 $themeIssue,
                 "form-select").'
-        </form>', $serverUrl."/editor?id=".$_GET["id"]);
+        </form>', $serverUrl.dataSaver("/editor?id=".$_GET['id']));
         ?>
     </main>
 
