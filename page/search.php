@@ -28,20 +28,51 @@ if (!isset($_GET["search"])) {
 
         <article id="content-main">
             <?php
-            $packs = \cardback\system\searchPacks($_GET["search"]."%");
+            $packsSearch = \cardback\system\searchPacks($_GET["search"]);
+            $themesSearch = \cardback\system\searchTheme($_GET["search"]);
+            $accountSearch = \cardback\system\searchAccount($_GET["search"]);
 
-            if ($packs[0] == 1 && count($packs[1]) > 0) {
+            for ($i = 0; $i < count($packsSearch[1]); $i++) {
+                $packsSearch[1][$i]["type"] = 0;
+            }
+            for ($i = 0; $i < count($themesSearch[1]); $i++) {
+                $themesSearch[1][$i]["type"] = 1;
+            }
+            for ($i = 0; $i < count($accountSearch[1]); $i++) {
+                $accountSearch[1][$i]["type"] = 2;
+                $accountSearch[1][$i]["name"] = \cardback\utility\getAnonymousNameFromAccount($accountSearch[1][$i]);
+            }
+
+            $allSearch = array_merge(
+                $packsSearch[0] == 1 ? $packsSearch[1] : [],
+                $themesSearch[0] == 1 ? $themesSearch[1] : [],
+                $accountSearch[0] == 1 ? $accountSearch[1] : []);
+
+            $nameColumn = array_column($allSearch, "name");
+
+            array_multisort($nameColumn, SORT_ASC, $allSearch);
+
+            if (count($allSearch) > 0) {
                 ?>
                 <section class="section-cards">
-                    <h3 class="theme-default-text">Résultats</h3> <!-- TODO: pluriel -->
+                    <h3 class="theme-default-text">Résultats</h3>
                     <div class="cards-container">
                         <?php
-                        foreach ($packs[1] as $pack) {
-                            echo \cardback\component\makeCardDetailed(
-                                $pack["name"],
-                                \cardback\utility\getAnonymousNameFromAccount($pack),
-                                \cardback\utility\getFormatedDate($pack["creationDate"]),
-                                $serverUrl . "/pack?id=" . $pack["id"]);
+                        foreach ($allSearch as $searchElement) {
+                            if ($searchElement["type"] == 0) {
+                                echo \cardback\component\makeCardDetailed(
+                                    $searchElement["name"],
+                                    \cardback\utility\getAnonymousNameFromAccount($searchElement),
+                                    \cardback\utility\getFormatedDate($searchElement["creationDate"]),
+                                    $serverUrl . "/pack?id=" . $searchElement["id"]);
+                            } else {
+                                $type = $searchElement["type"] == 1 ? "Thème" : "Utilisateur";
+                                $frontText = $searchElement["name"]."<br>".$type;
+                                $backText = "Voulez vous accéder<br>".($searchElement["type"] == 1 ? "à ce thème" : "à cet utilisateur")."?";
+                                $link = $serverUrl."/".($searchElement["type"] == 1 ? "theme?id=".$searchElement["id"] : "profile?id=".$searchElement["id"]);
+
+                                echo \cardback\component\makeCard($frontText, $backText, TRUE, "", $link);
+                            }
                         }
                         ?>
                     </div>

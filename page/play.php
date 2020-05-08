@@ -34,7 +34,7 @@ if (!empty($_POST)) {
                 }
             }
 
-            if (preg_match('/'.$answerDb.'/', $answerUser) == TRUE) {
+            if (preg_match('/'.$answerDb.'/', $answerUser)) {
                 $_SESSION["game-".$_GET["id"]."-".$_POST["id"]] = 1;
                 $_SESSION["game-".$_GET["id"]."-".$_POST["id"]."-answer"] = $_POST["acard-".$_POST["id"]];
             } else {
@@ -69,6 +69,13 @@ if (!empty($_POST)) {
         $_SESSION["game-".$_GET["id"]] = 1;
 
         \cardback\utility\redirect("result?id=".$_GET["id"]);
+    } else if (isset($_POST["restart"])) {
+        unset($_SESSION["game-".$_GET["id"]]);
+
+        foreach($cards as $card) {
+            unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
+            unset($_SESSION["game-".$_GET["id"]."-answer"]);
+        }
     }
 
     \cardback\utility\redirect("play?id=".$_GET["id"]);
@@ -79,6 +86,15 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
 
     foreach($cards as $card) {
         $_SESSION["game-".$_GET["id"]."-".$card["id"]] = 0;
+    }
+}
+
+$canRestart = FALSE;
+
+foreach ($cards as $card) {
+    if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] != 0) {
+        $canRestart = TRUE;
+        break;
     }
 }
 
@@ -97,15 +113,16 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
         </div>
 
         <?php
-        echo \cardback\component\page\makeToolbar(FALSE, '
-        <form method="post" id="abandon-pack-form">
-            <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="abandonPack"
-            value="Abandonner" />
-        </form>
-        <form method="post" id="get-result-form">
-            <input type="submit" id="right-toolbar-main-button" class="button-main" name="getResult"
-            value="Obtenir mes résultats"/>
-        </form>');
+        echo \cardback\component\page\makeToolbar(FALSE,
+            ($canRestart ? '
+            <form method="post" id="get-result-form">
+                <input type="submit" id="right-toolbar-main-button" class="button-main" name="restart"
+                    value="Recommencer"/>
+            </form>' : '').'
+            <form method="post" id="abandon-pack-form">
+                <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="abandonPack"
+                value="Abandonner" />
+            </form>');
         ?>
 
         <article id="content-main">
@@ -115,6 +132,12 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
                         <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
                         <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                        <form method="post" id="get-result-form">
+                            <input type="submit" id="right-toolbar-main-button" class="button-main" name="getResult"
+                                   value="Voir la correction"/>
+                        </form>
                     </div>
                 </div>
             </section>

@@ -141,7 +141,7 @@ function getAllPacks($published = -1) {
 function searchPacks($name) {
     $result = \cardback\database\select("packs",
         "",
-        "WHERE published = 1 AND name LIKE '$name'");
+        "WHERE published = 1 AND name LIKE '$name%'");
 
     if ($result[0] == 0) {
         return $result;
@@ -150,12 +150,45 @@ function searchPacks($name) {
     }
 }
 
+function searchTheme($themeSearch) {
+    global $themes;
+
+    $array = [];
+
+    foreach ($themes as $id => $theme) {
+        if (preg_match('/^'.strtolower($themeSearch).'/', strtolower($theme))) {
+            array_push($array, ["id" => $id, "name" => $theme]);
+        }
+    }
+
+    if (count($array) == 0) {
+        $array = [0, "Il n'y a aucune entrée correspondantes aux conditions '$themeSearch%' pour obtenir les thèmes."];
+    } else {
+        $array = [1, $array];
+    }
+
+    return $array;
+}
+
 // Retourne le contenu de tous les paquets créé dans les 7 derniers jours
 function getAllPacksFromAWeek($published = -1) {
     $result = \cardback\database\select("packs",
         "",
         "WHERE creationDate BETWEEN DATE_ADD(now(), INTERVAL -1 WEEK) AND now()"
             .($published != -1 ? " AND published = $published" : ""));
+
+    if ($result[0] == 0) {
+        return $result;
+    } else {
+        return [1, _associateAuthorToPack($result[1])];
+    }
+}
+
+function getAllPacksOfTheme($theme, $published = -1) {
+    $result = \cardback\database\select("packs",
+        "",
+        "WHERE theme = '$theme'"
+        .($published != -1 ? " AND published = $published" : ""));
 
     if ($result[0] == 0) {
         return $result;

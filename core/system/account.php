@@ -160,6 +160,20 @@ function hideLastName($userId, $hide) {
         "WHERE id = '$userId'");
 }
 
+function searchAccount($name) {
+    return \cardback\database\select("users",
+        "",
+        "WHERE
+	        (hideFirstName = 1 AND hideLastName = 1 AND
+		        CONCAT(SUBSTRING(firstName,1,1),'.',SUBSTRING(lastName,1,1),'.') LIKE '$name%') OR
+	        (hideFirstName = 1 AND hideLastName = 0 AND
+		        CONCAT(SUBSTRING(firstName,1,1),'. ',lastName) LIKE '$name%') OR
+	        (hideFirstName = 0 AND hideLastName = 1 AND
+		        CONCAT(firstName,' ',SUBSTRING(lastName,1,1),'.') LIKE '$name%') OR
+	        (hideFirstName = 0 AND hideLastName = 0 AND
+		        CONCAT(firstName,' ',lastName) LIKE '$name%')");
+}
+
 // Vérifie si un compte est connecté, ou non. Et redirige au bon endroit du site selon les cas
 function checkAccountConnection($connected) {
     if ($connected) {

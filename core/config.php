@@ -14,6 +14,22 @@ $dbPassword = "@!hk-fpv-io2-2019!@";
 $dbBase = "cardback";
 $dbPort = "3306";
 
+$themes = array(
+    0 => "Informatique",
+    1 => "Mathématiques",
+    2 => "Géographie",
+    3 => "Histoire",
+    4 => "Langues",
+    5 => "Divertissement",
+    6 => "Autres"
+);
+
+$difficulties = array(
+    0 => "Facile",
+    1 => "Moyen",
+    2 => "Difficile"
+);
+
 // Fonction de configuration du site web (fuseau horaire, langage, session)
 function configure() {
     global $serverTimezone;

@@ -39,6 +39,22 @@ if (isset($_POST)) {
     }
 }
 
+$score = 0;
+
+for ($i = 0; $i < count($cards); $i++) {
+    $cards[$i]["result"] = $_SESSION["game-".$_GET["id"]."-".$cards[$i]["id"]];
+
+    if ($cards[$i]["result"] == 1 || $cards[$i]["result"] == 2) {
+        $cards[$i]["userAnswer"] = $_SESSION["game-".$_GET["id"]."-".$cards[$i]["id"]."-answer"];
+    } else {
+        $cards[$i]["userAnswer"] = "?";
+    }
+
+    if ($cards[$i]["result"] == 1) {
+        $score += 1;
+    }
+}
+
 \cardback\utility\changeTitle("Résultat pour « ".$pack["name"]." »");
 ?>
 
@@ -75,6 +91,16 @@ if (isset($_POST)) {
             </section>
             <br>
 
+            <section>
+                <div class="grid-container">
+                    <div>
+                        <h3 class="theme-default-text">Résultat</h3>
+                        <h4 class="theme-default-text" style="font-weight: 500; ">Vous avez obtenu le score de <?php echo $score."/".count($cards) ?>.</h4>
+                    </div>
+                </div>
+            </section>
+            <br>
+
             <section class="section-cards">
                 <h4 class="theme-default-text">Cartes</h4>
                 <?php
@@ -84,21 +110,18 @@ if (isset($_POST)) {
                         <input type="hidden" name="id" value="<?php echo $card["id"] ?>" />
                         <div class="cards-container">
                             <?php
-                            echo \cardback\component\makeCardEditable("qcard-".$card["id"],
-                                "", $card["question"],
-                                TRUE);
-                            echo \cardback\component\makeCardEditable("acard-".$card["id"],
-                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ?
-                                    "Écrivez votre réponse..." :
-                                    ($_SESSION["game-".$_GET["id"]."-".$card["id"]] < 3 ?
-                                        $_SESSION["game-".$_GET["id"]."-".$card["id"]."-answer"] :
-                                        "?"),
+                            echo \cardback\component\makeCardEditable(
+                                "qcard-".$card["id"],
                                 "",
-                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] != 0,
+                                $card["question"],
+                                TRUE);
+                            echo \cardback\component\makeCardEditable(
+                                "acard-".$card["id"],
+                                $card["userAnswer"],
+                                "",
+                                TRUE,
                                 FALSE,
-                                $_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0 ?
-                                    0 :
-                                    ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 1 ? 1 : 2));
+                                $card["result"] == 1 ? 1 : 2);
                             ?>
 
                             <?php

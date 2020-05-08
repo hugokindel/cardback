@@ -45,6 +45,19 @@ if (isset($_POST["submit"])) {
 <!-- Contenu principal de la page -->
 <main id="main-with-footer">
     <?php
+    global $themes;
+    global $difficulties;
+
+    $themesString = array();
+    $difficultiesString = array();
+
+    foreach ($themes as $i => $value) {
+        array_push($themesString, $value);
+    }
+    foreach ($difficulties as $i => $value) {
+        array_push($difficultiesString, $value);
+    }
+
     echo \cardback\component\makeForm('Création d\'un paquet', 'Créer',
         ($error !== "" ? '<p class="form-label-error">􀁡 Création impossible!'.$error.'</p>' : "").
             '<form method="post" id="page-form">
@@ -68,14 +81,14 @@ if (isset($_POST["submit"])) {
                     "difficulty",
                     "􀛸",
                     "Difficulté",
-                    ["Facile", "Moyen", "Difficile"],
+                    $difficultiesString,
                     isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue,
                     "form-select")
                 .\cardback\component\makeSelectWithAccessory(
                     "theme",
                     "􀈕",
                     "Thème",
-                    ["Informatique", "Mathématiques", "Géographie", "Histoire", "Langues", "Divertissement", "Autres"],
+                    $themesString,
                     isset($_POST["theme"]) ? $_POST["theme"] : "",$themeIssue, "form-select").'
             </form>');
     ?>

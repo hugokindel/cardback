@@ -219,7 +219,7 @@ if (!empty($_POST)) {
 
             <section>
                 <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
-                    Pensez à valider vos cartes avant de quitter!<br>Ou leur contenu ne sera pas enregistrer.</h6>
+                    Écrivez et valider vos questions une par une, pour éviter la perte de donnée!<br>Et pensez à valider vos cartes avant de quitter!<br>Ou leur contenu ne sera pas enregistrer.</h6>
             </section>
         </article>
     </div>

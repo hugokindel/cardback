@@ -8,7 +8,7 @@ $pack = \cardback\system\getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] || (!\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
-    $pack["published"] == 1) {
+    ($pack["published"] == 1 && $account["admin"] == 0)) {
     \cardback\utility\redirect("404");
 }
 
@@ -50,6 +50,18 @@ $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
     <main id="main-with-footer">
         <?php
         global $serverUrl;
+        global $themes;
+        global $difficulties;
+
+        $themesString = array();
+        $difficultiesString = array();
+
+        foreach ($themes as $i => $value) {
+            array_push($themesString, $value);
+        }
+        foreach ($difficulties as $i => $value) {
+            array_push($difficultiesString, $value);
+        }
 
         echo \cardback\component\makeForm('Modification d\'un paquet', 'Modifier',
             ($error !== "" ? '<p class="form-label-error">􀁡 Modification impossible!'.$error.'</p>' : "").
@@ -64,7 +76,7 @@ $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
                 "difficulty",
                 "􀛸",
                 "Difficulté",
-                ["Facile", "Moyen", "Difficile"],
+                $difficultiesString,
                 isset($_POST["difficulty"]) ? $_POST["difficulty"] : $pack["difficulty"],
                 $difficultyIssue,
                 "form-select")
@@ -72,7 +84,7 @@ $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
                 "theme",
                 "􀈕",
                 "Thème",
-                ["Informatique", "Mathématiques", "Géographie", "Histoire", "Langues", "Divertissement", "Autres"],
+                $themesString,
                 isset($_POST["theme"]) ? $_POST["theme"] : $pack["theme"],
                 $themeIssue,
                 "form-select").'

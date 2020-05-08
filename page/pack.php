@@ -10,7 +10,7 @@ if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < 
     \cardback\utility\redirect("404");
 }
 
-$cards = \cardback\system\getAllCardsOfPack($_GET["id"]);
+$cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
 
 if (isset($_POST)) {
     if (isset($_POST["replay"])) {
@@ -25,8 +25,6 @@ if (isset($_POST)) {
     } else if (isset($_POST["suppressPack"])) {
         \cardback\system\removePack($_GET["id"]);
         \cardback\utility\redirect("home");
-    } else if (isset($_POST["editPack"])) {
-        \cardback\utility\redirect("editor?id=".$_GET["id"]);
     }
 }
 
@@ -51,10 +49,7 @@ if (isset($_POST)) {
             <form method="post" id="remove-pack-form">
                 <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack"
                 value="Supprimer le paquet" />
-            </form>' : '').($account["admin"] == 1 ? '<form method="post" id="edit-pack-form">
-                <input type="submit" id="right-toolbar-main-button" class="button-main" name="editPack" style="margin-right: 20px;"
-                value="Éditer le paquet"/>
-            </form>' : ''));
+            </form>' : '').($account["admin"] == 1 ? '<a id="right-toolbar-main-button" class="link-main" style="margin-right: 20px;" href="'.$serverUrl.'/editor?id='.$_GET["id"].'">Éditer le paquet</a>' : ''));
         ?>
 
         <article id="content-main">

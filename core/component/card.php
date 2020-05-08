@@ -1,10 +1,10 @@
 <?php namespace cardback\component;
 
-function makeCard($textOnFront, $textOnBack, $rotate = TRUE, $style = "") {
+function makeCard($textOnFront, $textOnBack, $rotate = TRUE, $style = "", $link = "") {
     global $serverUrl;
 
     return '
-    <div class="card" style="'.$style.'">
+    <a class="card" style="'.$style.'" '.($link != "" ? 'href="'.$link.'"' : '').'>
         <div class="card-container card-container-rotate" style="transform: rotate('.($rotate ? rand(-5, 5) : 0). 'deg)">
             <div class="card-main">
                 <div class="card-front">
@@ -17,7 +17,7 @@ function makeCard($textOnFront, $textOnBack, $rotate = TRUE, $style = "") {
                 </div>
              </div>
          </div>
-     </div>';
+     </a>';
 }
 
 function makeCardDetailed($title, $creatorName, $creationDate, $link = "", $message = "Serez-vous capable de trouver toutes les réponses?", $rotate = TRUE) {

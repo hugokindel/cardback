@@ -62,7 +62,7 @@ CREATE TABLE feedbacks(
     creationDate DATE NOT NULL,
 
     PRIMARY KEY(id)
-)
+);
 
 -- On crée la table "userPacks" (lien utilisateur-paquet)
 CREATE TABLE userPacks (
