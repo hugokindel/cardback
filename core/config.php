@@ -1,7 +1,7 @@
 <?php namespace cardback;
 
 // URL du site
-$serverUrl = "https://cardback.tech";
+$serverUrl = "http://cardback.test";
 
 // Informations générales du site
 $serverTimezone = "Europe/Paris";

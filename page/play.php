@@ -133,7 +133,7 @@ foreach ($cards as $card) {
                         <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
                         <form method="post" id="get-result-form">
                             <input type="submit" id="right-toolbar-main-button" class="button-main" name="getResult"
                                    value="Voir la correction"/>

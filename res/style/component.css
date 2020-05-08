@@ -508,6 +508,7 @@ footer {
 }
 
 #made-heart-label {
+    font-size: 20px;
     color: #FF3B30;
 }
 
@@ -870,4 +871,8 @@ footer {
 .card, .card * {
     color: black;
     text-decoration: none;
+}
+
+#search-main {
+    width: 540px;
 }

@@ -45,17 +45,19 @@ function makeCardPlus() {
     global $serverUrl;
 
     return '
-    <div class="card">
-        <div class="card-container" style="cursor: pointer;" onClick="document.forms[\'add-card-form\'].submit();">
-            <div class="card-main">
-                <div class="card-front">
-                    <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
-                    <div class="card-text-middle theme-default-text" style="font-size: 28px; color: black;">􀛷</div>
-                    <div class="card-text-middle" style="font-size: 34px; color: #1FCAAC;">􀁍</div>
-                </div>
-             </div>
-         </div>
-    </div>';
+        <label class="card" style="position: relative; display: block;">
+            <input type="submit" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden;" name="add-card">
+                    <div class="card-container" style="cursor: pointer;">
+                        <div class="card-main">
+                            <div class="card-front">
+                                <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
+                                <div class="card-text-middle theme-default-text" style="font-size: 28px; color: black;">􀛷</div>
+                                <div class="card-text-middle" style="font-size: 34px; color: #1FCAAC;">􀁍</div>
+                            </div>
+                         </div>
+                     </div>
+            </input>
+        </label>';
 }
 
 function makeCardEditable($name, $placeholder, $value = "", $readonly = FALSE, $autocomplete = TRUE, $showStamp = 0) {

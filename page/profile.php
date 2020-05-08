@@ -48,7 +48,7 @@ $accountUser = \cardback\system\getAccount($_GET["id"])[1][0];
                                 "Utilisateur" :
                                 "Administrateur"; ?></h4>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
                         <?php
                         if ($_SESSION["accountId"] === $_GET["id"] || $account["admin"] == 1) {
                             ?>

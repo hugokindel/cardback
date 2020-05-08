@@ -21,31 +21,22 @@ if ($cards[0] == 0) {
     $cards = $cards[1];
 }
 
+function redirectEditor($url) {
+    foreach ($_POST as $key => $value) {
+        if (substr($key, 0, 5) === "acard" || substr($key, 0, 5) === "qcard") {
+            $url .= "&$key=".urlencode($value);
+        }
+    }
+
+    \cardback\utility\redirect($url);
+}
+
 if (!empty($_POST)) {
-    if (isset($_POST["addCard"])) {
+    if (isset($_POST["add-card"])) {
         \cardback\system\createCard($_GET["id"]);
-    } else if (isset($_POST["validateCard"])) {
-        if ($_POST["qcard-".$_POST["id"]] === "") {
-            $error .= "<br>- Veuillez entrer une question.";
-        }
-
-        if ($_POST["acard-".$_POST["id"]] === "") {
-            $error .= "<br>- Veuillez entrer une réponse.";
-        }
-
-        if ($error === "") {
-            \cardback\system\confirmCard($_POST["id"], $_POST["qcard-".$_POST["id"]], $_POST["acard-".$_POST["id"]]);
-        } else {
-            \cardback\utility\redirect(
-                    "editor?id=".$_GET["id"]."&errorType=0&cardId=".$_POST["id"]."&error=".urlencode($error));
-        }
-    } else if (isset($_POST["suppressCard"])) {
-        \cardback\system\removeCard($_POST["id"]);
-    } else if (isset($_POST["modifyCard"])) {
-        \cardback\system\unconfirmCard($_POST["id"]);
     } else if (isset($_POST["publishPack"])) {
         if (count($cards) == 0) {
-            \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=2");
+            redirectEditor("editor?id=".$_GET["id"]."&errorType=2");
         }
 
         foreach ($cards as $card) {
@@ -55,7 +46,7 @@ if (!empty($_POST)) {
         }
 
         if (count($errorOnCards) > 0) {
-            \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=1");
+            redirectEditor("editor?id=".$_GET["id"]."&errorType=1");
         } else {
             \cardback\system\publishPack($_GET["id"]);
             \cardback\utility\redirect("home");
@@ -68,9 +59,33 @@ if (!empty($_POST)) {
         \cardback\utility\redirect("editor/modify?id=".$_GET["id"]);
     } else if (isset($_POST["unpublishPack"])) {
         \cardback\system\unpublishPack($_GET["id"]);
+    } else {
+        foreach ($cards as $card) {
+            $cardId = $card["id"];
+
+            if (isset($_POST["validate-$cardId-card"])) {
+                if ($_POST["qcard-$cardId"] === "") {
+                    $error .= "<br>- Veuillez entrer une question.";
+                }
+
+                if ($_POST["acard-$cardId"] === "") {
+                    $error .= "<br>- Veuillez entrer une réponse.";
+                }
+
+                if ($error === "") {
+                    \cardback\system\confirmCard($cardId, $_POST["qcard-$cardId"], $_POST["acard-$cardId"]);
+                } else {
+                    redirectEditor("editor?id=".$_GET["id"]."&errorType=0&cardId=$cardId&error=".urlencode($error));
+                }
+            } else if (isset($_POST["suppress-$cardId-card"])) {
+                \cardback\system\removeCard($cardId);
+            } else if (isset($_POST["modify-$cardId-card"])) {
+                \cardback\system\unconfirmCard($cardId);
+            }
+        }
     }
 
-    \cardback\utility\redirect("editor?id=".$_GET["id"]);
+    redirectEditor("editor?id=".$_GET["id"]);
 }
 
 \cardback\utility\changeTitle("Éditeur de paquet");
@@ -106,7 +121,7 @@ if (!empty($_POST)) {
                         <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
                         <form method="post" id="edit-pack-form">
                             <input type="hidden" name="editPack" value="Éditer" />
                             <div class="button-round" style="display: flex; align-items: center; justify-content: center;" onclick="document.forms['edit-pack-form'].submit();">
@@ -143,77 +158,78 @@ if (!empty($_POST)) {
                 }
                 ?>
 
-                <?php
-                foreach ($cards as $value) {
-                    ?>
-                    <form method="post" id="card-<?php echo $value["id"] ?>-form">
-                        <input type="hidden" name="id" value="<?php echo $value["id"] ?>" />
-                        <div class="cards-container">
-                            <?php
-                            echo \cardback\component\makeCardEditable(
-                                    "qcard-".$value["id"],
-                                    "Écrivez votre question...", $value["question"], $value["confirmed"]);
-                            echo \cardback\component\makeCardEditable(
-                                    "acard-".$value["id"],
-                                    "Écrivez votre réponse...", $value["answer"], $value["confirmed"]);
+                <form method="post" id="page-general-form">
+                    <?php
+                    foreach ($cards as $value) {
+                        $cardId = $value["id"];
+                        $question = $value["question"] != "" ? $value["question"] : (isset($_GET["qcard-$cardId"]) ? $_GET["qcard-$cardId"] : "");
+                        $answer = $value["answer"] != "" ? $value["answer"] : (isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "");
 
-                            if ($value["confirmed"] == 1) {
-                                ?>
-                                <div style="display: flex; align-items: center; justify-content: center;">
-                                    <h4 class="theme-default-text">Question validé!</h4>
-                                </div>
-                                <?php
-                            }
-                            ?>
-                            <div style="display: flex; align-items: center; justify-content: center;">
-                                <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                       type="submit" name="suppressCard" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
 
+                        ?>
+                            <div class="cards-container">
                                 <?php
-                                if ($value["confirmed"] == 0) {
+                                echo \cardback\component\makeCardEditable(
+                                        "qcard-".$value["id"],
+                                        "Écrivez votre question...", $question, $value["confirmed"]);
+                                echo \cardback\component\makeCardEditable(
+                                        "acard-".$value["id"],
+                                        "Écrivez votre réponse...", $answer, $value["confirmed"]);
+
+                                if ($value["confirmed"] == 1) {
                                     ?>
-                                    <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                           type="submit" name="validateCard" value="Valider" style="width: 150px; height: 32px; "/>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <input id="modify-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                           type="submit" name="modifyCard" value="Modifier" style="width: 150px; height: 32px; "/>
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <h4 class="theme-default-text">Question validé!</h4>
+                                    </div>
                                     <?php
                                 }
                                 ?>
-                            </div>
-                        </div>
-                        <?php
-                        if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {
-                        ?>
-                            <div style="width: 100%; margin: 20px 10px;">
-                                <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!
-                                    <?php echo $_GET["error"] ?></p>
-                            </div>
-                        <?php
-                        } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 && $value["confirmed"] == 0) {
-                        ?>
-                            <div style="width: 100%; margin: 20px 10px;">
-                                <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
-                                    <br>- Veuillez valider ou supprimer cette carte!</p>
-                            </div>
-                        <?php
-                        }
-                        ?>
-                    </form>
-                <?php
-                }
-                ?>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main"
+                                           type="submit" name="suppress-<?php echo $value["id"] ?>-card" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
 
-                <div class="cards-container">
-                    <form method="post" id="add-card-form">
-                        <input type="hidden" name="addCard" value="Ajouter" />
-                        <?php
-                        echo \cardback\component\makeCardPlus();
-                        ?>
-                    </form>
-                </div>
+                                    <?php
+                                    if ($value["confirmed"] == 0) {
+                                        ?>
+                                        <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main"
+                                               type="submit" name="validate-<?php echo $value["id"] ?>-card" value="Valider" style="width: 150px; height: 32px; "/>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <input id="modify-card-<?php echo $value["id"] ?>-button" class="button-main"
+                                               type="submit" name="modify-<?php echo $value["id"] ?>-card" value="Modifier" style="width: 150px; height: 32px; "/>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <?php
+                            if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {
+                            ?>
+                                <div style="width: 100%; margin: 20px 10px;">
+                                    <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!
+                                        <?php echo $_GET["error"] ?></p>
+                                </div>
+                            <?php
+                            } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 && $value["confirmed"] == 0) {
+                            ?>
+                                <div style="width: 100%; margin: 20px 10px;">
+                                    <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
+                                        <br>- Veuillez valider ou supprimer cette carte!</p>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                    <?php
+                    }
+                    ?>
+
+                    <div class="cards-container">
+                            <?php
+                            echo \cardback\component\makeCardPlus();
+                            ?>
+                    </div>
+                </form>
             </section>
             <br>
 

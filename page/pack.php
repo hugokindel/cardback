@@ -60,7 +60,7 @@ if (isset($_POST)) {
                         <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
                             <?php echo count($cards) ?> cartes</h4>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 100px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
                         <?php
                         if (!isset($_SESSION["game-".$_GET["id"]]) || $_SESSION["game-".$_GET["id"]] == 0) {
                             ?>

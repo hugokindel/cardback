@@ -16,9 +16,7 @@ if (!isset($_GET["search"])) {
     <div id="page-main">
         <div id="content-title-container">
             <?php
-            echo \cardback\component\page\makeSearchBar(
-                    "Chercher un paquet",
-                    $_GET["search"]);
+            echo \cardback\component\page\makeSearchBar($_GET["search"]);
             ?>
         </div>
 
