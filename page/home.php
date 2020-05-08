@@ -48,6 +48,30 @@
             ?>
 
             <?php
+            $unpublishedPacks = \cardback\system\getAllPacksOfUser($_SESSION["accountId"], 0);
+
+            if ($unpublishedPacks[0] == 1 && count($unpublishedPacks[1]) > 0) {
+                ?>
+                <section class="section-cards">
+                    <h3 class="theme-default-text">Paquets de cartes en cours de création</h3>
+                    <div class="cards-container">
+                        <?php
+                        foreach ($unpublishedPacks[1] as $pack) {
+                            echo \cardback\component\makeCardDetailed($pack["name"],
+                                \cardback\utility\getAnonymousNameFromAccount($account),
+                                \cardback\utility\getFormatedDate($pack["creationDate"]),
+                                $serverUrl . "/editor?id=" . $pack["id"],
+                                "Voulez-vous continuer à créer ce paquet?");
+                        }
+                        ?>
+                    </div>
+                </section>
+                <br>
+                <?php
+            }
+            ?>
+
+            <?php
             $packs = \cardback\system\getAllPacksFromWeeks(1, 1);
 
             if ($packs[0] == 1 && count($packs[1]) > 0) {
@@ -93,9 +117,39 @@
             }
             ?>
 
-            <!-- TODO: Paquet créé depuis un mois -->
-            <!-- TODO: Paquet récent dans le thème ... -->
-            <!-- TODO: Paquet en tendance -->
+            <?php
+            $themesArray = [0 => rand(0, 6), 1 => 0, 2 => 0];
+            do {
+                $themesArray[1] = rand(0, 6);
+            } while ($themesArray[1] == $themesArray[0]);
+            do {
+                $themesArray[2] = rand(0, 6);
+            } while ($themesArray[2] == $themesArray[1] || $themesArray[2] == $themesArray[0]);
+
+            foreach ($themesArray as $themeId) {
+                $themePack = \cardback\system\getAllPacksOfTheme($themes[$themeId], 0);
+
+                if ($themePack[0] == 1 && count($themePack[1]) > 0) {
+                    ?>
+                    <section class="section-cards">
+                        <h3 class="theme-default-text">Paquets de cartes dans le thème « <?php echo $themes[$themeId]; ?> »</h3>
+                        <div class="cards-container">
+                            <?php
+                            foreach ($themePack[1] as $pack) {
+                                echo \cardback\component\makeCardDetailed($pack["name"],
+                                    \cardback\utility\getAnonymousNameFromAccount($account),
+                                    \cardback\utility\getFormatedDate($pack["creationDate"]),
+                                    $serverUrl . "/editor?id=" . $pack["id"],
+                                    "Voulez-vous continuer à créer ce paquet?");
+                            }
+                            ?>
+                        </div>
+                    </section>
+                    <br>
+                    <?php
+                }
+            }
+            ?>
         </article>
     </div>
 </main>

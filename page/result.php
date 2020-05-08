@@ -35,7 +35,7 @@ if (isset($_POST)) {
             unset($_SESSION["game-".$_GET["id"]."-answer"]);
         }
 
-        \cardback\utility\redirect("home");
+        \cardback\utility\redirect("pack?id=".$_GET["id"]);
     }
 }
 

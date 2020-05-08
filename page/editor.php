@@ -175,14 +175,6 @@ if (!empty($_POST)) {
                                     echo \cardback\component\makeCardEditable(
                                             "acard-".$value["id"],
                                             "Écrivez votre réponse...", $answer, $value["confirmed"]);
-
-                                    if ($value["confirmed"] == 1) {
-                                        ?>
-                                        <div style="display: flex; align-items: center; justify-content: center;">
-                                            <h4 class="theme-default-text">Question validé!</h4>
-                                        </div>
-                                        <?php
-                                    }
                                     ?>
                                     <div style="display: flex; align-items: center; justify-content: center;">
                                         <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main"
@@ -202,6 +194,15 @@ if (!empty($_POST)) {
                                         }
                                         ?>
                                     </div>
+                                    <?php
+                                    if ($value["confirmed"] == 1) {
+                                        ?>
+                                        <div style="margin-left: 30px; display: flex; align-items: center; justify-content: center;">
+                                            <h4 class="theme-default-text">Question validé!</h4>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                                 <?php
                                 if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {

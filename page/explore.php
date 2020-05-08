@@ -29,7 +29,7 @@
                     <?php
                     foreach ($allThemes[1] as $theme) {
                         $frontText = $theme["name"];
-                        $backText = "Voulez vous accéder<br>à ce thème";
+                        $backText = "Voulez vous accéder<br>à ce thème?";
                         $link = $serverUrl."/theme?id=".$theme["id"];
 
                         echo \cardback\component\makeCard($frontText, $backText, TRUE, "", $link);

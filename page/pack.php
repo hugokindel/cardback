@@ -111,10 +111,57 @@ if (isset($_POST)) {
             }
             ?>
 
-            <!-- TODO: Statistiques -->
-            <!-- TODO: Derniers joueurs ayant joué à ce paquet -->
-            <!-- TODO: Autres paquets du même auteur -->
-            <!-- TODO: Autres paquets dans ce thème -->
+            <?php
+            $packs = \cardback\system\getAllPacksOfTheme($pack["theme"], 1);
+
+            if (count($packs[1]) - 1 > 0) {
+                ?>
+                <section class="section-cards">
+                    <h3 class="theme-default-text">Autres paquets du même thème</h3>
+                    <div class="cards-container">
+                        <?php
+                        foreach ($packs[1] as $themePack) {
+                            if ($themePack["id"] != $pack["id"]) {
+                                echo \cardback\component\makeCardDetailed(
+                                    $themePack["name"],
+                                    \cardback\utility\getAnonymousNameFromAccount($themePack),
+                                    \cardback\utility\getFormatedDate($themePack["creationDate"]),
+                                    $serverUrl . "/pack?id=" . $themePack["id"]);
+                            }
+                        }
+                        ?>
+                    </div>
+                </section>
+                <br>
+                <?php
+            }
+            ?>
+
+            <?php
+            $packs = \cardback\system\getAllPacksOfUser($pack["authorId"], 1);
+
+            if (count($packs[1]) - 1 > 0) {
+                ?>
+                <section class="section-cards">
+                    <h3 class="theme-default-text">Autres paquets du même auteur</h3>
+                    <div class="cards-container">
+                        <?php
+                        foreach ($packs[1] as $authorPack) {
+                            if ($authorPack["id"] != $pack["id"]) {
+                                echo \cardback\component\makeCardDetailed(
+                                    $authorPack["name"],
+                                    \cardback\utility\getAnonymousNameFromAccount($authorPack),
+                                    \cardback\utility\getFormatedDate($authorPack["creationDate"]),
+                                    $serverUrl . "/pack?id=" . $authorPack["id"]);
+                            }
+                        }
+                        ?>
+                    </div>
+                </section>
+                <br>
+                <?php
+            }
+            ?>
         </article>
     </div>
 </main>
