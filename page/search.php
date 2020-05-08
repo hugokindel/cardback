@@ -42,9 +42,9 @@ if (!isset($_GET["search"])) {
                                     \cardback\utility\getFormatedDate($searchElement["creationDate"]),
                                     $serverUrl . "/pack?id=" . $searchElement["id"]);
                             } else {
-                                $type = $searchElement["type"] == 1 ? "Thème" : "Utilisateur";
+                                $type = $searchElement["type"] == 1 ? "Thème" : ($searchElement["admin"] == 1 ? "Administrateur" : "Utilisateur");
                                 $frontText = $searchElement["name"]."<br>".$type;
-                                $backText = "Voulez vous accéder<br>".($searchElement["type"] == 1 ? "à ce thème" : "à cet utilisateur")."?";
+                                $backText = "Voulez vous accéder<br>".($searchElement["type"] == 1 ? "à ce thème" : "à ce profile")."?";
                                 $link = $serverUrl."/".($searchElement["type"] == 1 ? "theme?id=".$searchElement["id"] : "profile?id=".$searchElement["id"]);
 
                                 echo \cardback\component\makeCard($frontText, $backText, TRUE, "", $link);
