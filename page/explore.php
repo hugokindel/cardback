@@ -62,6 +62,29 @@
                 <?php
             }
             ?>
+
+            <?php
+            if ($account["admin"] == 1) {
+                $accounts = \cardback\system\getAllAccounts();
+
+                if ($accounts[0] == 1 && count($accounts[1]) > 0) {
+                    ?>
+                    <section class="section-cards">
+                        <h3 class="theme-default-text">Tous les profils</h3>
+                        <div class="cards-container">
+                            <?php
+                            foreach ($accounts[1] as $userAccount) {
+                                echo \cardback\component\makeCard(\cardback\utility\getAnonymousNameFromAccount($userAccount) . "<br>" . ($userAccount["admin"] == 1 ? "Administrateur" : "Utilisateur"),
+                                    "Voulez-vous accéder à ce profil?", TRUE, "", "profile?id=".$userAccount["id"]);
+                            }
+                            ?>
+                        </div>
+                    </section>
+                    <br>
+                    <?php
+                }
+            }
+            ?>
         </article>
     </div>
 </main>

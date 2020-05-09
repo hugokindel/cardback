@@ -17,7 +17,7 @@ function search($text, $pack = TRUE, $theme = TRUE, $account = TRUE) {
     }
     if ($accountSearch[0] == 1) {
         for ($i = 0; $i < count($accountSearch[1]); $i++) {
-            if ($accountSearch[1][$i]["hideInSearch"] == 1) {
+            if ($accountSearch[1][$i]["hideInSearch"] == 1 && $_SESSION["admin"] == 0) {
                 unset($accountSearch[1][$i]);
             } else {
                 $accountSearch[1][$i]["type"] = 2;

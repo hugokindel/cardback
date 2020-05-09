@@ -172,13 +172,26 @@ function removeAccount($userId) {
 
 // Retourne le contenu d'un compte
 function getAccount($userId) {
-    $result = \cardback\database\select("users", "", "WHERE id = '$userId'");
+    $result = \cardback\database\select(
+        "users",
+        "",
+        "WHERE id = '$userId'");
 
     if ($result[0] == 0) {
         return $result;
     }
 
     $result[1][0]["name"] = $result[1][0]["firstName"]." ".$result[1][0]["lastName"];
+
+    return $result;
+}
+
+// Retourne le contenu de tous les comptes
+function getAllAccounts() {
+    $result = \cardback\database\select(
+        "users",
+        "",
+        "");
 
     return $result;
 }

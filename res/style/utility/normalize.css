@@ -1,6 +1,8 @@
-/* ---- Code utilitaire pour uniformiser le site web sous chaque navigateurs ----
-        et empêche de voir les inconsistences des styles personnalisés de
-        chaque navigateurs                                                */
+/* ---- Code utilitaire pour corriger les petites inconsistences des
+        styles personnalisés de chaque navigateurs, si ce fichier
+        n'est pas autorisé dans sujet, effacer tout son contenu
+        ne devrait pas poser problème du tout pour le fonctionnement
+        et le rendu du site. */
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
