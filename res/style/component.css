@@ -211,6 +211,10 @@
     top: 0;
 }
 
+.image-accessory {
+    font-weight: 400;
+}
+
 .textbox-error {
     border-color: #FF3B30 !important;
 }

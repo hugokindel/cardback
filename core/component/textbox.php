@@ -1,23 +1,45 @@
 <?php namespace cardback\component;
 
-function makeTextbox($name, $type, $placeholder, $value = "", $error = FALSE, $maxlength = 0) {
-    return '
-        <label for="'.$name.'-textbox"></label>
-        <input class="textbox-main theme-default-background theme-default-text'.($error ? ' textbox-error' : '').'" id="'.$name.'-textbox" type="'.$type.'" name="'.$name.'" placeholder="'.$placeholder.'" value="'.$value.'"'.($maxlength > 0 ? ' maxlength="'.$maxlength.'"' : '').'>
-        ';
-}
+$getTextbox = function($name, $type, $placeholder, $value = "", $error = FALSE, $maxLength = 0) {
+    ?>
+    <label>
+        <input
+            class="textbox-main theme-default-background theme-default-text <?php echo $error ? "textbox-error" : ""; ?>"
+            id="<?php echo $name; ?>-textbox"
+            type="<?php echo $type; ?>"
+            name="<?php echo $name; ?>"
+            placeholder="<?php echo $placeholder; ?>"
+            value="<?php echo $value; ?>"
+            <?php echo $maxLength > 0 ? "maxlength=\"$maxLength\"" : ""; ?>>
+    </label>
+    <?php
+};
 
-function makeTextboxWithAccessory($name, $type, $placeholder, $accessory, $value = "", $error = FALSE, $class = "", $maxlength = 0) {
-    return '
-    <div class="textbox-container '.$class.'">
-        '.makeTextbox($name, $type, $placeholder, $value, $error, $maxlength).'
-        <h4 class="image-accessory" style="font-weight: 400">'.$accessory.'</h4>
-    </div>';
-}
+$getTextboxWithAccessory = function($name, $type, $placeholder, $accessory, $value = "", $error = FALSE, $class = "", $maxLength = 0) {
+    global $getTextbox;
 
-function makeTextboxMultiline($name, $type, $placeholder, $value = "", $error = FALSE, $maxlength = 0) {
-    return '
-        <label for="'.$name.'-textbox"></label>
-        <textarea class="textbox-main theme-default-background theme-default-text textbox-multiline'.($error ? ' textbox-error' : '').'" id="'.$name.'-textbox" type="'.$type.'" name="'.$name.'" placeholder="'.$placeholder.'"'.($maxlength > 0 ? ' maxlength="'.$maxlength.'"' : '').'>'.$value.'</textarea>
-        ';
-}
+    ?>
+    <div
+        class="textbox-container <?php echo $class; ?>">
+        <?php $getTextbox($name, $type, $placeholder, $value, $error, $maxLength); ?>
+        <h4
+            class="image-accessory">
+            <?php echo $accessory; ?></h4>
+    </div>
+    <?php
+};
+
+$getTextboxMultiline = function($name, $type, $placeholder, $value = "", $error = FALSE, $maxLength = 0) {
+    ?>
+    <label
+            for="<?php echo $name; ?>-textbox"></label>
+    <textarea
+        class="textbox-main theme-default-background theme-default-text textbox-multiline <?php echo $error ? "textbox-error" : ""; ?>"
+        id="<?php echo $name; ?>-textbox"
+        type="<?php echo $type; ?>"
+        name="<?php echo $name; ?>"
+        placeholder="<?php echo $placeholder; ?>"
+        <?php echo $maxLength > 0 ? "maxlength=\"$maxLength\"" : ""; ?>>
+        <?php echo $value; ?></textarea>
+    <?php
+};
