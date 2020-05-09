@@ -1,12 +1,22 @@
 <?php
 
-// Importe le contenu de "cardback"
 require_once "config.php";
-// Importe le contenu de "cardback\database"
 require_once "database/database.php";
-// Importe le contenu de "cardback\system"
-require_once "system/system.php";
-// Importe le contenu de "cardback\utility"
 require_once "utility/utility.php";
-// Importe le contenu de "cardback\component"
-require_once "component/component.php";
+require_once "system/account.php";
+require_once "system/feedback.php";
+require_once "system/pack.php";
+require_once "system/search.php";
+require_once "component/textbox.php";
+require_once "component/select.php";
+require_once "component/form.php";
+require_once "component/section.php";
+require_once "component/card.php";
+require_once "component/checkbox.php";
+require_once "component/page/faq.php";
+require_once "component/page/footer.php";
+require_once "component/page/search.php";
+require_once "component/page/settings.php";
+require_once "component/page/sidebar.php";
+require_once "component/page/title.php";
+require_once "component/page/toolbar.php";

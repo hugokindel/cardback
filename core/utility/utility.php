@@ -24,7 +24,7 @@ function changeTitle($title)
 function redirect($url = "") {
     global $serverUrl;
 
-    header("Location: ".$serverUrl."/".$url);
+    header("Location: ".$serverUrl.$url);
     exit();
 }
 
@@ -61,4 +61,30 @@ function getAnonymousName($firstName, $lastName, $hideFirstName, $hideLastName) 
 
 function getAnonymousNameFromAccount($account) {
     return getAnonymousName($account["firstName"], $account["lastName"], $account["hideFirstName"], $account["hideLastName"]);
+}
+
+function getNRandomNumbers($n, $min, $max, $canHaveSameValue = TRUE) {
+    $i = 0;
+    $array = [];
+
+    while ($i < $n) {
+        $number = rand($min, $max);
+        $same = FALSE;
+
+        if (!$canHaveSameValue) {
+            foreach ($array as $j) {
+                if ($j == $number) {
+                    $same = TRUE;
+                    break;
+                }
+            }
+        }
+
+        if (!$same) {
+            $array[$i] = $number;
+            $i++;
+        }
+    }
+
+    return $array;
 }

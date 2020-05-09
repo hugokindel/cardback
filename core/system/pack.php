@@ -1,6 +1,5 @@
 <?php namespace cardback\system;
 
-// Vérifie si un paquet existe déjà
 function _checkPackExists($name) {
     $result = \cardback\database\select("packs",
         "id",
@@ -9,7 +8,6 @@ function _checkPackExists($name) {
     return $result[0] == 1 ? $result[1][0]["id"] : 0;
 }
 
-// Associe le nom de l'auteur (obtenu dans la table 'users') à un paquet de cartes
 function _associateAuthorToPack($packs) {
     $array = [];
 
@@ -35,7 +33,6 @@ function _associateAuthorToPack($packs) {
     return $array;
 }
 
-// Crée un paquet de cartes
 function createPack($userId, $name, $description, $difficulty, $theme) {
     global $db;
 
@@ -63,21 +60,18 @@ function createPack($userId, $name, $description, $difficulty, $theme) {
     return [1];
 }
 
-// Publie un paquet de cartes
 function publishPack($packId) {
     \cardback\database\update("packs",
         "published = 1",
         "WHERE id = $packId");
 }
 
-// Dépublie un paquet de cartes
 function unpublishPack($packId) {
     \cardback\database\update("packs",
         "published = 0",
         "WHERE id = $packId");
 }
 
-// Modifie un paquet de cartes
 function changePack($packId, $name, $description, $difficulty, $theme) {
     global $db;
 
@@ -99,7 +93,6 @@ function changePack($packId, $name, $description, $difficulty, $theme) {
     return [1];
 }
 
-// Supprime un paquet de cartes
 function removePack($packId) {
     $result = getAllCardsOfPack($packId);
 
@@ -114,7 +107,6 @@ function removePack($packId) {
     \cardback\database\delete("packs", "WHERE id = '$packId'");
 }
 
-// Retourne le contenu d'un paquet de cartes
 function getPack($packId) {
     $result = \cardback\database\select("packs", "", "WHERE id = '$packId'");
 
@@ -125,7 +117,6 @@ function getPack($packId) {
     }
 }
 
-// Retourne le contenu de tous les paquets de cartes
 function getAllPacks($published = -1) {
     $result = \cardback\database\select("packs",
         "",
@@ -176,13 +167,12 @@ function getAllThemes() {
     $array = [];
 
     foreach ($themes as $id => $theme) {
-        array_push($array, ["id" => $id, "name" => $theme]);
+        array_push($array, ["id" => $id, "name" => $theme, "type" => 1]);
     }
 
     return [1, $array];
 }
 
-// Retourne le contenu de tous les paquets créé dans les 7 derniers jours
 function getAllPacksFromWeeks($weeks = 1, $published = -1) {
     $result = \cardback\database\select("packs",
         "",
@@ -209,7 +199,6 @@ function getAllPacksOfTheme($theme, $published = -1) {
     }
 }
 
-// Retourne tous les paquets de cartes publiés créé par l'utilisateur
 function getAllPacksOfUser($userId, $published = -1) {
     $result = \cardback\database\select("userPacks",
         "packId",
@@ -237,7 +226,6 @@ function getAllPacksOfUser($userId, $published = -1) {
     return [1, array_reverse(_associateAuthorToPack($array))];
 }
 
-// Vérifie si un utilisateur est l'auteur d'un paquet de cartes ou non
 function checkUserOwnsPack($userId, $packId) {
     $result = \cardback\database\select("userPacks",
         "",
@@ -246,7 +234,6 @@ function checkUserOwnsPack($userId, $packId) {
     return $result[0] == 1;
 }
 
-// Crée une carte
 function createCard($packId) {
     \cardback\database\insert("cards");
 
@@ -257,13 +244,11 @@ function createCard($packId) {
         "$packId, $cardId");
 }
 
-// Supprime une carte
 function removeCard($cardId) {
     \cardback\database\delete("cards",
         "WHERE id = '$cardId'");
 }
 
-// Valide une carte
 function confirmCard($cardId, $question, $answer) {
     global $db;
 
@@ -275,14 +260,12 @@ function confirmCard($cardId, $question, $answer) {
         "WHERE id = '$cardId'");
 }
 
-// Invalide une carte (pour la rendre modifiable par l'utilisateur)
 function unconfirmCard($cardId) {
     \cardback\database\update("cards",
         "confirmed = 0",
         "WHERE id = '$cardId'");
 }
 
-// Retourne le contenu de toutes les cartes d'un paquet de cartes
 function getAllCardsOfPack($packId, $confirmed = -1) {
     $result = \cardback\database\select("packCards",
         "cardId",
@@ -306,4 +289,8 @@ function getAllCardsOfPack($packId, $confirmed = -1) {
     }
 
     return [1, $array];
+}
+
+function isArrayEmpty($packs) {
+    return $packs[0] == 0 || count($packs[1]) == 0;
 }

@@ -39,12 +39,13 @@ if (isset($_POST["submit"])) {
     }
 }
 
-\cardback\utility\changeTitle("Création d'un paquet");
-?>
-
-<!-- Contenu principal de la page -->
-<main id="main-with-footer">
-    <?php
+$getPageForm = function() {
+    global $getTextbox;
+    global $getSelect;
+    global $nameIssue;
+    global $difficultyIssue;
+    global $themeIssue;
+    global $error;
     global $themes;
     global $difficulties;
 
@@ -58,43 +59,67 @@ if (isset($_POST["submit"])) {
         array_push($difficultiesString, $value);
     }
 
-    echo \cardback\component\makeForm('Création d\'un paquet', 'Créer',
-        ($error !== "" ? '<p class="form-label-error">􀁡 Création impossible!'.$error.'</p>' : "").
-            '<form method="post" id="page-form">
-                '.\cardback\component\makeTextboxWithAccessory(
-                    "name",
-                    "text",
-                    "Nom",
-                    "􀅯",
-                    isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox",
-                    50).'
-                <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir entre 2 et 50 caractères.</h6>'
-                .\cardback\component\makeTextboxWithAccessory(
-                    "description",
-                    "text",
-                    "Description",
-                    "􀌄",
-                    isset($_POST["description"]) ? $_POST["description"] : "", FALSE, "form-textbox",
-                    255).'
-                <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Optionnel, il peut contenir au maximum 255 caractères.</h6>'
-                .\cardback\component\makeSelectWithAccessory(
-                    "difficulty",
-                    "􀛸",
-                    "Difficulté",
-                    $difficultiesString,
-                    isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue,
-                    "form-select")
-                .\cardback\component\makeSelectWithAccessory(
-                    "theme",
-                    "􀈕",
-                    "Thème",
-                    $themesString,
-                    isset($_POST["theme"]) ? $_POST["theme"] : "",$themeIssue, "form-select").'
-            </form>');
     ?>
+    <form
+            method="post"
+            id="page-form">
+        <?php
+        if ($error != "") {
+            ?>
+            <p
+                    class="form-label-error">
+                􀁡 Création impossible!<?php echo $error; ?></p>
+            <?php
+        }
+
+        $getTextbox("name",
+                "text",
+                "Nom",
+                "􀅯",
+                isset($_POST["name"]) ? $_POST["name"] : "", $nameIssue, "form-textbox",
+                50);
+        ?>
+        <h6
+                style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
+            Il doit contenir entre 2 et 50 caractères.</h6>
+        <?php
+        $getTextbox("description",
+                "text",
+                "Description",
+                "􀌄",
+                isset($_POST["description"]) ? $_POST["description"] : "", FALSE, "form-textbox",
+                255);
+          ?>
+        <h6
+                style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
+            Il doit contenir entre 2 et 50 caractères.</h6>
+        <?php
+        $getSelect("difficulty",
+                "􀛸",
+                "Difficulté",
+                $difficultiesString,
+                isset($_POST["difficulty"]) ? $_POST["difficulty"] : "", $difficultyIssue,
+                "form-select");
+          ?>
+        <?php
+        $getSelect("theme",
+                "􀈕",
+                "Thème",
+                $themesString,
+                isset($_POST["theme"]) ? $_POST["theme"] : "",$themeIssue, "form-select");
+          ?>
+    </form>
+    <?php
+};
+
+\cardback\utility\changeTitle("Création d'un paquet");
+?>
+
+<!-- Contenu principal de la page -->
+<main
+        id="main-with-footer">
+    <?php $getForm('Création d\'un paquet', 'Créer', $getPageForm); ?>
 </main>
 
 <!-- Pied de page -->
-<?php
-echo \cardback\component\page\makeFooter();
-?>
+<?php $getFooter(); ?>

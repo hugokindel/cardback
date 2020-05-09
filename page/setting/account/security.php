@@ -4,13 +4,13 @@
 if (isset($_POST)) {
     if (isset($_POST["hideFirstName"])) {
         \cardback\system\hideFirstName($account["id"], isset($_POST["hideFirstNameCheckbox"]));
-        \cardback\utility\redirect("settings/account/security");
+        \cardback\utility\redirect("setting/account/security");
     } else if (isset($_POST["hideLastName"])) {
         \cardback\system\hideLastName($account["id"], isset($_POST["hideLastNameCheckbox"]));
-        \cardback\utility\redirect("settings/account/security");
+        \cardback\utility\redirect("setting/account/security");
     } else if (isset($_POST["hideSearch"])) {
         \cardback\system\hideInSearch($account["id"], isset($_POST["hideSearchCheckbox"]));
-        \cardback\utility\redirect("settings/account/security");
+        \cardback\utility\redirect("setting/account/security");
     }
 }
 
@@ -19,17 +19,17 @@ if (isset($_POST)) {
 
 <main>
     <?php
-    echo \cardback\component\page\makeSidebar(3);
+    $getSidebar(3);
     ?>
 
     <div id="page-main">
         <?php
-        echo \cardback\component\page\makeToolbar();
+        $getToolbar();
         ?>
 
         <article id="content-settings-main">
             <?php
-            echo \cardback\component\page\makeSettingsCategories(4);
+            $getSettings(4);
             ?>
 
             <section style="width: 540px; position: fixed; top: 0;">

@@ -1,6 +1,5 @@
 <?php namespace cardback\system;
 
-// Crée un feedback
 function createFeedback($userId, $message, $recommended) {
     global $db;
 
@@ -19,7 +18,6 @@ function createFeedback($userId, $message, $recommended) {
         "$userId, $feedbackId");
 }
 
-// Retourne le contenu d'un feedback
 function getFeedback($feedbackId) {
     return \cardback\database\select("feedbacks", "", "WHERE id = '$feedbackId'");
 }

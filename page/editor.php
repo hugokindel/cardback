@@ -8,7 +8,7 @@ $pack = \cardback\system\getPack($_GET["id"])[1][0];
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] || (!\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
     ($pack["published"] == 1 && $account["admin"] == 0)) {
-    \cardback\utility\redirect("404");
+    \cardback\utility\redirect("error/404");
 }
 
 $error = "";
@@ -88,46 +88,82 @@ if (!empty($_POST)) {
     redirectEditor("editor?id=".$_GET["id"]);
 }
 
+$getToolbarButtons = function() {
+    global $pack;
+
+    ?>
+    <form
+            method="post"
+            id="remove-pack-form">
+        <input
+                type="submit"
+                id="right-toolbar-secondary-button"
+                class="button-main"
+                name="suppressPack"
+                value="Supprimer le paquet" />
+    </form>
+    <form
+            method="post"
+            id="remove-pack-form">
+        <input
+                type="submit"
+                id="right-toolbar-main-button"
+                class="button-main"
+                name="<?php echo $pack["published"] == 1 ? "un" : "" ?>publishPack"
+                value="<?php echo $pack["published"] == 1 ? "Dép" : "P" ?>ublier le paquet"/>
+    </form>
+    <?php
+};
+
 \cardback\utility\changeTitle("Éditeur de paquet");
 ?>
 
 <main>
-    <?php
-    echo \cardback\component\page\makeSidebar(-1);
-    ?>
-
-    <div id="page-main">
-        <div id="content-title-container">
-            <h2 class="theme-default-text">Créateur de paquet</h2>
+    <?php $getSidebar(-1); ?>
+    <div
+            id="page-main">
+        <div
+                id="content-title-container">
+            <h2
+                    class="theme-default-text">
+                Créateur de paquet</h2>
         </div>
-
-        <?php
-        echo \cardback\component\page\makeToolbar(0, '
-            <form method="post" id="remove-pack-form">
-                <input type="submit" id="right-toolbar-secondary-button" class="button-main" name="suppressPack"
-                value="Supprimer le paquet" />
-            </form>
-            <form method="post" id="remove-pack-form">
-                <input type="submit" id="right-toolbar-main-button" class="button-main" name="'.($pack["published"] == 1 ? 'un' : '').'publishPack"
-                value="'.($pack["published"] == 1 ? 'Dép' : 'P').'ublier le paquet"/>
-            </form>');
-        ?>
-
-        <form method="post" id="page-general-form">
-            <article id="content-main">
+        <?php $getToolbar(0, $getToolbarButtons); ?>
+        <form
+                method="post"
+                id="page-general-form">
+            <article
+                    id="content-main">
                 <section>
-                    <div class="grid-container">
+                    <div
+                            class="grid-container">
                         <div>
-                            <h1 class="theme-default-text" style="font-weight: 800;"><?php echo $pack["name"] ?></h1>
-                            <h4 class="theme-default-text" style="font-weight: 600; "><?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> ·
-                                <?php echo count($cards) ?> cartes</h4>
+                            <h1
+                                    class="theme-default-text"
+                                    style="font-weight: 800;">
+                                <?php echo $pack["name"] ?></h1>
+                            <h4
+                                    class="theme-default-text"
+                                    style="font-weight: 600; ">
+                                <?php echo $pack["theme"] ?> · <?php echo $pack["difficulty"] ?> · <?php echo count($cards) ?> cartes</h4>
                         </div>
-                        <div style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
-                            <label class="card" style="position: relative; display: block;">
-                                <input type="submit" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden;" name="editPack">
-                                <div class="button-round" style="display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="document.forms['edit-pack-form'].submit();">
-                                    <div style="font-size: 30px; position: absolute;">􀛷</div>
-                                    <div class="color-text" style="font-size: 34px; position: absolute;">􀈌</div>
+                        <div
+                                style="display: flex; align-items: center; justify-content: center; margin-left: 75px; cursor: pointer;">
+                            <label
+                                    class="card"
+                                    style="position: relative; display: block;">
+                                <input
+                                        type="submit"
+                                        style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden;" name="editPack">
+                                <div
+                                        class="button-round"
+                                        style="display: flex; align-items: center; justify-content: center; cursor: pointer;"
+                                        onclick="document.forms['edit-pack-form'].submit();">
+                                    <div
+                                            style="font-size: 30px; position: absolute;">􀛷</div>
+                                    <div
+                                            class="color-text"
+                                            style="font-size: 34px; position: absolute;">􀈌</div>
                                 </div>
                                 </input>
                             </label>
@@ -140,103 +176,132 @@ if (!empty($_POST)) {
                 if ($pack["description"] != "") {
                     ?>
                     <section>
-                        <h3 class="theme-default-text">Description</h3>
-                        <h4 class="theme-default-text" style="font-weight: 500;"><?php echo $pack["description"] ?></h4>
+                        <h3
+                                class="theme-default-text">
+                            Description</h3>
+                        <h4
+                                class="theme-default-text"
+                                style="font-weight: 500;">
+                            <?php echo $pack["description"] ?></h4>
                     </section>
                     <br>
                     <?php
                 }
                 ?>
 
-                <section class="section-cards">
-                    <h4 class="theme-default-text">Cartes</h4>
+                <section
+                        class="section-cards">
+                    <h4
+                            class="theme-default-text">
+                        Cartes</h4>
                     <?php if (isset($_GET["errorType"]) && $_GET["errorType"] == 2) {
                         ?>
-                        <div style="width: 100%; margin: 20px 10px;">
-                            <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
-                                <br>- Veuillez créer au moins une carte!</p>
+                        <div
+                                style="width: 100%; margin: 20px 10px;">
+                            <p
+                                    class="form-label-error"
+                                    style="text-align: left;">
+                                􀁡 Publication impossible!<br>
+                                - Veuillez créer au moins une carte!</p>
                         </div>
                         <?php
                     }
-                    ?>
 
-                        <?php
-                        foreach ($cards as $value) {
-                            $cardId = $value["id"];
-                            $question = $value["question"] != "" ? $value["question"] : (isset($_GET["qcard-$cardId"]) ? $_GET["qcard-$cardId"] : "");
-                            $answer = $value["answer"] != "" ? $value["answer"] : (isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "");
+                    foreach ($cards as $value) {
+                        $cardId = $value["id"];
+                        $question = $value["question"] != "" ? $value["question"] : (isset($_GET["qcard-$cardId"]) ? $_GET["qcard-$cardId"] : "");
+                        $answer = $value["answer"] != "" ? $value["answer"] : (isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "");
 
+                        ?>
+                        <div class="cards-container">
+                            <?php
+                            $getCardEdit(
+                                    "qcard-".$value["id"],
+                                    "Écrivez votre question...", $question, $value["confirmed"] == 1);
+                            $getCardEdit(
+                                    "acard-".$value["id"],
+                                    "Écrivez votre réponse...", $answer, $value["confirmed"] == 1);
                             ?>
-                                <div class="cards-container">
-                                    <?php
-                                    echo \cardback\component\makeCardEditable(
-                                            "qcard-".$value["id"],
-                                            "Écrivez votre question...", $question, $value["confirmed"]);
-                                    echo \cardback\component\makeCardEditable(
-                                            "acard-".$value["id"],
-                                            "Écrivez votre réponse...", $answer, $value["confirmed"]);
+                            <div
+                                    style="display: flex; align-items: center; justify-content: center;">
+                                <input
+                                        id="suppress-card-<?php echo $value["id"] ?>-button"
+                                        class="button-main"
+                                        type="submit"
+                                        name="suppress-<?php echo $value["id"] ?>-card"
+                                        value="Supprimer"
+                                        style="width: 150px; height: 32px;  background-color: #FF3B30;" />
+                                <?php
+                                if ($value["confirmed"] == 0) {
                                     ?>
-                                    <div style="display: flex; align-items: center; justify-content: center;">
-                                        <input id="suppress-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                               type="submit" name="suppress-<?php echo $value["id"] ?>-card" value="Supprimer" style="width: 150px; height: 32px;  background-color: #FF3B30;" />
-
-                                        <?php
-                                        if ($value["confirmed"] == 0) {
-                                            ?>
-                                            <input id="validate-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                                   type="submit" name="validate-<?php echo $value["id"] ?>-card" value="Valider" style="width: 150px; height: 32px; "/>
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <input id="modify-card-<?php echo $value["id"] ?>-button" class="button-main"
-                                                   type="submit" name="modify-<?php echo $value["id"] ?>-card" value="Modifier" style="width: 150px; height: 32px; "/>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
+                                    <input
+                                            id="validate-card-<?php echo $value["id"] ?>-button"
+                                            class="button-main"
+                                            type="submit"
+                                            name="validate-<?php echo $value["id"] ?>-card"
+                                            value="Valider"
+                                            style="width: 150px; height: 32px; "/>
                                     <?php
-                                    if ($value["confirmed"] == 1) {
-                                        ?>
-                                        <div style="margin-left: 30px; display: flex; align-items: center; justify-content: center;">
-                                            <h4 class="theme-default-text">Question validé!</h4>
-                                        </div>
-                                        <?php
-                                    }
+                                } else {
                                     ?>
-                                </div>
-                                <?php
-                                if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {
-                                ?>
-                                    <div style="width: 100%; margin: 20px 10px;">
-                                        <p class="form-label-error" style="text-align: left;">􀁡 Validation impossible!
-                                            <?php echo $_GET["error"] ?></p>
-                                    </div>
-                                <?php
-                                } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 && $value["confirmed"] == 0) {
-                                ?>
-                                    <div style="width: 100%; margin: 20px 10px;">
-                                        <p class="form-label-error" style="text-align: left;">􀁡 Publication impossible!
-                                            <br>- Veuillez valider ou supprimer cette carte!</p>
-                                    </div>
-                                <?php
+                                    <input
+                                            id="modify-card-<?php echo $value["id"] ?>-button"
+                                            class="button-main"
+                                            type="submit"
+                                            name="modify-<?php echo $value["id"] ?>-card"
+                                            value="Modifier"
+                                            style="width: 150px; height: 32px; "/>
+                                    <?php
                                 }
                                 ?>
-                        <?php
-                        }
-                        ?>
-
-                        <div class="cards-container">
-                                <?php
-                                echo \cardback\component\makeCardPlus();
+                            </div>
+                            <?php
+                            if ($value["confirmed"] == 1) {
                                 ?>
+                                <div
+                                        style="margin-left: 30px; display: flex; align-items: center; justify-content: center;">
+                                    <h4
+                                            class="theme-default-text">
+                                        Question validé!</h4>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
+                        <?php
+                        if (isset($_GET["error"]) && $_GET["errorType"] == 0 && $value["id"] == $_GET["cardId"]) {
+                            ?>
+                            <div
+                                    style="width: 100%; margin: 20px 10px;">
+                                <p
+                                        class="form-label-error" style="text-align: left;">
+                                    􀁡 Validation impossible!
+                                    <?php echo $_GET["error"] ?></p>
+                            </div>
+                            <?php
+                        } else if (isset($_GET["errorType"]) && $_GET["errorType"] == 1 && $value["confirmed"] == 0) {
+                            ?>
+                            <div
+                                    style="width: 100%; margin: 20px 10px;">
+                                <p
+                                        class="form-label-error" style="text-align: left;">
+                                    􀁡 Publication impossible!
+                                    <br>- Veuillez valider ou supprimer cette carte!</p>
+                            </div>
+                            <?php
+                        }
+                    }
+                    $getCardButtonPlus();
+                    ?>
                 </section>
                 <br>
 
                 <section>
-                    <h5 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
+                    <h5
+                            style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
                         Pensez à valider vos cartes avant de quitter pour enregistrer leur contenu!</h5>
                 </section>
+                <br>
             </article>
         </form>
     </div>

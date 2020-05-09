@@ -4,31 +4,22 @@
 if (isset($_POST) && isset($_POST["theme"])) {
     setcookie('theme', $_POST["theme"], time() + 365243600, "/", null, false, true);
 
-    \cardback\utility\redirect("settings/general/display");
+    \cardback\utility\redirect("setting/general/display");
 } else if (isset($_POST) && isset($_POST["color"])) {
     setcookie('color', $_POST["color"], time() + 365243600, "/", null, false, true);
 
-    \cardback\utility\redirect("settings/general/display");
+    \cardback\utility\redirect("setting/general/display");
 }
 
 \cardback\utility\changeTitle("Paramètres d'affichage");
 ?>
 
 <main>
-    <?php
-    echo \cardback\component\page\makeSidebar(3);
-    ?>
-
+    <?php $getSidebar(3); ?>
     <div id="page-main">
-        <?php
-        echo \cardback\component\page\makeToolbar();
-        ?>
-
+        <?php $getToolbar(); ?>
         <article id="content-settings-main">
-            <?php
-            echo \cardback\component\page\makeSettingsCategories(0);
-            ?>
-
+            <?php $getSettings(0); ?>
             <section style="width: 540px; position: fixed; top: 0;">
                 <div class="settings-top-category-container">
                     <h3 class="settings-title theme-default-text">Affichage</h3>

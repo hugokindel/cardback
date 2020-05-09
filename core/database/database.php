@@ -1,9 +1,7 @@
 <?php namespace cardback\database;
 
-// Variable contenant la connexion à la base de donnée
 $db = NULL;
 
-// Fonction de connexion à la base de donnée
 function connect() {
     global $db;
     global $dbHost;
@@ -20,7 +18,6 @@ function connect() {
     }
 }
 
-// Fonction de déconnexion à la base de donnée
 function disconnect() {
     global $db;
 
@@ -34,7 +31,6 @@ function disconnect() {
     $db = NULL;
 }
 
-// Fonction interne pour vérifier le résultat d'une requête MySQL
 function _checkResult($result) {
     global $db;
 
@@ -45,7 +41,6 @@ function _checkResult($result) {
     }
 }
 
-// Fonction SELECT
 function select($table, $rows = "", $conditions = "") {
     global $db;
 
@@ -69,21 +64,18 @@ function select($table, $rows = "", $conditions = "") {
     return [1, $array];
 }
 
-// Fonction SELECT pour obtenir le plus petit ID
 function selectMinId($table) {
     $result = select($table, "MIN(id)");
 
     return [$result[0], $result[0] == 0 ? $result[1] : $result[1][0]["MIN(id)"]];
 }
 
-// Fonction SELECT pour obtenir le plus grand ID
 function selectMaxId($table) {
     $result = select($table, "MAX(id)");
 
     return [$result[0], $result[0] == 0 ? $result[1] : $result[1][0]["MAX(id)"]];
 }
 
-// Fonction INSERT
 function insert($table, $rows = "", $values = "") {
     global $db;
 
@@ -92,7 +84,6 @@ function insert($table, $rows = "", $values = "") {
     _checkResult($result);
 }
 
-// Fonction UPDATE
 function update($table, $values, $conditions = "") {
     global $db;
 
@@ -101,7 +92,6 @@ function update($table, $values, $conditions = "") {
     _checkResult($result);
 }
 
-// Fonction DELETE
 function delete($table, $conditions = "") {
     global $db;
 

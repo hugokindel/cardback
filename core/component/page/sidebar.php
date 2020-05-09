@@ -1,17 +1,34 @@
-<?php namespace cardback\component\page;
-
-function makeSidebar($selected = 0) {
+<?php
+$getSidebarLink = function($text, $accessory, $link, $selected = FALSE) {
     global $serverUrl;
 
-    return '
-        <div id="sidebar-main">'
-            .makeTitle().'
-            <div id="sidebar-links">
-                <a class="sidebar-link theme-default-text'.($selected === 0 ? ' sidebar-link-selected' : '').'" href="'.$serverUrl.'/home"><span class="sidebar-link-icon">􀎞</span>Accueil</a><br>
-                <a class="sidebar-link theme-default-text'.($selected === 1 ? ' sidebar-link-selected' : '').'" href="'.$serverUrl.'/explore"><span class="sidebar-link-icon">􀊫</span>Explorer</a><br>
-                <a class="sidebar-link theme-default-text'.($selected === 2 ? ' sidebar-link-selected' : '').'" href="'.$serverUrl.'/profile?id='.$_SESSION["accountId"].'"><span class="sidebar-link-icon">􀉭</span>Profil</a><br>
-                <a class="sidebar-link theme-default-text'.($selected === 3 ? ' sidebar-link-selected' : '').'" href="'.$serverUrl.'/settings"><span class="sidebar-link-icon">􀍟</span>Paramètres</a><br>
-                <a class="sidebar-link theme-default-text'.($selected === 4 ? ' sidebar-link-selected' : '').'" href="'.$serverUrl.'/feedback"><span class="sidebar-link-icon">􀈎</span>Feedback</a><br>
-            </div>
-        </div>';
-}
+    ?>
+    <a
+            class="sidebar-link theme-default-text <?php echo $selected ? "sidebar-link-selected" : "" ?>"
+            href="<?php echo $serverUrl.$link; ?>">
+        <span class="sidebar-link-icon"><?php echo $accessory; ?></span><?php echo $text; ?></a><br>
+    <?php
+};
+
+$getSidebar = function($selected = 0) {
+    global $serverUrl;
+    global $getCardbackTitle;
+    global $getSidebarLink;
+
+    ?>
+    <div
+            id="sidebar-main">
+        <?php echo $getCardbackTitle(); ?>
+        <div
+                id="sidebar-links">
+            <?php
+            $getSidebarLink("Accueil", "􀎞", "home", $selected == 0);
+            $getSidebarLink("Explorer", "􀊫", "explore", $selected == 1);
+            $getSidebarLink("Profil", "􀉭", "profile?id=".$_SESSION["accountId"], $selected == 2);
+            $getSidebarLink("Paramètres", "􀍟", "settings", $selected == 3);
+            $getSidebarLink("Feedback", "􀈎", "feedback", $selected == 4);
+            ?>
+        </div>
+    </div>
+<?php
+};

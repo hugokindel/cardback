@@ -10,35 +10,18 @@ cardback\database\connect();
 // Défini la page à charger
 $link = isset($_GET["link"]) ? "page/".$_GET['link'] : "page/welcome";
 
-// Si elle n'existe pas
+// Vérifie si la page à charger existe dans les fichiers du site
 if (!file_exists($link.".php")) {
-    // On défini la page à charger en tant que page 404
-    $link = "page/404";
+    // Si elle n'existe pas, on défini la page à charger en tant que page "404"
+    $link = "page/error/404";
 }
 
-$account = NULL;
-
-if (isset($_SESSION["accountId"])) {
-    // Si l'utilisateur est actuellement connecté (sont ID est présent dans la session)
-    $result = \cardback\system\getAccount($_SESSION["accountId"]);
-
-    if ($result[0] == 0) {
-        \cardback\system\disconnectAccount();
-    } else {
-        // Si l'utilisateur est trouvable
-        $account = $result[1][0];
-    }
-} else if (isset($_COOKIE["serverToken"])) {
-    // Si l'utilisateur n'est pas connecté, mais qu'il possède un token de connexion
-    $result = \cardback\system\connectWithAuthenticationToken();
-
-    if ($result[0] == 0 || !isset($_SESSION["accountId"])) {
-        \cardback\system\disconnectAccount();
-    } else {
-        // Si le token est valide et par conséquent l'utilisateur trouvable
-        $account = \cardback\system\getAccount($_SESSION["accountId"])[1][0];
-    }
-}
+// Retourne l'utilisateur actuel de cette session (ou NULL s'il n'y en a pas)
+$account = cardback\getUser(); // TODO: rename to user
+// Retourne le thème actuel (soit par les cookies, soit par défaut)
+$theme = cardback\getTheme();
+// Retourne la couleur d'accentuation actuelle (soit par les cookies, soit par défaut)
+$color = cardback\getColor();
 ?>
 
 <!DOCTYPE html>
@@ -62,46 +45,35 @@ if (isset($_SESSION["accountId"])) {
     <link rel="stylesheet" href="<?php echo $serverUrl ?>/res/style/component.css">
 
     <?php
-    // Si le fichier de style pour cette page existe
+    // Vérifie si il existe une fiche de style pour la page à charger dans les fichiers du site
     if (file_exists("res/style/".$link.".css")) {
-        // On le charge
+        // Si oui, on la charge
         echo '<link rel="stylesheet" href="'.$serverUrl.'/res/style/'.$link.'.css">';
     }
     ?>
 
-    <?php
-    $theme = "light";
-
-    if (isset($_COOKIE["theme"])) {
-        $theme = $_COOKIE["theme"];
-    }
-    ?>
-
-    <?php
-    $color = "green";
-
-    if (isset($_COOKIE["color"])) {
-        $color = $_COOKIE["color"];
-    }
-    ?>
-
+    <!-- Feuille de style du thème -->
     <link rel="stylesheet" href="<?php echo $serverUrl ?>/res/style/theme/<?php echo $theme; ?>.css">
+    <!-- Feuille de style de la couleur d'accentuation -->
     <link rel="stylesheet" href="<?php echo $serverUrl ?>/res/style/color/<?php echo $color; ?>.css">
 </head>
 <body>
     <script>
+        // Définit une variable globale utilisé dans le JavaScript du site
         let baseUrl = "<?php echo $serverUrl ?>";
     </script>
 
     <?php
-    // Charge la page voulu
+    // Charge la page du site demandé
     require $link.".php";
     ?>
 
+    <!-- Charge le JavaScript nécessaire pour quelques éléments graphiques du site -->
     <script src="<?php echo $serverUrl ?>/res/script/component.js"></script>
 </body>
 </html>
 
 <?php
+// Déconnecte la base de donnée
 cardback\database\disconnect();
 ?>

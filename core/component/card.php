@@ -1,83 +1,171 @@
-<?php namespace cardback\component;
-
-function makeCard($textOnFront, $textOnBack, $rotate = TRUE, $style = "", $link = "") {
+<?php
+$getCard = function($textOnFront, $textOnBack, $rotate = TRUE, $style = "", $link = "") {
     global $serverUrl;
 
-    return '
-    <a class="card" style="'.$style.'" '.($link != "" ? 'href="'.$link.'"' : '').'>
-        <div class="card-container card-container-rotate" style="transform: rotate('.($rotate ? rand(-5, 5) : 0). 'deg)">
-            <div class="card-main">
-                <div class="card-front">
-                    <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
-                    <div class="card-text-middle">'.$textOnFront.'</div>
+    ?>
+    <a
+            class="card"
+            style="<?php echo $style; ?>"
+            href="<?php echo $link; ?>">
+        <div
+                class="card-container card-container-rotate"
+                style="transform: rotate(<?php echo $rotate ? rand(-5, 5) : 0; ?>deg)">
+            <div
+                    class="card-main">
+                <div
+                        class="card-front">
+                    <img
+                            class="card-image"
+                            src="<?php echo $serverUrl; ?>res/image/card-background.svg"
+                            alt="Carte fond avant"/>
+                    <div
+                            class="card-text-middle"><?php echo $textOnFront; ?></div>
                 </div>
-                <div class="card-back">
-                    <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond arrière"/>
-                    <div class="card-text-middle">'.$textOnBack.'</div>
+                <div
+                        class="card-back">
+                    <img
+                            class="card-image"
+                            src="<?php echo $serverUrl; ?>res/image/card-background.svg"
+                            alt="Carte fond arrière"/>
+                    <div
+                            class="card-text-middle"><?php echo $textOnBack; ?></div>
                 </div>
              </div>
          </div>
-     </a>';
-}
+     </a>
+    <?php
+};
 
-function makeCardDetailed($title, $creatorName, $creationDate, $link = "", $message = "Serez-vous capable de trouver toutes les réponses?", $rotate = TRUE) {
+$getCardPack = function($title, $creatorName, $creationDate, $link = "", $message = "Serez-vous capable de trouver toutes les réponses?", $rotate = TRUE) {
     global $serverUrl;
 
-    return '
-    <a class="card" href="'.$link.'" style="outline: none; color: black;">
-        <div class="card-container card-container-rotate" style="transform: rotate('.($rotate ? rand(-5, 5) : 0). 'deg); cursor: pointer;">
-            <div class="card-main">
-                <div class="card-front">
-                    <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
-                    <div class="card-text-top">'.$title.'</div>
-                    <div class="card-text-bottom">Créé par '.$creatorName.'<br>'.$creationDate.'</div>
+    ?>
+    <a
+            class="card card-pack"
+            href="<?php echo $link; ?>">
+        <div
+                class="card-container card-pack-container card-container-rotate"
+                style="transform: rotate(<?php echo $rotate ? rand(-5, 5) : 0; ?>deg);">
+            <div
+                    class="card-main">
+                <div
+                        class="card-front">
+                    <img
+                            class="card-image"
+                            src="<?php echo $serverUrl; ?>res/image/card-background.svg"
+                            alt="Carte fond avant"/>
+                    <div
+                            class="card-text-top">
+                        <?php echo $title; ?></div>
+                    <div
+                            class="card-text-bottom">
+                        Créé par <?php echo $creatorName; ?><br>
+                        <?php echo $creationDate; ?></div>
                 </div>
-                <div class="card-back">
-                    <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond arrière"/>
-                    <div class="card-text-middle">'.$message.'</div>
+                <div
+                        class="card-back">
+                    <img
+                            class="card-image"
+                            src="<?php echo $serverUrl; ?>res/image/card-background.svg"
+                            alt="Carte fond arrière"/>
+                    <div
+                            class="card-text-middle">
+                        <?php echo $message; ?></div>
                 </div>
              </div>
          </div>
-     </a>';
-}
+     </a>
+    <?php
+};
 
-function makeCardPlus() {
+$getCardEdit = function($name, $placeholder, $value = "", $readonly = FALSE, $autocomplete = TRUE, $showStamp = 0) {
     global $serverUrl;
 
-    return '
-        <label class="card" style="position: relative; display: block;">
-            <input type="submit" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden;" name="add-card">
-                    <div class="card-container" style="cursor: pointer;">
-                        <div class="card-main">
-                            <div class="card-front">
-                                <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
-                                <div class="card-text-middle theme-default-text" style="font-size: 28px; color: black;">􀛷</div>
-                                <div class="card-text-middle color-text" style="font-size: 34px;">􀁍</div>
-                            </div>
-                         </div>
-                     </div>
+    ?>
+    <div
+            class="card">
+        <div
+                class="card-container">
+            <div
+                    class="card-main">
+                <div
+                        class="card-front">
+                    <img
+                            class="card-image"
+                            src="<?php echo $serverUrl; ?>res/image/card-background.svg"
+                            alt="Carte fond avant"/>
+                    <label for="<?php echo $name; ?>-textbox"></label>
+                        <textarea
+                                style="text-align: center; resize: none; font-size: 17px; font-weight: bold;"
+                                class="textbox-main textbox-card"
+                                autocomplete="<?php echo $autocomplete ? "on" : "off"; ?>"
+                                id="<?php echo $name; ?>-textbox"
+                                type="textarea"
+                                name="<?php echo $name; ?>"
+                                placeholder="<?php echo $placeholder; ?>"
+                                maxlength="159"
+                                <?php echo $readonly ? "readonly" : ""; ?>><?php echo $value; ?></textarea>
+                </div>
+                <?php
+                if ($showStamp > 0) {
+                    ?>
+                    <div
+                            class="stamp-container">
+                        <div
+                                class="stamp-background">
+                            􀛷</div>
+                        <div
+                                class="stamp-text <?php echo $showStamp == 1 ? "color-text" : ""; ?>"
+                                style="<?php echo $showStamp == 2 ? "color: #FF3B30" : ""; ?>">
+                            <?php echo $showStamp == 1 ? "􀁣" : "􀁡"; ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+             </div>
+         </div>
+     </div>
+    <?php
+};
+
+$getCardButtonPlus = function() {
+    global $serverUrl;
+
+    ?>
+    <div
+            class="cards-container">
+        <label
+                class="card"
+                style="position: relative; display: block;">
+            <input
+                    type="submit"
+                    style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden;"
+                    name="add-card">
+            <div
+                    class="card-container"
+                    style="cursor: pointer;">
+                <div
+                        class="card-main">
+                    <div
+                            class="card-front">
+                        <img
+                                class="card-image"
+                                src="<?php echo $serverUrl; ?>res/image/card-background.svg"
+                                alt="Carte fond avant"/>
+                        <div
+                                class="card-text-middle theme-default-text"
+                                style="font-size: 28px; color: black;">
+                            􀛷</div>
+                        <div
+                                class="card-text-middle color-text"
+                                style="font-size: 34px;">
+                            􀁍</div>
+                    </div>
+                </div>
+            </div>
             </input>
-        </label>';
-}
-
-function makeCardEditable($name, $placeholder, $value = "", $readonly = FALSE, $autocomplete = TRUE, $showStamp = 0) {
-    global $serverUrl;
-
-    return '
-    <div class="card">
-        <div class="card-container">
-            <div class="card-main">
-                <div class="card-front">
-                    <img class="card-image" src="'.$serverUrl.'/res/image/card-background.svg" alt="Carte fond avant"/>
-                    <label for="'.$name.'"></label>
-                    <textarea style="text-align: center; resize: none; font-size: 17px; font-weight: bold;" autocomplete="'.($autocomplete ? "on" : "off").'" id="'.$name.'-textbox" class="textbox-main textbox-card" type="textarea" name="'.$name.'" placeholder="'.$placeholder.'" maxlength="159"'.($readonly ? ' readonly' : '').'>'.$value.'</textarea>
-                </div>
-                '.($showStamp != 0 ? '
-                <div style="display: flex; align-items: center; justify-content: center; margin-left: 240px; margin-top: 10px;">
-                    <div style="font-size: 30px; color: black; position: absolute;">􀛷</div>
-                    <div class="'.($showStamp == 1 ? 'color-text' : '').'" style="font-size: 34px;'.($showStamp == 0 ? ' color: #FF3B30;' : '').'; font-weight: bold; position: absolute;">'.($showStamp == 1 ? '􀁣' : '􀁡').'</div>
-                </div>' : '').'
-             </div>
-         </div>
-     </div>';
-}
+        </label>
+    </div>
+    <?php
+};

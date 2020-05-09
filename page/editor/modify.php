@@ -9,7 +9,7 @@ $pack = \cardback\system\getPack($_GET["id"])[1][0];
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] || (!\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
     ($pack["published"] == 1 && $account["admin"] == 0)) {
-    \cardback\utility\redirect("404");
+    \cardback\utility\redirect("error/404");
 }
 
 $error = "";
@@ -53,56 +53,87 @@ if (isset($_POST["submit"])) {
 
 $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
 
+$getPageForm = function() {
+    global $getTextbox;
+    global $getSelect;
+    global $nameIssue;
+    global $difficultyIssue;
+    global $themeIssue;
+    global $error;
+    global $themes;
+    global $difficulties;
+    global $pack;
+
+    $themesString = array();
+    $difficultiesString = array();
+
+    foreach ($themes as $i => $value) {
+        array_push($themesString, $value);
+    }
+    foreach ($difficulties as $i => $value) {
+        array_push($difficultiesString, $value);
+    }
+
+    ?>
+    <form
+            method="post"
+            id="page-form">
+        <?php
+        if ($error != "") {
+            ?>
+            <p
+                    class="form-label-error">
+                􀁡 Création impossible!<?php echo $error; ?></p>
+            <?php
+        }
+
+        $getTextbox("name",
+                "text",
+                "Nom",
+                "􀅯",
+                isset($_POST["name"]) ? $_POST["name"] : $pack["name"], $nameIssue, "form-textbox",
+                50);
+        ?>
+        <h6
+                style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
+            Il doit contenir entre 2 et 50 caractères.</h6>
+        <?php
+        $getTextbox("description",
+                "text",
+                "Description",
+                "􀌄",
+                isset($_POST["description"]) ? $_POST["description"] : $pack["description"], FALSE, "form-textbox",
+                255);
+          ?>
+        <h6
+                style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
+            Il doit contenir entre 2 et 50 caractères.</h6>
+        <?php
+        $getSelect("difficulty",
+                "􀛸",
+                "Difficulté",
+                $difficultiesString,
+                isset($_POST["difficulty"]) ? $_POST["difficulty"] : $pack["difficulty"], $difficultyIssue,
+                "form-select");
+          ?>
+        <?php
+        $getSelect("theme",
+                "􀈕",
+                "Thème",
+                $themesString,
+                isset($_POST["theme"]) ? $_POST["theme"] : $pack["theme"],$themeIssue, "form-select");
+          ?>
+    </form>
+    <?php
+};
+
 \cardback\utility\changeTitle("Modification d'un paquet");
 ?>
 
     <!-- Contenu principal de la page -->
     <main id="main-with-footer">
-        <?php
-        global $serverUrl;
-        global $themes;
-        global $difficulties;
-
-        $themesString = array();
-        $difficultiesString = array();
-
-        foreach ($themes as $i => $value) {
-            array_push($themesString, $value);
-        }
-        foreach ($difficulties as $i => $value) {
-            array_push($difficultiesString, $value);
-        }
-
-        echo \cardback\component\makeForm('Modification d\'un paquet', 'Modifier',
-            ($error !== "" ? '<p class="form-label-error">􀁡 Modification impossible!'.$error.'</p>' : "").
-            '<form method="post" id="page-form">
-            '.\cardback\component\makeTextboxWithAccessory("name", "text", "Nom", "􀅯",
-                isset($_POST["name"]) ? $_POST["name"] : $pack["name"], $nameIssue, "form-textbox", 50).'
-            <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Il doit contenir entre 2 et 50 caractères.</h6>'
-            .\cardback\component\makeTextboxWithAccessory("description", "text", "Description", "􀌄",
-                isset($_POST["description"]) ? $_POST["description"] : $pack["description"], FALSE, "form-textbox", 255).'
-            <h6 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">Optionnel, il peut contenir au maximum 255 caractères.</h6>'
-            .\cardback\component\makeSelectWithAccessory(
-                "difficulty",
-                "􀛸",
-                "Difficulté",
-                $difficultiesString,
-                isset($_POST["difficulty"]) ? $_POST["difficulty"] : $pack["difficulty"],
-                $difficultyIssue,
-                "form-select")
-            .\cardback\component\makeSelectWithAccessory(
-                "theme",
-                "􀈕",
-                "Thème",
-                $themesString,
-                isset($_POST["theme"]) ? $_POST["theme"] : $pack["theme"],
-                $themeIssue,
-                "form-select").'
-        </form>', $serverUrl.dataSaver("/editor?id=".$_GET['id']));
-        ?>
+        <?php $getForm('Modification d\'un paquet', 'Modifier', $getPageForm, $serverUrl.dataSaver("/editor?id=".$_GET['id'])); ?>
     </main>
 
     <!-- Pied de page -->
-<?php
-echo \cardback\component\page\makeFooter();
-?>
+<?php $getFooter(); ?>

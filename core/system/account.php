@@ -1,12 +1,5 @@
 <?php namespace cardback\system;
 
-// Vérifie si un compte existe déjà
-use function cardback\database\delete;
-use function cardback\database\insert;
-use function cardback\database\select;
-use function cardback\database\selectMaxId;
-use function cardback\database\update;
-
 function _checkAccountExists($email) {
     $result = \cardback\database\select("users",
         "id",
@@ -46,7 +39,7 @@ function createAuthenticationToken($userId) {
         "serverToken, userToken",
         "'$serverToken', '$userToken'");
 
-    $tokenId = selectMaxId("connectionTokens")[1];
+    $tokenId = \cardback\database\selectMaxId("connectionTokens")[1];
 
     \cardback\database\insert(
         "userConnectionTokens",
@@ -60,7 +53,7 @@ function removeAuthenticationToken() {
     if (isset($_COOKIE['serverToken'])) {
         $serverToken = $_COOKIE['serverToken'];
 
-        delete("connectionTokens", "WHERE serverToken = '$serverToken'");
+        \cardback\database\delete("connectionTokens", "WHERE serverToken = '$serverToken'");
     }
 
     unset($_COOKIE['serverToken']);
@@ -192,6 +185,12 @@ function getAllAccounts() {
         "users",
         "",
         "");
+
+    if ($result[0] == 1) {
+        for ($i = 0; $i < count($result[1]); $i++) {
+            $result[1][$i]["type"] = 2;
+        }
+    }
 
     return $result;
 }

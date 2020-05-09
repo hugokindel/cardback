@@ -11,7 +11,7 @@ if (isset($_POST)) {
             \cardback\system\removeAuthenticationToken();
         }
 
-        \cardback\utility\redirect("settings/account/connection");
+        \cardback\utility\redirect("setting/account/connection");
     }
 }
 
@@ -20,17 +20,17 @@ if (isset($_POST)) {
 
 <main>
     <?php
-    echo \cardback\component\page\makeSidebar(3);
+    $getSidebar(3);
     ?>
 
     <div id="page-main">
         <?php
-        echo \cardback\component\page\makeToolbar();
+        $getToolbar();
         ?>
 
         <article id="content-settings-main">
             <?php
-            echo \cardback\component\page\makeSettingsCategories(3);
+            $getSettings(3);
             ?>
 
             <section style="width: 540px; position: fixed; top: 0;">
@@ -42,7 +42,7 @@ if (isset($_POST)) {
                     <h3 class="settings-title theme-default-text">Gestion de la connexion</h3>
                 </div>
                 <div class="settings-option-container">
-                    <a href="<?php echo $serverUrl; ?>/disconnect"><h3 class="settings-title settings-title-button theme-default-text">Se déconnecter</h3></a>
+                    <a href="<?php echo $serverUrl; ?>account/disconnect"><h3 class="settings-title settings-title-button theme-default-text">Se déconnecter</h3></a>
                 </div>
                 <div class="settings-option-container">
                     <form method="post" id="keep-connected-form">
@@ -58,7 +58,7 @@ if (isset($_POST)) {
                     <h3 class="settings-title theme-default-text">Autres</h3>
                 </div>
                 <div class="settings-option-container">
-                    <a href="<?php echo $serverUrl; ?>/suppress"><h3 class="settings-title settings-title-button" style="color: #FF3B30;">Supprimer mon compte</h3></a>
+                    <a href="<?php echo $serverUrl; ?>account/suppress"><h3 class="settings-title settings-title-button" style="color: #FF3B30;">Supprimer mon compte</h3></a>
                 </div>
             </section>
         </article>

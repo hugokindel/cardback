@@ -4,19 +4,14 @@
 ?>
 
 <main>
-    <?php
-    echo \cardback\component\page\makeSidebar(3);
-    ?>
+    <?php  $getSidebar(3); ?>
 
-    <div id="page-main">
-        <?php
-        echo \cardback\component\page\makeToolbar();
-        ?>
-
-        <article id="content-settings-main">
-            <?php
-            echo \cardback\component\page\makeSettingsCategories(-1);
-            ?>
+    <div
+            id="page-main">
+        <?php $getToolbar(); ?>
+        <article
+                id="content-settings-main">
+            <?php $getSettings(); ?>
         </article>
     </div>
 </main>

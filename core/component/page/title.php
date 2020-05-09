@@ -1,10 +1,15 @@
-<?php namespace cardback\component\page;
-
-function makeTitle() {
+<?php
+$getCardbackTitle = function() {
     global $serverUrl;
 
-    return '
-        <div id="title-container">
-            <a class="label-title1 theme-default-text" id="title-label" href="'.$serverUrl.'">cardback</a>
-        </div>';
-}
+    ?>
+    <div
+            id="title-container">
+        <a
+                class="label-title1 theme-default-text"
+                id="title-label"
+                href="<?php echo $serverUrl; ?>">
+            cardback</a>
+    </div>
+    <?php
+};

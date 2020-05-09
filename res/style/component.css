@@ -99,6 +99,46 @@
     perspective: 750px;
 }
 
+.card-pack-container {
+    cursor: pointer;
+}
+
+.card-pack {
+    outline: none;
+    color: black;
+}
+
+.card-edit-input {
+    text-align: center;
+    resize: none;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.stamp-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 240px;
+    margin-top: 10px;
+}
+
+.stamp-background {
+    font-size: 30px;
+    color: black;
+    position: absolute;
+}
+
+.stamp-text {
+    font-size: 34px;
+    font-weight: bold;
+    position: absolute;
+}
+
+.section-settings-sidebar {
+    width: 432px !important;
+}
+
 .card-main {
     width: 246px;
     height: 160px;
@@ -418,6 +458,7 @@
     font-weight: 600;
     border-radius: 10px;
     border: 1px solid white;
+    border: 0;
 }
 
 .checkbox-label input {
@@ -635,6 +676,21 @@ footer {
     min-width: 250px;
     box-shadow: 0 0 16px rgba(0,0,0,0.4);
     z-index: 100;
+    top: 80px;
+}
+
+#right-toolbar-menu-button-avatar-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.right-toolbar-menu-item-separator {
+    border-bottom: 1px solid #E6ECF0;
 }
 
 .right-toolbar-menu-item-icon {
@@ -656,6 +712,7 @@ footer {
     color: black;
     text-decoration: none;
     width: calc(100% - 40px);
+    padding: 5px 20px;
 }
 
 #right-toolbar-menu:focus #right-toolbar-menu-content {
