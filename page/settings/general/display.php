@@ -87,11 +87,11 @@ if (isset($_POST) && isset($_POST["theme"])) {
                                 </li>
                                 <li class="radio-button">
                                     <div style="width: 1px; height: 100%; border-left: 1px solid #E9EEF2; position: relative; left: -50px; padding-bottom: 1px; margin-left: 1px;"></div>
-                                    <input type="radio" id="orange" name="color" value="orange"
+                                    <input type="radio" id="rose" name="color" value="rose"
                                            onclick="document.getElementById('color-form').submit();"
                                         <?php echo isset($_COOKIE["color"]) &&
-                                        $_COOKIE["color"] == "orange" ? "checked" : "" ?>/>
-                                    <label class="theme-default-text" for="orange">Orange</label>
+                                        $_COOKIE["color"] == "rose" ? "checked" : "" ?>/>
+                                    <label class="theme-default-text" for="rose">Rose</label>
                                 </li>
                             </ul>
                         </form>

@@ -100,12 +100,21 @@ if (!isset($_SESSION["game-".$_GET["id"]])) {
 }
 
 $canRestart = FALSE;
+$i = 0;
 
 foreach ($cards as $card) {
     if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] != 0) {
         $canRestart = TRUE;
-        break;
     }
+
+    if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 1) {
+        $i++;
+    }
+}
+
+if ($i == count($cards)) {
+    $_SESSION["game-".$_GET["id"]] = 1;
+    \cardback\utility\redirect("result?id=".$_GET["id"]);
 }
 
 \cardback\utility\changeTitle("Joue à « ".$pack["name"]." »");

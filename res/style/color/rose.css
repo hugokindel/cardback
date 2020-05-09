@@ -1,9 +1,9 @@
 .color-text, .link-secondary, .button-secondary, .label-title1:hover, .author-link:hover {
-    color: #FF9500;
+    color: #FF99B9;
 }
 
 .color-background, .link-main, .button-main, .settings-category-selected:hover, .sidebar-link-selected:hover,
 .checkbox-label input:checked ~ .checkmark, .sidebar-link-selected, .settings-category-selected,
 .radio-buttons-container input[type="radio"]:checked + label {
-    background-color: #FF9500;
+    background-color: #FF99B9;
 }
