@@ -21,14 +21,12 @@ if ($cards[0] == 0) {
     $cards = $cards[1];
 }
 
-function redirectEditor($url) {
+function saveData() {
     foreach ($_POST as $key => $value) {
         if (substr($key, 0, 5) === "acard" || substr($key, 0, 5) === "qcard") {
-            $url .= "&$key=".urlencode($value);
+            $_SESSION[$key] = $value;
         }
     }
-
-    \cardback\utility\redirect($url);
 }
 
 if (!empty($_POST)) {
@@ -36,7 +34,8 @@ if (!empty($_POST)) {
         \cardback\system\createCard($_GET["id"]);
     } else if (isset($_POST["publishPack"])) {
         if (count($cards) == 0) {
-            redirectEditor("editor?id=".$_GET["id"]."&errorType=2");
+            saveData();
+            \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=2");
         }
 
         foreach ($cards as $card) {
@@ -46,17 +45,23 @@ if (!empty($_POST)) {
         }
 
         if (count($errorOnCards) > 0) {
-            redirectEditor("editor?id=".$_GET["id"]."&errorType=1");
+            saveData();
+            \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=1");
         } else {
             \cardback\system\publishPack($_GET["id"]);
-            \cardback\utility\redirect("home");
+            foreach ($cards as $card) {
+                $cardId = $card["id"];
+                unset($_SESSION["acard-$cardId"]);
+                unset($_SESSION["qcard-$cardId"]);
+            }
+            \cardback\utility\redirect("pack?id=".$_GET["id"]);
         }
     } else if (isset($_POST["suppressPack"])) {
         \cardback\system\removePack($_GET["id"]);
-
         \cardback\utility\redirect("home");
     } else if (isset($_POST["editPack"])) {
-        redirectEditor("editor/modify?id=".$_GET["id"]);
+        saveData();
+        \cardback\utility\redirect("editor/modify?id=".$_GET["id"]);
     } else if (isset($_POST["unpublishPack"])) {
         \cardback\system\unpublishPack($_GET["id"]);
     } else {
@@ -75,17 +80,21 @@ if (!empty($_POST)) {
                 if ($error == "") {
                     \cardback\system\confirmCard($cardId, $_POST["qcard-$cardId"], $_POST["acard-$cardId"]);
                 } else {
-                    redirectEditor("editor?id=".$_GET["id"]."&errorType=0&cardId=$cardId&error=".urlencode($error));
+                    saveData();
+                    \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=0&cardId=$cardId&error=".urlencode($error));
                 }
             } else if (isset($_POST["suppress-$cardId-card"])) {
                 \cardback\system\removeCard($cardId);
+                unset($_SESSION["acard-$cardId"]);
+                unset($_SESSION["qcard-$cardId"]);
             } else if (isset($_POST["modify-$cardId-card"])) {
                 \cardback\system\unconfirmCard($cardId);
             }
         }
     }
 
-    redirectEditor("editor?id=".$_GET["id"]);
+    saveData();
+    \cardback\utility\redirect("editor?id=".$_GET["id"]);
 }
 
 $getToolbarButtons = function() {
@@ -209,8 +218,8 @@ $getToolbarButtons = function() {
 
                     foreach ($cards as $value) {
                         $cardId = $value["id"];
-                        $question = $value["question"] != "" ? $value["question"] : (isset($_GET["qcard-$cardId"]) ? $_GET["qcard-$cardId"] : "");
-                        $answer = $value["answer"] != "" ? $value["answer"] : (isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "");
+                        $question = $value["question"] != "" ? $value["question"] : (isset($_SESSION["qcard-$cardId"]) ? $_SESSION["qcard-$cardId"] : "");
+                        $answer = $value["answer"] != "" ? $value["answer"] : (isset($_SESSION["acard-$cardId"]) ? $_SESSION["acard-$cardId"] : "");
 
                         ?>
                         <div class="cards-container">
@@ -299,7 +308,7 @@ $getToolbarButtons = function() {
                 <section>
                     <h5
                             style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
-                        Pensez à valider vos cartes avant de quitter pour enregistrer leur contenu!</h5>
+                        Pensez à valider vos cartes avant de quitter votre navigateur pour enregistrer leur contenu!</h5>
                 </section>
                 <br>
             </article>

@@ -15,14 +15,12 @@ $error = "";
 $errorOnCards = [];
 $cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
 
-function saveDataInUrl($url) {
+function saveData() {
     foreach ($_POST as $key => $value) {
-        if (substr($key, 0, 5) === "acard" || substr($key, 0, 5) === "qcard") {
-            $url .= "&$key=".urlencode($value);
+        if (substr($key, 0, 5) === "acard") {
+            $_SESSION[$key] = $value;
         }
     }
-
-    return $url;
 }
 
 if (!empty($_POST)) {
@@ -34,17 +32,27 @@ if (!empty($_POST)) {
         }
 
         if (count($errorOnCards) > 0) {
-            \cardback\utility\redirect(saveDataInUrl("play?id=".$_GET["id"]."&errorType=1"));
+            saveData();
+            \cardback\utility\redirect("play?id=".$_GET["id"]."&errorType=1");
         } else {
             $_SESSION["game-".$_GET["id"]] = 1;
+
+            foreach ($cards as $card) {
+                $cardId = $card["id"];
+
+                unset($_SESSION["acard-$cardId"]);
+            }
 
             \cardback\utility\redirect("result?id=".$_GET["id"]);
         }
     } else if (isset($_POST["abandonPack"])) {
         foreach ($cards as $card) {
+            $cardId = $card["id"];
             if ($_SESSION["game-".$_GET["id"]."-".$card["id"]] == 0) {
                 $_SESSION["game-".$_GET["id"]."-".$card["id"]] = 3;
             }
+
+            unset($_SESSION["acard-$cardId"]);
         }
 
         $_SESSION["game-".$_GET["id"]] = 1;
@@ -56,6 +64,7 @@ if (!empty($_POST)) {
         foreach($cards as $card) {
             unset($_SESSION["game-".$_GET["id"]."-".$card["id"]]);
             unset($_SESSION["game-".$_GET["id"]."-answer"]);
+            unset($_SESSION["acard-".$_GET["id"]]);
         }
 
         \cardback\utility\redirect("play?id=".$_GET["id"]);
@@ -65,6 +74,7 @@ if (!empty($_POST)) {
 
             if (isset($_POST["abandon-$cardId-card"])) {
                 $_SESSION["game-".$_GET["id"]."-$cardId"] = 3;
+                unset($_SESSION["acard-$cardId"]);
             } else if (isset($_POST["validate-$cardId-card"])) {
                 if (trim($_POST["acard-$cardId"]) == "") {
                     $error .= "<br>- Veuillez entrer une réponse.";
@@ -81,14 +91,18 @@ if (!empty($_POST)) {
                         $_SESSION["game-".$_GET["id"]."-$cardId"] = 2;
                         $_SESSION["game-".$_GET["id"]."-$cardId-answer"] = $_POST["acard-$cardId"];
                     }
+
+                    unset($_SESSION["acard-$cardId"]);
                 } else {
-                    \cardback\utility\redirect(saveDataInUrl("play?id=".$_GET["id"]."&errorType=0&cardId=".$card["id"]."&error=".urlencode($error)));
+                    saveData();
+                    \cardback\utility\redirect("play?id=".$_GET["id"]."&errorType=0&cardId=".$card["id"]."&error=".urlencode($error));
                 }
             }
         }
     }
 
-    \cardback\utility\redirect(saveDataInUrl("play?id=".$_GET["id"]));
+    saveData();
+    \cardback\utility\redirect("play?id=".$_GET["id"]);
 }
 
 if (!isset($_SESSION["game-".$_GET["id"]])) {
@@ -211,7 +225,7 @@ $getToolbarButtons = function() {
                                 $answer = "";
 
                                 if ($sessionCardId == 0) {
-                                    $answer = isset($_GET["acard-$cardId"]) ? $_GET["acard-$cardId"] : "";
+                                    $answer = isset($_SESSION["acard-$cardId"]) ? $_SESSION["acard-$cardId"] : "";
                                 }
 
                                 $getCardEdit("qcard-".$card["id"],
@@ -306,6 +320,13 @@ $getToolbarButtons = function() {
                         <?php
                     }
                     ?>
+                </section>
+                <br>
+
+                <section>
+                    <h5
+                            style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
+                        Pensez à valider vos réponses avant de quitter votre navigateur pour enregistrer leur contenu!</h5>
                 </section>
                 <br>
             </article>

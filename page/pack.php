@@ -177,10 +177,30 @@ $getToolbarButtons = function() {
 
             <?php
             $packsOfTheme = \cardback\system\getAllPacksOfTheme($pack["theme"], 1);
+
+            if ($packsOfTheme[0] == 1) {
+                for ($i = 0; $i < count($packsOfTheme); $i++) {
+                    if ($packsOfTheme[1][$i]["id"] == $_GET["id"]) {
+                        unset($packsOfTheme[1][$i]);
+                        break;
+                    }
+                }
+            }
+
             $getSectionCards("Autres paquets du même thème",
                     $packsOfTheme);
 
             $packsOfUser = \cardback\system\getAllPacksOfUser($pack["authorId"], 1);
+
+            if ($packsOfUser[0] == 1) {
+                for ($i = 0; $i < count($packsOfUser); $i++) {
+                    if ($packsOfUser[1][$i]["id"] == $_GET["id"]) {
+                        unset($packsOfUser[1][$i]);
+                        break;
+                    }
+                }
+            }
+
             $getSectionCards("Autres paquets du même auteur",
                     $packsOfUser);
             ?>
