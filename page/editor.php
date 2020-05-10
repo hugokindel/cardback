@@ -64,15 +64,15 @@ if (!empty($_POST)) {
             $cardId = $card["id"];
 
             if (isset($_POST["validate-$cardId-card"])) {
-                if ($_POST["qcard-$cardId"] === "") {
+                if (trim($_POST["qcard-$cardId"]) == "") {
                     $error .= "<br>- Veuillez entrer une question.";
                 }
 
-                if ($_POST["acard-$cardId"] === "") {
+                if (trim($_POST["acard-$cardId"]) == "") {
                     $error .= "<br>- Veuillez entrer une réponse.";
                 }
 
-                if ($error === "") {
+                if ($error == "") {
                     \cardback\system\confirmCard($cardId, $_POST["qcard-$cardId"], $_POST["acard-$cardId"]);
                 } else {
                     redirectEditor("editor?id=".$_GET["id"]."&errorType=0&cardId=$cardId&error=".urlencode($error));

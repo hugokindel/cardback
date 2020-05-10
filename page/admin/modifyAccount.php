@@ -90,7 +90,7 @@ $getPageForm = function() {
           ?>
         <h6
                 style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
-            Il doit contenir entre 1 et 255 caractères.
+            Optionnel, il doit contenir entre 1 et 255 caractères.
             <br>Décrivez vous en quelques mots!</h6>
     </form>
     <?php

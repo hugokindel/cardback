@@ -66,11 +66,11 @@ if (!empty($_POST)) {
             if (isset($_POST["abandon-$cardId-card"])) {
                 $_SESSION["game-".$_GET["id"]."-$cardId"] = 3;
             } else if (isset($_POST["validate-$cardId-card"])) {
-                if ($_POST["acard-$cardId"] === "") {
+                if (trim($_POST["acard-$cardId"]) == "") {
                     $error .= "<br>- Veuillez entrer une réponse.";
                 }
 
-                if ($error === "") {
+                if ($error == "") {
                     $answerUser = strtolower(str_replace(" ", "", $_POST["acard-$cardId"]));
                     $answerDb = strtolower(str_replace(" ", "", $card["answer"]));
 

@@ -37,7 +37,7 @@
                     <h4
                             class="theme-default-text"
                             style="font-weight: 500;">
-                        - Si vous souhaitez créer un paquet de carte, l'éditeur est
+                        - Si vous souhaitez créer un paquet de cartes, l'éditeur est
                         accessible à l'aide du bouton qui se situe<br>
                         en haut à droite du site, vous ne pouvez pas le rater!</h4>
                     <h4
@@ -57,30 +57,21 @@
             }
 
             $packsInCreation = \cardback\system\getAllPacksOfUser($_SESSION["accountId"], 0);
-
-            $getSectionCards("Paquets de cartes en cours de création",
-                    $packsInCreation);
+            $getSectionCards("Paquets de cartes en cours de création", $packsInCreation);
 
             $packsFromAWeek = \cardback\system\getAllPacksFromWeeks(1, 1);
-
             if (!\cardback\system\isArrayEmpty($packsFromAWeek)) {
-                $getSectionCards("Paquets créés depuis une semaine",
-                        $packsFromAWeek);
+                $getSectionCards("Paquets créés depuis une semaine", $packsFromAWeek);
             } else {
                 $packsFromAMonth = \cardback\system\getAllPacksFromWeeks(4, 1);
-
-                $getSectionCards("Paquets créés depuis un mois",
-                        $packsFromAMonth);
+                $getSectionCards("Paquets créés depuis un mois", $packsFromAMonth);
             }
 
             $themesArray = \cardback\utility\getNRandomNumbers(3, 0, 6);
-
             foreach ($themesArray as $themeId) {
                 $packsOfTheme = \cardback\system\getAllPacksOfTheme($themes[$themeId], 1);
                 $themeName = $themes[$themeId];
-
-                $getSectionCards("Paquets de cartes dans le thème « $themeName »",
-                        $packsOfTheme);
+                $getSectionCards("Paquets de cartes dans le thème « $themeName »", $packsOfTheme);
             }
             ?>
         </article>
