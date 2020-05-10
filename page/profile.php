@@ -1,20 +1,32 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
 
-$firstId = \cardback\database\selectMinId("users");
-$lastId = \cardback\database\selectMaxId("users");
+use function cardback\database\selectMaxId;
+use function cardback\database\selectMinId;
+use function cardback\system\checkAccountConnection;
+use function cardback\system\getAccount;
+use function cardback\system\getAllPacksOfUser;
+use function cardback\system\removeAccount;
+use function cardback\utility\changeTitle;
+use function cardback\utility\getAnonymousNameFromAccount;
+use function cardback\utility\getFormatedDate;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
+
+$firstId = selectMinId("users");
+$lastId = selectMaxId("users");
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"]) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 }
 
 if (isset($_POST) && isset($_POST["removeAccount"])) {
-    \cardback\system\removeAccount($_GET["id"]);
-    \cardback\utility\redirect("home");
+    removeAccount($_GET["id"]);
+    redirect("home");
 }
 
-$accountUser = \cardback\system\getAccount($_GET["id"])[1][0];
+$accountUser = getAccount($_GET["id"])[1][0];
 
 $getToolbarButtons = function() {
     global $account;
@@ -35,7 +47,7 @@ $getToolbarButtons = function() {
     }
 };
 
-\cardback\utility\changeTitle("Profil");
+changeTitle("Profil");
 ?>
 <main>
     <?php $getSidebar(2); ?>
@@ -59,7 +71,7 @@ $getToolbarButtons = function() {
                             style="margin-left: 32px;">
                         <h1
                                 class="theme-default-text">
-                            <?php echo \cardback\utility\getAnonymousNameFromAccount($accountUser); ?></h1>
+                            <?php echo getAnonymousNameFromAccount($accountUser); ?></h1>
                         <h4
                                 class="theme-default-text"
                                 style="margin-left: 1px;">
@@ -114,12 +126,12 @@ $getToolbarButtons = function() {
                 <h4
                         class="theme-default-text"
                         style="font-weight: 500;">
-                    Arrivé le <span style="font-weight: 600;"><?php echo \cardback\utility\getFormatedDate($accountUser["creationDate"]); ?></span>.
+                    Arrivé le <span style="font-weight: 600;"><?php echo getFormatedDate($accountUser["creationDate"]); ?></span>.
                 </h4>
                 <h4
                         class="theme-default-text"
                         style="font-weight: 500;">
-                    Vu pour la dernière fois le <span style="font-weight: 600;"><?php echo \cardback\utility\getFormatedDate($accountUser["lastConnectionDate"]); ?></span>.
+                    Vu pour la dernière fois le <span style="font-weight: 600;"><?php echo getFormatedDate($accountUser["lastConnectionDate"]); ?></span>.
                 </h4>
             </section>
             <br>
@@ -142,13 +154,13 @@ $getToolbarButtons = function() {
             ?>
 
             <?php
-            $packsOfUser = \cardback\system\getAllPacksOfUser($_GET["id"], 1);
+            $packsOfUser = getAllPacksOfUser($_GET["id"], 1);
 
             $getSectionCards("Paquets de cartes",
                     $packsOfUser);
 
             if ($_GET["id"] == $_SESSION["accountId"] || $account["admin"] == 1) {
-                $packsOfUserInCreation = \cardback\system\getAllPacksOfUser($_GET["id"], 0);
+                $packsOfUserInCreation = getAllPacksOfUser($_GET["id"], 0);
 
                 $getSectionCards("Paquets de cartes en cours de création",
                         $packsOfUserInCreation);

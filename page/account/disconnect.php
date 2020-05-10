@@ -1,4 +1,9 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
-\cardback\system\disconnectAccount();
-\cardback\utility\redirect();
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\disconnectAccount;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
+disconnectAccount();
+redirect();

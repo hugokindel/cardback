@@ -1,15 +1,27 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
-\cardback\system\checkAccountAdministration();
 
-$firstId = \cardback\database\selectMinId("users");
-$lastId = \cardback\database\selectMaxId("users");
+use function cardback\database\selectMaxId;
+use function cardback\database\selectMinId;
+use function cardback\system\checkAccountAdministration;
+use function cardback\system\checkAccountConnection;
+use function cardback\system\getAccount;
+use function cardback\system\updateAccount;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkEmail;
+use function cardback\utility\checkName;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
+checkAccountAdministration();
+
+$firstId = selectMinId("users");
+$lastId = selectMaxId("users");
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] || $lastId[1] < $_GET["id"]) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 }
 
-$accountUser = \cardback\system\getAccount($_GET["id"])[1][0];
+$accountUser = getAccount($_GET["id"])[1][0];
 
 $error = "";
 $emailIssue = FALSE;
@@ -18,24 +30,24 @@ $lastNameIssue = FALSE;
 $descriptionIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!\cardback\utility\checkEmail($_POST["email"])) {
+    if (!checkEmail($_POST["email"])) {
         $error .= "<br>- Veuillez entrer une adresse e-mail valide.";
         $emailIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkName($_POST["firstname"])) {
+    if (!checkName($_POST["firstname"])) {
         $error .= "<br>- Veuillez entrer un nom de famille valide.";
         $firstNameIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkName($_POST["lastname"])) {
+    if (!checkName($_POST["lastname"])) {
         $error .= "<br>- Veuillez entrer un prénom valide.";
         $lastNameIssue = TRUE;
     }
 
     if ($error === "") {
-        \cardback\system\updateAccount($_GET["id"], $_POST["email"], $_POST["firstname"], $_POST["lastname"], $_POST["description"]);
-        \cardback\utility\redirect("profile?id=".$_GET["id"]);
+        updateAccount($_GET["id"], $_POST["email"], $_POST["firstname"], $_POST["lastname"], $_POST["description"]);
+        redirect("profile?id=".$_GET["id"]);
     }
 }
 
@@ -96,7 +108,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Modifier un profil");
+changeTitle("Modifier un profil");
 ?>
 
     <!-- Contenu principal de la page -->

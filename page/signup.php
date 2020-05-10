@@ -1,5 +1,15 @@
 <?php
-\cardback\system\checkAccountConnection(FALSE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\connectWithCredentials;
+use function cardback\system\createAccount;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkEmail;
+use function cardback\utility\checkName;
+use function cardback\utility\checkPassword;
+use function cardback\utility\redirect;
+
+checkAccountConnection(FALSE);
 
 $error = "";
 $emailIssue = FALSE;
@@ -8,33 +18,33 @@ $lastNameIssue = FALSE;
 $passwordIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!\cardback\utility\checkEmail($_POST["email"])) {
+    if (!checkEmail($_POST["email"])) {
         $error .= "<br>- Veuillez entrer une adresse e-mail valide.";
         $emailIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkName($_POST["firstname"])) {
+    if (!checkName($_POST["firstname"])) {
         $error .= "<br>- Veuillez entrer un prénom valide.";
         $firstNameIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkName($_POST["lastname"])) {
+    if (!checkName($_POST["lastname"])) {
         $error .= "<br>- Veuillez entrer un nom valide.";
         $lastNameIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkPassword($_POST["password"])) {
+    if (!checkPassword($_POST["password"])) {
         $error .= "<br>- Veuillez entrer un mot de passe valide.";
         $passwordIssue = TRUE;
     }
 
     if ($error === "") {
-        $result = \cardback\system\createAccount(
+        $result = createAccount(
             $_POST["email"], $_POST["password"], $_POST["firstname"], $_POST["lastname"]);
 
         if ($result[0] == TRUE) {
-            \cardback\system\connectWithCredentials($_POST["email"], $_POST["password"]);
-            \cardback\utility\redirect("home");
+            connectWithCredentials($_POST["email"], $_POST["password"]);
+            redirect("home");
         } else {
             $error .= "<br>- ".$result[1];
             $emailIssue = TRUE;
@@ -98,7 +108,7 @@ $getPageForm = function() {
       <?php
 };
 
-\cardback\utility\changeTitle("S'inscrire");
+changeTitle("S'inscrire");
 ?>
 
 <!-- Contenu principal de la page -->

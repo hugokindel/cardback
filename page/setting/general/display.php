@@ -1,17 +1,22 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\utility\changeTitle;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 if (isset($_POST) && isset($_POST["theme"])) {
     setcookie('theme', $_POST["theme"], time() + 365243600, "/", null, false, true);
 
-    \cardback\utility\redirect("setting/general/display");
+    redirect("setting/general/display");
 } else if (isset($_POST) && isset($_POST["color"])) {
     setcookie('color', $_POST["color"], time() + 365243600, "/", null, false, true);
 
-    \cardback\utility\redirect("setting/general/display");
+    redirect("setting/general/display");
 }
 
-\cardback\utility\changeTitle("Paramètres d'affichage");
+changeTitle("Paramètres d'affichage");
 ?>
 
 <main>

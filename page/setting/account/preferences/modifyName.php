@@ -1,24 +1,31 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\updateAccountName;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkName;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 $error = "";
 $firstNameIssue = FALSE;
 $lastNameIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!\cardback\utility\checkName($_POST["firstname"])) {
+    if (!checkName($_POST["firstname"])) {
         $error .= "<br>- Veuillez entrer un nom de famille valide.";
         $firstNameIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkName($_POST["lastname"])) {
+    if (!checkName($_POST["lastname"])) {
         $error .= "<br>- Veuillez entrer un prénom valide.";
         $lastNameIssue = TRUE;
     }
 
     if ($error === "") {
-        \cardback\system\updateAccountName($_SESSION["accountId"], $_POST["firstname"], $_POST["lastname"]);
-        \cardback\utility\redirect("/setting/account/preferences");
+        updateAccountName($_SESSION["accountId"], $_POST["firstname"], $_POST["lastname"]);
+        redirect("/setting/account/preferences");
     }
 }
 
@@ -63,7 +70,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Modifier mon nom/prénom");
+changeTitle("Modifier mon nom/prénom");
 ?>
 ®
     <!-- Contenu principal de la page -->

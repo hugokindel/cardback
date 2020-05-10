@@ -1,15 +1,27 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
 
-$firstId = \cardback\database\selectMinId("packs");
-$lastId = \cardback\database\selectMaxId("packs");
+use function cardback\database\selectMaxId;
+use function cardback\database\selectMinId;
+use function cardback\system\changePack;
+use function cardback\system\checkAccountConnection;
+use function cardback\system\checkUserOwnsPack;
+use function cardback\system\getAllCardsOfPack;
+use function cardback\system\getPack;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkName;
+use function cardback\utility\redirect;
 
-$pack = \cardback\system\getPack($_GET["id"])[1][0];
+checkAccountConnection(TRUE);
+
+$firstId = selectMinId("packs");
+$lastId = selectMaxId("packs");
+
+$pack = getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
-    $lastId[1] < $_GET["id"] || (!\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
+    $lastId[1] < $_GET["id"] || (!checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
     ($pack["published"] == 1 && $account["admin"] == 0)) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 }
 
 $error = "";
@@ -18,13 +30,13 @@ $difficultyIssue = FALSE;
 $themeIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!\cardback\utility\checkName($_POST["name"])) {
+    if (!checkName($_POST["name"])) {
         $error .= "<br>- Veuillez entrer un nom valide.";
         $nameIssue = TRUE;
     }
 
     if ($error === "") {
-        $result = \cardback\system\changePack(
+        $result = changePack(
             $_GET["id"],
             $_POST["name"],
             $_POST["description"],
@@ -32,7 +44,7 @@ if (isset($_POST["submit"])) {
             $_POST["theme"]);
 
         if ($result[0] == 1) {
-            \cardback\utility\redirect("editor?id=".$_GET["id"]);
+            redirect("editor?id=".$_GET["id"]);
         } else {
             $error .= "<br>- ".$result[1];
 
@@ -41,7 +53,7 @@ if (isset($_POST["submit"])) {
     }
 }
 
-$cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
+$cards = getAllCardsOfPack($_GET["id"])[1];
 
 $getPageForm = function() {
     global $getTextbox;
@@ -117,7 +129,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Modification d'un paquet");
+changeTitle("Modification d'un paquet");
 ?>
 
     <!-- Contenu principal de la page -->

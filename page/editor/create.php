@@ -1,5 +1,13 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\database\selectMaxId;
+use function cardback\system\checkAccountConnection;
+use function cardback\system\createPack;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkName;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 $error = "";
 $nameIssue = FALSE;
@@ -7,7 +15,7 @@ $difficultyIssue = FALSE;
 $themeIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!\cardback\utility\checkName($_POST["name"])) {
+    if (!checkName($_POST["name"])) {
         $error .= "<br>- Veuillez entrer un nom valide.";
         $nameIssue = TRUE;
     }
@@ -23,14 +31,14 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        $result = \cardback\system\createPack($_SESSION["accountId"],
+        $result = createPack($_SESSION["accountId"],
             $_POST["name"],
             $_POST["description"],
             $_POST["difficulty"],
             $_POST["theme"]);
 
         if ($result[0] == TRUE) {
-            \cardback\utility\redirect("editor?id=".\cardback\database\selectMaxId("packs")[1]);
+            redirect("editor?id=". selectMaxId("packs")[1]);
         } else {
             $error .= "<br>- ".$result[1];
 
@@ -112,7 +120,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Création d'un paquet");
+changeTitle("Création d'un paquet");
 ?>
 
 <!-- Contenu principal de la page -->

@@ -1,5 +1,8 @@
 <?php
-\cardback\utility\changeTitle("Erreur 403");
+
+use function cardback\utility\changeTitle;
+
+changeTitle("Erreur 403");
 ?>
 
 <!-- En-tête de page -->

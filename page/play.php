@@ -1,19 +1,29 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
 
-$firstId = \cardback\database\selectMinId("packs");
-$lastId = \cardback\database\selectMaxId("packs");
-$pack = \cardback\system\getPack($_GET["id"])[1][0];
+use function cardback\database\selectMaxId;
+use function cardback\database\selectMinId;
+use function cardback\system\checkAccountConnection;
+use function cardback\system\getAllCardsOfPack;
+use function cardback\system\getPack;
+use function cardback\utility\changeTitle;
+use function cardback\utility\getAnonymousNameFromAccount;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
+
+$firstId = selectMinId("packs");
+$lastId = selectMaxId("packs");
+$pack = getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] || $pack["published"] == 0 ||
     (isset($_SESSION["game-".$_GET["id"]]) && $_SESSION["game-".$_GET["id"]] != 0)) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 }
 
 $error = "";
 $errorOnCards = [];
-$cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
+$cards = getAllCardsOfPack($_GET["id"])[1];
 
 function saveData() {
     foreach ($_POST as $key => $value) {
@@ -33,7 +43,7 @@ if (!empty($_POST)) {
 
         if (count($errorOnCards) > 0) {
             saveData();
-            \cardback\utility\redirect("play?id=".$_GET["id"]."&errorType=1");
+            redirect("play?id=".$_GET["id"]."&errorType=1");
         } else {
             $_SESSION["game-".$_GET["id"]] = 1;
 
@@ -43,7 +53,7 @@ if (!empty($_POST)) {
                 unset($_SESSION["acard-$cardId"]);
             }
 
-            \cardback\utility\redirect("result?id=".$_GET["id"]);
+            redirect("result?id=".$_GET["id"]);
         }
     } else if (isset($_POST["abandonPack"])) {
         foreach ($cards as $card) {
@@ -57,7 +67,7 @@ if (!empty($_POST)) {
 
         $_SESSION["game-".$_GET["id"]] = 1;
 
-        \cardback\utility\redirect("result?id=".$_GET["id"]);
+        redirect("result?id=".$_GET["id"]);
     } else if (isset($_POST["restart"])) {
         unset($_SESSION["game-".$_GET["id"]]);
 
@@ -67,7 +77,7 @@ if (!empty($_POST)) {
             unset($_SESSION["acard-".$_GET["id"]]);
         }
 
-        \cardback\utility\redirect("play?id=".$_GET["id"]);
+        redirect("play?id=".$_GET["id"]);
     } else {
         foreach ($cards as $card) {
             $cardId = $card["id"];
@@ -95,14 +105,14 @@ if (!empty($_POST)) {
                     unset($_SESSION["acard-$cardId"]);
                 } else {
                     saveData();
-                    \cardback\utility\redirect("play?id=".$_GET["id"]."&errorType=0&cardId=".$card["id"]."&error=".urlencode($error));
+                    redirect("play?id=".$_GET["id"]."&errorType=0&cardId=".$card["id"]."&error=".urlencode($error));
                 }
             }
         }
     }
 
     saveData();
-    \cardback\utility\redirect("play?id=".$_GET["id"]);
+    redirect("play?id=".$_GET["id"]);
 }
 
 if (!isset($_SESSION["game-".$_GET["id"]])) {
@@ -128,7 +138,7 @@ foreach ($cards as $card) {
 
 if ($i == count($cards)) {
     $_SESSION["game-".$_GET["id"]] = 1;
-    \cardback\utility\redirect("result?id=".$_GET["id"]);
+    redirect("result?id=".$_GET["id"]);
 }
 
 $getToolbarButtons = function() {
@@ -162,7 +172,7 @@ $getToolbarButtons = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Joue à « ".$pack["name"]." »");
+changeTitle("Joue à « ".$pack["name"]." »");
 ?>
 
 <main>
@@ -174,7 +184,7 @@ $getToolbarButtons = function() {
             <h2
                     class="theme-default-text">
                 Bonne chance, <span style="font-weight: 800;">
-                    <?php echo \cardback\utility\getAnonymousNameFromAccount($account) ?>!</span></h2>
+                    <?php echo getAnonymousNameFromAccount($account) ?>!</span></h2>
         </div>
         <?php $getToolbar(FALSE, $getToolbarButtons);  ?>
         <form

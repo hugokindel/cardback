@@ -1,4 +1,14 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives aux composants de paramètres.
+ */
+
+/**
+ * Crée une catégorie de paramètres.
+ *
+ * @param string $text Nom de la catégorie.
+ * @param bool $top Définit si c'est la catégorie principale.
+ */
 $getSettingsCategory = function($text, $top = FALSE) {
     ?>
     <div
@@ -10,6 +20,13 @@ $getSettingsCategory = function($text, $top = FALSE) {
     <?php
 };
 
+/**
+ * Crée une option de paramètres de type lien.
+ *
+ * @param string $text Nom de l'option
+ * @param string $link Lien à charger lors du clique.
+ * @param bool $selected Définit si c'est l'option sélectionné ou non.
+ */
 $getSettingsOptionLink = function($text, $link, $selected = FALSE) {
     global $serverUrl;
 
@@ -26,6 +43,11 @@ $getSettingsOptionLink = function($text, $link, $selected = FALSE) {
     <?php
 };
 
+/**
+ * Crée les catégories principales des paramètres.
+ *
+ * @param int $selected Définit quel catégorie est sélectionnée.
+ */
 $getSettings = function($selected = -1) {
     global $getSettingsCategory;
     global $getSettingsOptionLink;

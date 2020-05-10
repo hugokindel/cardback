@@ -1,5 +1,12 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\updateAccountMail;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkEmail;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 $error = "";
 $emailAccountIssue = FALSE;
@@ -11,14 +18,14 @@ if (isset($_POST["submit"])) {
         $emailAccountIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkEmail($_POST["email"])) {
+    if (!checkEmail($_POST["email"])) {
         $error .= "<br>- Veuillez entrer une adresse e-mail valide.";
         $emailIssue = TRUE;
     }
 
     if ($error === "") {
-        \cardback\system\updateAccountMail($_SESSION["accountId"], $_POST["email"]);
-        \cardback\utility\redirect("/setting/account/preferences");
+        updateAccountMail($_SESSION["accountId"], $_POST["email"]);
+        redirect("/setting/account/preferences");
     }
 }
 
@@ -59,7 +66,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Modifier mon e-mail");
+changeTitle("Modifier mon e-mail");
 ?>
 
     <!-- Contenu principal de la page -->

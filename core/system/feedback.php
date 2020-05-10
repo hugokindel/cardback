@@ -1,5 +1,19 @@
 <?php namespace cardback\system;
+/**
+ * Ce fichier contient les fonctions utilitaires relatives au système de feedback.
+ */
 
+use function cardback\database\insert;
+use function cardback\database\select;
+use function cardback\database\selectMaxId;
+
+/**
+ * Crée un feedback.
+ *
+ * @param string $userId ID du compte.
+ * @param string $message Message.
+ * @param bool $recommended Recommandé ou non.
+ */
 function createFeedback($userId, $message, $recommended) {
     global $db;
 
@@ -7,17 +21,26 @@ function createFeedback($userId, $message, $recommended) {
     $recommended = $recommended ? "1" : "0";
     $creationDate = date("Y-m-d");
 
-    \cardback\database\insert("feedbacks",
+    insert("feedbacks",
         "message, recommended, creationDate",
         "'$message', $recommended, '$creationDate'");
 
-    $feedbackId = \cardback\database\selectMaxId("feedbacks")[1];
+    $feedbackId = selectMaxId("feedbacks")[1];
 
-    \cardback\database\insert("userFeedbacks",
+    insert("userFeedbacks",
         "userId, feedbackId",
         "$userId, $feedbackId");
 }
 
+/**
+ * Sélectionne un feedback.
+ *
+ * @param string $feedbackId ID du feedback.
+ * @return array Résultat.
+ */
 function getFeedback($feedbackId) {
-    return \cardback\database\select("feedbacks", "", "WHERE id = '$feedbackId'");
+    return select(
+            "feedbacks",
+            "",
+            "WHERE id = '$feedbackId'");
 }

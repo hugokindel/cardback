@@ -1,4 +1,17 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives aux bloc de cartes.
+ */
+
+/**
+ * Crée une carte.
+ *
+ * @param string $textOnFront Texte à l'avant de la carte.
+ * @param string $textOnBack Texte à l'arrière de la carte.
+ * @param bool $rotate Définit si l'on donne un effet de rotation à la carte.
+ * @param string $style Ajoute du style CSS.
+ * @param string $link Ajoute un lien lors du clique sur la carte.
+ */
 $getCard = function($textOnFront, $textOnBack, $rotate = TRUE, $style = "", $link = "") {
     global $serverUrl;
 
@@ -36,7 +49,17 @@ $getCard = function($textOnFront, $textOnBack, $rotate = TRUE, $style = "", $lin
     <?php
 };
 
-$getCardPack = function($title, $creatorName, $creationDate, $link = "", $message = "Serez-vous capable de trouver toutes les réponses?", $rotate = TRUE) {
+/**
+ * Crée une carte pour paquet de cartes.
+ *
+ * @param string $title Titre du paquet de cartes.
+ * @param string $creatorName Nom du créateur du paquet de cartes.
+ * @param string $creationDate Date de création du paquet de cartes.
+ * @param string $link Ajoute un lien lors du clique sur la carte.
+ * @param string $textOnBack Texte à l'arrière de la carte.
+ * @param bool $rotate Définit si l'on donne un effet de rotation à la carte.
+ */
+$getCardPack = function($title, $creatorName, $creationDate, $link = "", $textOnBack = "Serez-vous capable de trouver toutes les réponses?", $rotate = TRUE) {
     global $serverUrl;
 
     ?>
@@ -70,7 +93,7 @@ $getCardPack = function($title, $creatorName, $creationDate, $link = "", $messag
                             alt="Carte fond arrière"/>
                     <div
                             class="card-text-middle">
-                        <?php echo $message; ?></div>
+                        <?php echo $textOnBack; ?></div>
                 </div>
              </div>
          </div>
@@ -78,6 +101,19 @@ $getCardPack = function($title, $creatorName, $creationDate, $link = "", $messag
     <?php
 };
 
+/**
+ * Crée une carte d'édition (avec un bloc d'entrée de texte).
+ *
+ * @param string $name Nom de l'input.
+ * @param string $placeholder Placeholder à afficher s'il n'y a pas de valeur.
+ * @param string $value Valeur à afficher.
+ * @param bool $readonly Définit si le texte est éditable ou non.
+ * @param bool $autocomplete Définit si l'auto-complétion est autorisée ou non.
+ * @param int $showStamp Définit si on doit afficher un bloc de tampon:
+ *   - 0: Pas de tampon.
+ *   - 1: Tampon de réussite.
+ *   - 2: Tampon d'échec.
+ */
 $getCardEdit = function($name, $placeholder, $value = "", $readonly = FALSE, $autocomplete = TRUE, $showStamp = 0) {
     global $serverUrl;
 
@@ -129,6 +165,9 @@ $getCardEdit = function($name, $placeholder, $value = "", $readonly = FALSE, $au
     <?php
 };
 
+/**
+ * Crée une carte de bouton "+".
+ */
 $getCardButtonPlus = function() {
     global $serverUrl;
 

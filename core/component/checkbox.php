@@ -1,5 +1,15 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives aux bloc d'entrée de case à cocher.
+ */
 
+/**
+ * Crée un bloc de case à cocher.
+ *
+ * @param string $text Texte de description.
+ * @param bool $checked Définit si la case est cochée ou non.
+ * @param string $style Ajoute du style CSS.
+ */
 $getCheckbox = function($text, $checked = FALSE, $style = "") {
     ?>
     <div

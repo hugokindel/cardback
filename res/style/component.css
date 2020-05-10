@@ -51,18 +51,24 @@
 /* ---- Link, Button ---- */
 .link-main, .link-secondary, .button-main, .button-secondary {
     margin: 0 10px;
+
     display: flex;
+
     justify-content: center;
     align-items: center;
+
     font-size: 17px;
     font-weight: 700;
+
     cursor: pointer;
+
     border: none;
 }
 
 .link-main, .button-main {
     min-width: 92px;
     min-height: 32px;
+
     padding: 0 16px;
 
     border-radius: 10px;
@@ -90,9 +96,90 @@
     text-decoration: none;
 }
 
+/* --- Radio Button --- */
+.radio-buttons-container {
+    margin: 0;
+    padding: 0;
+
+    list-style-type:none;
+}
+
+.radio-buttons-container li {
+    width:100px;
+    height: 32px;
+
+    margin: 0;
+
+    float:left;
+
+    position:relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.radio-buttons-container label, .radio-buttons-container input {
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+    display:block;
+
+    position:absolute;
+}
+
+.radio-buttons-container input[type="radio"] {
+    opacity: 0.011;
+
+    z-index: 100;
+}
+
+.radio-buttons-container input[type="radio"]:checked + label {
+    color: black;
+}
+
+.radio-buttons-container label:hover {
+    background-color: #E9EEF2;
+}
+
+.radio-buttons-container label {
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+
+    line-height: 32px;
+
+    cursor: pointer;
+
+    border: 1px solid #E9EEF2;
+}
+
+.radio-buttons-container li label {
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
+.radio-buttons-container li:first-child label {
+    border-right-width: 0;
+    border-left-width: 1px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.radio-buttons-container li:last-child label {
+    border-left-width: 0;
+    border-right-width: 1px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
 /* ---- Card ---- */
 .card-container {
     display: flex;
+
     flex-direction: row;
     justify-content: center;
 
@@ -115,28 +202,9 @@
     font-weight: bold;
 }
 
-.stamp-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 240px;
-    margin-top: 10px;
-}
-
-.stamp-background {
-    font-size: 30px;
+.card, .card * {
     color: black;
-    position: absolute;
-}
-
-.stamp-text {
-    font-size: 34px;
-    font-weight: bold;
-    position: absolute;
-}
-
-.section-settings-sidebar {
-    width: 432px !important;
+    text-decoration: none;
 }
 
 .card-main {
@@ -153,7 +221,9 @@
 
 .card-front, .card-back {
     width: 100%;
+
     position: absolute;
+
     top: 0;
     bottom: 0;
 
@@ -174,17 +244,19 @@
 }
 
 .card-text-middle {
-    overflow-wrap: break-word;
     width: calc(100% - 15px);
     transform: translate(-50%, -50%);
 
     position: absolute;
+
     top: 50%;
     left: 50%;
 
     text-align: center;
     font-weight: 800;
     font-size: 20px;
+
+    overflow-wrap: break-word;
 }
 
 .card-text-top {
@@ -221,14 +293,59 @@
     backface-visibility: hidden;
 }
 
+.cards-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    color: black;
+    text-decoration: none;
+}
+
+.cards-container .card {
+    margin-top: 25px;
+    margin-right: 25px;
+}
+
+/* ---- Stamp ---- */
+.stamp-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 240px;
+    margin-top: 10px;
+}
+
+.stamp-background {
+    font-size: 30px;
+
+    color: black;
+
+    position: absolute;
+}
+
+.stamp-text {
+    font-size: 34px;
+    font-weight: bold;
+
+    position: absolute;
+}
+
 /* ---- Textbox ---- */
 .textbox-main {
-    /*outline: none;*/
     text-decoration: none;
+
     padding-left: 10px;
+
     min-height: 32px;
+
     border-radius: 10px;
     border: 1px solid #E9EEF2;
+
     height: 48px;
 }
 
@@ -237,18 +354,24 @@
 }
 .textbox-container .textbox-main {
     display:block;
+
     width: 100%;
+
     box-sizing: border-box;
+
     padding-left: 48px;
 }
 
 .textbox-container .image-accessory {
     height: 48px;
-    line-height: 48px;
-    color: #8A8A8E;
+
     position: absolute;
+
     left: 10px;
     top: 0;
+
+    line-height: 48px;
+    color: #8A8A8E;
 }
 
 .image-accessory {
@@ -261,19 +384,25 @@
 
 .textbox-card {
     position: absolute;
+
     width: calc(100% - 22px);
     height: calc(100% - 22px);
-    background-color: transparent;
-    border: 0;
-    word-break: break-word;
+
     padding-left: 5px;
+
+    background-color: transparent;
+
+    word-break: break-word;
     text-align: center;
+
+    border: 0;
 }
 
 .textbox-multiline {
-    padding-top: 15px;
     width: 500px;
     height: 200px;
+
+    padding-top: 15px;
 }
 
 /* ---- Modal ---- */
@@ -301,14 +430,16 @@
     border: 1px solid #EAEFF2;
     border-radius: 10px;
     box-shadow: 0 1px 8px 0;
+
     background-color: #FFFFFF;
 }
 
 /* ---- Form ---- */
 .form-main {
-    padding: 0 10px;
     width: 448px;
     margin: 160px auto auto auto;
+
+    padding: 0 10px;
 
     border: 1px solid #EAEFF2;
     border-radius: 10px;
@@ -316,7 +447,9 @@
 
 .form-buttons {
     display: flex;
+
     position: relative;
+
     margin: 20px 0;
 }
 
@@ -390,19 +523,26 @@
 
 .select-list div {
     border-radius: 10px;
+
     line-height: 42px;
+
     height: 42px;
     padding: 0 48px;
+
     cursor: pointer;
+
     font-size: 17px;
 }
 
 .select-selected {
     line-height: 46px;
+
     height: 46px;
+
     padding-left: 10px;
     border-radius: 10px;
     border: 1px solid #E6ECF0;
+
     cursor: pointer;
 }
 
@@ -416,18 +556,23 @@
 
 .select-selected-icon {
     display: inline-block;
+
     color: #8A8A8E;
+
     inline-size: 38px;
 }
 
 .select-selected-icon {
     display: inline-block;
+
     color: #8A8A8E;
+
     inline-size: 38px;
 }
 
 .select-selected-text {
     display: inline-block;
+
     color: #8A8A8E;
 }
 
@@ -437,7 +582,9 @@
 
 .select-selected-arrow {
     float: right;
+
     color: #8A8A8E;
+
     margin-right: 10px;
 }
 
@@ -449,22 +596,29 @@
 /* Label */
 .checkbox-label {
     display: block;
+
     position: relative;
+
     padding-left: 35px;
     margin-bottom: 12px;
+
     cursor: pointer;
+
     line-height: 25px;
     font-size: 17px;
     font-weight: 600;
+
     border-radius: 10px;
-    border: 1px solid white;
     border: 0;
 }
 
 .checkbox-label input {
     position: absolute;
+
     opacity: 0;
+
     cursor: pointer;
+
     height: 0;
     width: 0;
 }
@@ -472,11 +626,15 @@
 /* Checkbox */
 .checkmark {
     position: absolute;
+
     top: 0;
     left: 0;
+
     height: 25px;
     width: 25px;
+
     background-color: white;
+
     border: 1px solid #E6ECF0;
     border-radius: 10px;
 }
@@ -484,7 +642,9 @@
 /* Checkmark */
 .checkmark:after {
     content: "";
+
     position: absolute;
+
     display: none;
 }
 
@@ -497,6 +657,7 @@
     top: 5px;
     width: 5px;
     height: 10px;
+
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
@@ -509,6 +670,7 @@
     height: 108px;
 
     display: flex;
+
     justify-content: center;
     align-items: center;
 }
@@ -521,12 +683,15 @@
 /* ---- Pied de page ---- */
 body {
     display: flex;
+
     flex-direction: column;
 }
 
 #main-with-footer {
     flex: 1 0 auto;
+
     width: 788px;
+
     margin: auto;
 }
 
@@ -605,9 +770,11 @@ footer {
 /* ---- Élément principal de page ---- */
 #page-main {
     width: calc(100% - 276px);
+
     margin-left: 216px;
     padding-left: 20px;
     padding-right: 40px;
+
     display: inline-block;
 }
 
@@ -631,17 +798,20 @@ footer {
 #right-toolbar-menu {
     margin: -5px;
     padding: 5px;
+
     border-radius: 10px;
 }
 
 #right-toolbar-menu-button-avatar {
     border-radius: 50%;
+
     width: 52px;
     height: 52px;
 }
 
 #right-toolbar-menu-button-arrow {
     margin-left: 8px;
+
     font-size: 16px;
 }
 
@@ -652,6 +822,7 @@ footer {
 
 #right-toolbar-secondary-button {
     background-color: #FF3B30;
+
     margin-right: 20px;
     margin-left: 0;
 }
@@ -659,33 +830,47 @@ footer {
 #right-toolbar-menu-button {
     padding-left: 10px;
     padding-right: 10px;
+
     cursor: pointer;
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 }
 
 #right-toolbar-menu-content {
     margin-top: -5px;
-    background-color: white;
     border-radius: 10px;
     margin-right: 40px;
+
+    background-color: white;
+
     right: 0;
+    top: 80px;
+
     display: none;
+
     position: absolute;
+
     min-width: 250px;
+
     box-shadow: 0 0 16px rgba(0,0,0,0.4);
     z-index: 100;
-    top: 80px;
 }
 
 #right-toolbar-menu-button-avatar-link {
     display: flex;
     justify-content: center;
     align-items: center;
+
     cursor: pointer;
+
     padding: 10px 20px;
+
     text-decoration: none;
+
     color: black;
 }
 
@@ -705,13 +890,16 @@ footer {
     display: inline-block;
 
     height: 36px;
+    width: calc(100% - 40px);
 
     line-height: 36px;
+
     font-size: 20px;
     font-weight: 600;
+
     color: black;
     text-decoration: none;
-    width: calc(100% - 40px);
+
     padding: 5px 20px;
 }
 
@@ -764,40 +952,34 @@ footer {
     margin-bottom: 0;
 }
 
-.cards-container {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.card {
-    color: black;
-    text-decoration: none;
-}
-
-.cards-container .card {
-    margin-top: 25px;
-    margin-right: 25px;
+.section-settings-sidebar {
+    width: 432px !important;
 }
 
 .grid-container {
     width: 100%;
+
     display: flex;
+
     flex-wrap: wrap;
 }
 
 /* ---- Paramètres ---- */
 #content-settings-main {
-    position: fixed;
-    margin-left: -20px;
-    top: 0;
-    margin-top: 0;
     height: 100%;
     width: 100%;
+
+    margin-top: 0;
+    margin-left: -20px;
+
+    position: fixed;
+
+    top: 0;
 }
 
 #content-settings-main section {
     height: 100%;
+
     border-right: 1px solid #E6ECF0;
 }
 
@@ -806,40 +988,51 @@ footer {
 }
 
 .settings-top-category-container {
-    height: 48px;
-    line-height: 48px;
     width: 100%;
+    height: 48px;
+
+    line-height: 48px;
+
     border-bottom: 1px solid #E6ECF0;
 }
 
 .settings-top-category-container .settings-title {
-    font-weight: 800;
     margin-left: 20px;
+
+    font-weight: 800;
 }
 
 .settings-category-container {
-    height: 48px;
-    line-height: 48px;
     width: 100%;
+    height: 48px;
+
+    line-height: 48px;
+
     border-bottom: 1px solid #E6ECF0;
 }
 
 .settings-option-accessory {
-    font-weight: 500;
     float: right;
+
     margin-right: 20px;
+
+    font-weight: 500;
 }
 
 .settings-category-container .settings-title {
     font-weight: 700;
+
     margin-left: 20px;
 }
 
 .settings-option-container {
-    height: 48px;
-    line-height: 48px;
     width: 100%;
+    height: 48px;
+
+    line-height: 48px;
+
     border-bottom: 1px solid #E6ECF0;
+
     cursor: pointer;
 }
 
@@ -850,6 +1043,7 @@ footer {
 .settings-option-container .settings-title {
     font-weight: normal;
     font-size: 20px;
+
     padding-left: 20px;
 }
 
@@ -857,79 +1051,7 @@ footer {
     color: black !important;
 }
 
-/* ---- */
-.radio-buttons-container {
-    margin: 0;
-    list-style-type:none;
-    padding:0;
-}
-
-.radio-buttons-container li {
-    float:left;
-    margin: 0;
-    width:100px;
-    height: 32px;
-    position:relative;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.radio-buttons-container label, .radio-buttons-container input {
-    display:block;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-}
-
-.radio-buttons-container input[type="radio"] {
-    opacity:0.011;
-    z-index:100;
-}
-
-.radio-buttons-container input[type="radio"]:checked + label {
-    color: black;
-}
-
-.radio-buttons-container label:hover {
-    background-color: #E9EEF2;
-}
-
-.radio-buttons-container label {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    line-height: 32px;
-    cursor: pointer;
-    border: 1px solid #E9EEF2;
-}
-
-.radio-buttons-container li label {
-    border-left-width: 0;
-    border-right-width: 0;
-}
-
-.radio-buttons-container li:first-child label {
-    border-right-width: 0;
-    border-left-width: 1px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-.radio-buttons-container li:last-child label {
-    border-left-width: 0;
-    border-right-width: 1px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.card, .card * {
-    color: black;
-    text-decoration: none;
-}
+/* ---- Barre de rechercher ---- */
 
 #search-main {
     width: 540px;

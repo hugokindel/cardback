@@ -1,20 +1,28 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\hideFirstName;
+use function cardback\system\hideInSearch;
+use function cardback\system\hideLastName;
+use function cardback\utility\changeTitle;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 if (isset($_POST)) {
     if (isset($_POST["hideFirstName"])) {
-        \cardback\system\hideFirstName($account["id"], isset($_POST["hideFirstNameCheckbox"]));
-        \cardback\utility\redirect("setting/account/security");
+        hideFirstName($account["id"], isset($_POST["hideFirstNameCheckbox"]));
+        redirect("setting/account/security");
     } else if (isset($_POST["hideLastName"])) {
-        \cardback\system\hideLastName($account["id"], isset($_POST["hideLastNameCheckbox"]));
-        \cardback\utility\redirect("setting/account/security");
+        hideLastName($account["id"], isset($_POST["hideLastNameCheckbox"]));
+        redirect("setting/account/security");
     } else if (isset($_POST["hideSearch"])) {
-        \cardback\system\hideInSearch($account["id"], isset($_POST["hideSearchCheckbox"]));
-        \cardback\utility\redirect("setting/account/security");
+        hideInSearch($account["id"], isset($_POST["hideSearchCheckbox"]));
+        redirect("setting/account/security");
     }
 }
 
-\cardback\utility\changeTitle("Paramètres de confidentialité et securité");
+changeTitle("Paramètres de confidentialité et securité");
 ?>
 
 <main>

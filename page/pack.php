@@ -1,16 +1,31 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
 
-$firstId = \cardback\database\selectMinId("packs");
-$lastId = \cardback\database\selectMaxId("packs");
-$pack = \cardback\system\getPack($_GET["id"])[1][0];
+use function cardback\database\selectMaxId;
+use function cardback\database\selectMinId;
+use function cardback\system\checkAccountConnection;
+use function cardback\system\checkUserOwnsPack;
+use function cardback\system\getAllCardsOfPack;
+use function cardback\system\getAllPacksOfTheme;
+use function cardback\system\getAllPacksOfUser;
+use function cardback\system\getPack;
+use function cardback\system\removePack;
+use function cardback\utility\changeTitle;
+use function cardback\utility\getAnonymousNameFromAccount;
+use function cardback\utility\getFormatedDate;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
+
+$firstId = selectMinId("packs");
+$lastId = selectMaxId("packs");
+$pack = getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] || $pack["published"] == 0) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 }
 
-$cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
+$cards = getAllCardsOfPack($_GET["id"])[1];
 
 if (isset($_POST)) {
     if (isset($_POST["replay"])) {
@@ -21,10 +36,10 @@ if (isset($_POST)) {
             unset($_SESSION["game-".$_GET["id"]."-answer"]);
         }
 
-        \cardback\utility\redirect("play?id=".$_GET["id"]);
+        redirect("play?id=".$_GET["id"]);
     } else if (isset($_POST["suppressPack"])) {
-        \cardback\system\removePack($_GET["id"]);
-        \cardback\utility\redirect("home");
+        removePack($_GET["id"]);
+        redirect("home");
     }
 }
 
@@ -33,7 +48,7 @@ $getToolbarButtons = function() {
     global $account;
     global $serverUrl;
 
-    if (\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $pack["id"]) || $account["admin"] == 1) {
+    if (checkUserOwnsPack($_SESSION["accountId"], $pack["id"]) || $account["admin"] == 1) {
         ?>
         <form
                 method="post"
@@ -59,7 +74,7 @@ $getToolbarButtons = function() {
     }
 };
 
-\cardback\utility\changeTitle($pack["name"]);
+changeTitle($pack["name"]);
 ?>
 
 <main>
@@ -147,14 +162,14 @@ $getToolbarButtons = function() {
                 <h4
                         class="theme-default-text"
                         style="font-weight: 500;">
-                    Créé le <span style="font-weight: 600;"><?php echo \cardback\utility\getFormatedDate($pack["creationDate"]) ?></span></h4>
+                    Créé le <span style="font-weight: 600;"><?php echo getFormatedDate($pack["creationDate"]) ?></span></h4>
                 <h4
                         class="theme-default-text"
                         style="font-weight: 500;">
                     Par <a class="author-link theme-default-text"
                            style="font-weight: 600; text-decoration: none;"
                            href="<?php echo $serverUrl."profile?id=".$pack["authorId"] ?>">
-                        <?php echo \cardback\utility\getAnonymousNameFromAccount($pack) ?></a>
+                        <?php echo getAnonymousNameFromAccount($pack) ?></a>
                 </h4>
             </section>
             <br>
@@ -176,7 +191,7 @@ $getToolbarButtons = function() {
             ?>
 
             <?php
-            $packsOfTheme = \cardback\system\getAllPacksOfTheme($pack["theme"], 1);
+            $packsOfTheme = getAllPacksOfTheme($pack["theme"], 1);
 
             if ($packsOfTheme[0] == 1) {
                 for ($i = 0; $i < count($packsOfTheme); $i++) {
@@ -190,7 +205,7 @@ $getToolbarButtons = function() {
             $getSectionCards("Autres paquets du même thème",
                     $packsOfTheme);
 
-            $packsOfUser = \cardback\system\getAllPacksOfUser($pack["authorId"], 1);
+            $packsOfUser = getAllPacksOfUser($pack["authorId"], 1);
 
             if ($packsOfUser[0] == 1) {
                 for ($i = 0; $i < count($packsOfUser); $i++) {

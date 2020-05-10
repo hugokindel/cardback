@@ -1,4 +1,9 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
-\cardback\system\removeAccount($_SESSION["accountId"]);
-\cardback\utility\redirect();
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\removeAccount;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
+removeAccount($_SESSION["accountId"]);
+redirect();

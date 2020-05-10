@@ -1,5 +1,11 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\createFeedback;
+use function cardback\utility\changeTitle;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 $error = "";
 
@@ -9,16 +15,16 @@ if (isset($_POST["submit"])) {
     }
 
     if ($error === "") {
-        \cardback\system\createFeedback($_SESSION["accountId"], $_POST["message"], isset($_POST["recommended"]));
+        createFeedback($_SESSION["accountId"], $_POST["message"], isset($_POST["recommended"]));
 
-        \cardback\utility\redirect("home");
+        redirect("home");
     } else {
-        \cardback\utility\redirect(
+        redirect(
                 "feedback?error=".urlencode($error)."&recommended=".(isset($_POST["recommended"]) ? "1" : "0"));
     }
 }
 
-\cardback\utility\changeTitle("Feedback");
+changeTitle("Feedback");
 ?>
 
 <main>

@@ -1,12 +1,18 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\updateAccountDescription;
+use function cardback\utility\changeTitle;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 $error = "";
 $descriptionIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    \cardback\system\updateAccountDescription($_SESSION["accountId"], $_POST["description"]);
-    \cardback\utility\redirect("/setting/account/preferences");
+    updateAccountDescription($_SESSION["accountId"], $_POST["description"]);
+    redirect("/setting/account/preferences");
 }
 
 $getPageForm = function() {
@@ -41,7 +47,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Modifier ma description");
+changeTitle("Modifier ma description");
 ?>
 
     <!-- Contenu principal de la page -->

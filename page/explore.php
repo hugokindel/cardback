@@ -1,6 +1,13 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
-\cardback\utility\changeTitle("Explorer");
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\getAllAccounts;
+use function cardback\system\getAllPacks;
+use function cardback\system\getAllThemes;
+use function cardback\utility\changeTitle;
+
+checkAccountConnection(TRUE);
+changeTitle("Explorer");
 ?>
 
 <main>
@@ -15,14 +22,14 @@
         <article
                 id="content-main">
             <?php
-            $allThemes = \cardback\system\getAllThemes();
+            $allThemes = getAllThemes();
             $getSectionCards("Tous les thèmes", $allThemes, FALSE);
 
-            $allPacks = \cardback\system\getAllPacks(1);
+            $allPacks = getAllPacks(1);
             $getSectionCards("Tous les paquets de cartes", $allPacks);
 
             if ($account["admin"] == 1) {
-                $allUsers = \cardback\system\getAllAccounts();
+                $allUsers = getAllAccounts();
                 $getSectionCards("Tous les utilisateurs", $allUsers);
             }
             ?>

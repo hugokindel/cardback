@@ -1,9 +1,24 @@
 <?php namespace cardback\system;
+/**
+ * Ce fichier contient les fonctions utilitaires relatives au système de recherches.
+ */
 
+use function cardback\utility\getAnonymousNameFromAccount;
+
+/**
+ * Fait une recherche global (paquets, thèmes, comptes)
+ * Les recherches sont ordonnés alphabétiquement.
+ *
+ * @param string $text Texte à chercher.
+ * @param bool $pack Définit si on recherche les paquets.
+ * @param bool $theme  Définit si on recherche les thèmes.
+ * @param bool $account  Définit si on recherche les comptes.
+ * @return array Résultats.
+ */
 function search($text, $pack = TRUE, $theme = TRUE, $account = TRUE) {
-    $packsSearch = $pack ? \cardback\system\searchPacks($text) : [0 => 0];
-    $themesSearch = $theme ? \cardback\system\searchTheme($text) : [0 => 0];
-    $accountSearch = $account ? \cardback\system\searchAccount($text) : [0 => 0];
+    $packsSearch = $pack ? searchPacks($text) : [0 => 0];
+    $themesSearch = $theme ? searchTheme($text) : [0 => 0];
+    $accountSearch = $account ? searchAccount($text) : [0 => 0];
 
     if ($packsSearch[0] == 1) {
         for ($i = 0; $i < count($packsSearch[1]); $i++) {
@@ -21,7 +36,7 @@ function search($text, $pack = TRUE, $theme = TRUE, $account = TRUE) {
                 unset($accountSearch[1][$i]);
             } else {
                 $accountSearch[1][$i]["type"] = 2;
-                $accountSearch[1][$i]["name"] = \cardback\utility\getAnonymousNameFromAccount($accountSearch[1][$i]);
+                $accountSearch[1][$i]["name"] = getAnonymousNameFromAccount($accountSearch[1][$i]);
             }
         }
     }

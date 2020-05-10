@@ -1,4 +1,11 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives au pieds de page.
+ */
+
+/**
+ * Crée un pieds de page.
+ */
 $getFooter = function() {
     ?>
     <footer>

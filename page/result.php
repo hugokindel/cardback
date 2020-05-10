@@ -1,21 +1,29 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\getAllCardsOfPack;
+use function cardback\system\getPack;
+use function cardback\utility\changeTitle;
+use function cardback\utility\getAnonymousNameFromAccount;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 $firstId = cardback\database\selectMinId("packs");
 $lastId = cardback\database\selectMaxId("packs");
-$pack = \cardback\system\getPack($_GET["id"])[1][0];
+$pack = getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
     $lastId[1] < $_GET["id"] ||  $pack["published"] == 0 ||
     (isset($_SESSION["game-".$_GET["id"]]) && $_SESSION["game-".$_GET["id"]] != 1)) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 } else if (!isset($_SESSION["game-".$_GET["id"]])) {
-    \cardback\utility\redirect("home");
+    redirect("home");
 }
 
 $error = "";
 $errorOnCards = [];
-$cards = \cardback\system\getAllCardsOfPack($_GET["id"])[1];
+$cards = getAllCardsOfPack($_GET["id"])[1];
 
 if (isset($_POST)) {
     if (isset($_POST["replay"])) {
@@ -26,7 +34,7 @@ if (isset($_POST)) {
             unset($_SESSION["game-".$_GET["id"]."-answer"]);
         }
 
-        \cardback\utility\redirect("play?id=".$_GET["id"]);
+        redirect("play?id=".$_GET["id"]);
     } else if (isset($_POST["ok"])) {
         unset($_SESSION["game-".$_GET["id"]]);
 
@@ -35,7 +43,7 @@ if (isset($_POST)) {
             unset($_SESSION["game-".$_GET["id"]."-answer"]);
         }
 
-        \cardback\utility\redirect("pack?id=".$_GET["id"]);
+        redirect("pack?id=".$_GET["id"]);
     }
 }
 
@@ -80,7 +88,7 @@ $getToolbarButtons = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Résultat pour « ".$pack["name"]." »");
+changeTitle("Résultat pour « ".$pack["name"]." »");
 ?>
 
 <main>
@@ -92,7 +100,7 @@ $getToolbarButtons = function() {
             <h2
                     class="theme-default-text">
                 Voici vos résultats, <span style="font-weight: 800;">
-                    <?php echo \cardback\utility\getAnonymousNameFromAccount($account) ?>!</span></h2>
+                    <?php echo getAnonymousNameFromAccount($account) ?>!</span></h2>
         </div>
         <?php $getToolbar(FALSE, $getToolbarButtons); ?>
         <article

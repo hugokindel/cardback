@@ -1,4 +1,7 @@
 <?php
+/**
+ * Ce fichier contient tous les fichiers du dossier "core".
+ */
 
 require_once "config.php";
 require_once "database/database.php";

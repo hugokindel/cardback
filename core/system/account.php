@@ -1,14 +1,38 @@
 <?php namespace cardback\system;
+/**
+ * Ce fichier contient les fonctions utilitaires relatives au système de compte.
+ */
 
+use function cardback\database\delete;
+use function cardback\database\insert;
+use function cardback\database\select;
+use function cardback\database\selectMaxId;
+use function cardback\database\update;
+use function cardback\utility\redirect;
+
+/**
+ * Fonction interne pour vérifier si un compte existe.
+ *
+ * @param string $email E-mail.
+ * @return bool Si il existe ou non.
+ */
 function _checkAccountExists($email) {
-    $result = \cardback\database\select("users",
+    $result = select("users",
         "id",
         "WHERE email = '$email'");
 
     return $result[0] == 1;
 }
 
-// Crée un compte
+/**
+ * Crée un compte.
+ *
+ * @param string $email E-mail.
+ * @param string $password Mot de passe.
+ * @param string $firstName Prénom.
+ * @param string $lastName Nom.
+ * @return array Résultat.
+ */
 function createAccount($email, $password, $firstName, $lastName) {
     global $db;
 
@@ -23,25 +47,30 @@ function createAccount($email, $password, $firstName, $lastName) {
     $lastName = mysqli_real_escape_string($db, $lastName);
     $creationDate = date("Y-m-d");
 
-    \cardback\database\insert("users",
+    insert("users",
         "email, password, firstName, lastName, creationDate, lastConnectionDate",
         "'$email', '$password', '$firstName', '$lastName', '$creationDate', '$creationDate'");
 
     return [1];
 }
 
+/**
+ * Crée un token d'authentification.
+ *
+ * @param string $userId ID d'utilisateur.
+ */
 function createAuthenticationToken($userId) {
     $serverToken = uniqid("", TRUE);
     $userToken = md5($_SERVER['HTTP_USER_AGENT'] .  $_SERVER['REMOTE_ADDR']);
 
-    \cardback\database\insert(
+    insert(
         "connectionTokens",
         "serverToken, userToken",
         "'$serverToken', '$userToken'");
 
-    $tokenId = \cardback\database\selectMaxId("connectionTokens")[1];
+    $tokenId = selectMaxId("connectionTokens")[1];
 
-    \cardback\database\insert(
+    insert(
         "userConnectionTokens",
         "userId, tokenId",
         "'$userId', '$tokenId'");
@@ -49,23 +78,33 @@ function createAuthenticationToken($userId) {
     setcookie("serverToken", $serverToken, time() + 2592000, "/", null, false, true);
 }
 
+/**
+ * Supprime un token d'authentification.
+ */
 function removeAuthenticationToken() {
     if (isset($_COOKIE['serverToken'])) {
         $serverToken = $_COOKIE['serverToken'];
 
-        \cardback\database\delete("connectionTokens", "WHERE serverToken = '$serverToken'");
+        delete("connectionTokens", "WHERE serverToken = '$serverToken'");
     }
 
     unset($_COOKIE['serverToken']);
     setcookie('serverToken', null, -1, '/');
 }
 
+/**
+ * Connecte un compte par ses données d'authentification.
+ *
+ * @param string $email E-mail.
+ * @param string $password Mot de passe.
+ * @return array Résultat.
+ */
 function connectWithCredentials($email, $password) {
     global $db;
 
     $email = mysqli_real_escape_string($db, $email);
 
-    $result = \cardback\database\select("users",
+    $result = select("users",
         "id, password, keepConnected",
         "WHERE email = '$email'");
 
@@ -79,7 +118,7 @@ function connectWithCredentials($email, $password) {
     $userId = $result[1][0]["id"];
     $password = $result[1][0]["password"];
 
-    \cardback\database\update("users",
+    update("users",
         "lastConnectionDate = '$lastConnectionDate'",
         "WHERE id = '$userId'");
 
@@ -90,10 +129,15 @@ function connectWithCredentials($email, $password) {
     return connectAccount($userId);
 }
 
+/**
+ * Connecte un compte par un token d'authentification.
+ *
+ * @return array Résultat.
+ */
 function connectWithAuthenticationToken() {
     $serverToken = $_COOKIE["serverToken"];
 
-    $connectionToken = \cardback\database\select("connectionTokens",
+    $connectionToken = select("connectionTokens",
         "",
         "WHERE serverToken = '$serverToken'");
 
@@ -109,7 +153,7 @@ function connectWithAuthenticationToken() {
 
     $connectionTokenId = $connectionToken[1][0]["id"];
 
-    $userConnectionToken = \cardback\database\select("userConnectionTokens",
+    $userConnectionToken = select("userConnectionTokens",
         "",
         "WHERE tokenId = '$connectionTokenId'");
 
@@ -119,7 +163,7 @@ function connectWithAuthenticationToken() {
 
     $userId = $userConnectionToken[1][0]["userId"];
 
-    $user = \cardback\database\select("users",
+    $user = select("users",
         "id, password",
         "WHERE id = '$userId'");
 
@@ -130,6 +174,12 @@ function connectWithAuthenticationToken() {
     return connectAccount($user[1][0]["id"]);
 }
 
+/**
+ * Connecte un compte (utilisé dans les deux méthodes précédentes).
+ *
+ * @param string $id ID du compte.
+ * @return array Résultat.
+ */
 function connectAccount($id) {
     $_SESSION["signedIn"] = TRUE;
     $_SESSION["accountId"] = $id;
@@ -139,7 +189,9 @@ function connectAccount($id) {
     return [1, "Connecté avec succès"];
 }
 
-// Déconnecte le compte actuellement connecté, si il y en a un
+/**
+ * Déconnecte un compte, si il est connecté.
+ */
 function disconnectAccount() {
     unset($_SESSION["signedIn"]);
     unset($_SESSION["accountId"]);
@@ -148,7 +200,11 @@ function disconnectAccount() {
     session_regenerate_id();
 }
 
-// Supprime un compte
+/**
+ * Supprime un compte.
+ *
+ * @param string $userId Identifiant du compte.
+ */
 function removeAccount($userId) {
     $result = getAllPacksOfUser($userId);
 
@@ -158,14 +214,19 @@ function removeAccount($userId) {
         }
     }
 
-    \cardback\database\delete("users", "WHERE id = '$userId'");
+    delete("users", "WHERE id = '$userId'");
 
     disconnectAccount();
 }
 
-// Retourne le contenu d'un compte
+/**
+ * Retourne les données d'un compte.
+ *
+ * @param string $userId ID du compte.
+ * @return array Résultat.
+ */
 function getAccount($userId) {
-    $result = \cardback\database\select(
+    $result = select(
         "users",
         "",
         "WHERE id = '$userId'");
@@ -179,9 +240,13 @@ function getAccount($userId) {
     return $result;
 }
 
-// Retourne le contenu de tous les comptes
+/**
+ * Retourne tous les comptes.
+ *
+ * @return array Résultat.
+ */
 function getAllAccounts() {
-    $result = \cardback\database\select(
+    $result = select(
         "users",
         "",
         "");
@@ -195,77 +260,141 @@ function getAllAccounts() {
     return $result;
 }
 
+/**
+ * Met à jour le nom/prénom d'un compte.
+ *
+ * @param string $userId ID du compte.
+ * @param string $firstName Prénom.
+ * @param string $lastName Nom.
+ */
 function updateAccountName($userId, $firstName, $lastName) {
     global $db;
 
     $firstName = mysqli_real_escape_string($db, $firstName);
     $lastName = mysqli_real_escape_string($db, $lastName);
 
-    \cardback\database\update("users",
+    update("users",
         "firstName = '$firstName', lastName = '$lastName'",
         "WHERE id = '$userId'");
 }
 
+/**
+ * Met à jour l'e-mail d'un compte.
+ *
+ * @param string $userId ID du compte.
+ * @param string $email E-mail.
+ */
 function updateAccountMail($userId, $email) {
     global $db;
 
     $email = mysqli_real_escape_string($db, $email);
 
-    \cardback\database\update("users",
+    update("users",
         "email = '$email'",
         "WHERE id = '$userId'");
 }
 
+/**
+ * Met à jour la description d'un compte.
+ *
+ * @param string $userId ID du compte.
+ * @param string $description Description.
+ */
 function updateAccountDescription($userId, $description) {
     global $db;
 
     $description = mysqli_real_escape_string($db, $description);
 
-    \cardback\database\update("users",
+    update("users",
         "description = '$description'",
         "WHERE id = '$userId'");
 }
 
+/**
+ * Met à jour le mot de passe d'un compte.
+ *
+ * @param string $userId ID du compte.
+ * @param string $password Mot de passe.
+ */
 function updateAccountPassword($userId, $password) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    \cardback\database\update("users",
+    update("users",
         "password = '$password'",
         "WHERE id = '$userId'");
 }
 
+/**
+ * Met à jour un compte.
+ *
+ * @param string $userId ID du compte.
+ * @param string $email E-mail.
+ * @param string $firstName Prénom.
+ * @param string $lastName Nom.
+ * @param string $description Description.
+ */
 function updateAccount($userId, $email, $firstName, $lastName, $description) {
     updateAccountMail($userId, $email);
     updateAccountName($userId, $firstName, $lastName);
     updateAccountDescription($userId, $description);
 }
 
+/**
+ * Cache le prénom.
+ *
+ * @param string $userId ID du compte.
+ * @param bool $hide Définit si on cache ou non.
+ */
 function hideFirstName($userId, $hide) {
-    \cardback\database\update("users",
+    update("users",
         "hideFirstName = ".($hide ? "1" : "0"),
         "WHERE id = '$userId'");
 }
 
+/**
+ * Cache le nom.
+ *
+ * @param string $userId ID du compte.
+ * @param bool $hide Définit si on cache ou non.
+ */
 function hideLastName($userId, $hide) {
-    \cardback\database\update("users",
+    update("users",
         "hideLastName = ".($hide ? "1" : "0"),
         "WHERE id = '$userId'");
 }
 
+/**
+ * Cache dans les recherches.
+ *
+ * @param string $userId ID du compte.
+ * @param bool $hide Définit si on cache ou non.
+ */
 function hideInSearch($userId, $hide) {
-    \cardback\database\update("users",
+    update("users",
         "hideInSearch = ".($hide ? "1" : "0"),
         "WHERE id = '$userId'");
 }
 
+/**
+ * Cache le prénom.
+ *
+ * @param string $userId ID du compte.
+ * @param string $value Définit si on garde connecté ou non.
+ */
 function keepConnected($userId, $value) {
-    \cardback\database\update("users",
+    update("users",
         "keepConnected = ".($value ? "1" : "0"),
         "WHERE id = '$userId'");
 }
 
+/**
+ * Cherche un compte.
+ *
+ * @param string $name Nom du compte.
+ * @return array Résultat.
+ */
 function searchAccount($name) {
-    return \cardback\database\select("users",
+    return select("users",
         "",
         "WHERE
 	        (hideFirstName = 1 AND hideLastName = 1 AND
@@ -278,23 +407,30 @@ function searchAccount($name) {
 		        CONCAT(firstName,' ',lastName) LIKE '$name%')");
 }
 
-// Vérifie si un compte est connecté, ou non. Et redirige au bon endroit du site selon les cas
+/**
+ * Vérifie si un compte est actuellement connecté ou non.
+ *
+ * @param bool $connected Définit si on veux qu'il soit connecté ou non.
+ */
 function checkAccountConnection($connected) {
     if ($connected) {
         if (!isset($_SESSION["signedIn"]) || (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == FALSE)) {
-            \cardback\utility\redirect();
+            redirect();
         }
     } else {
         if (isset($_SESSION["signedIn"]) && $_SESSION["signedIn"] == TRUE) {
-            \cardback\utility\redirect("home");
+            redirect("home");
         }
     }
 }
 
+/**
+ * Vérifie si un compte est administrateur ou non.
+ */
 function checkAccountAdministration() {
     global $account;
 
     if ($account["admin"] != 1) {
-        \cardback\utility\redirect("403");
+        redirect("403");
     }
 }

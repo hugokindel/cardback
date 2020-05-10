@@ -1,24 +1,45 @@
 <?php namespace cardback\system;
+/**
+ * Ce fichier contient les fonctions utilitaires relatives au système de paquets de cartes.
+ */
 
+use function cardback\database\delete;
+use function cardback\database\insert;
+use function cardback\database\select;
+use function cardback\database\selectMaxId;
+use function cardback\database\update;
+
+/**
+ * Vérifie si un paquet existe.
+ *
+ * @param string $name Nom du paquet.
+ * @return int Résultat.
+ */
 function _checkPackExists($name) {
-    $result = \cardback\database\select("packs",
+    $result = select("packs",
         "id",
         "WHERE name = '$name'");
 
     return $result[0] == 1 ? $result[1][0]["id"] : 0;
 }
 
+/**
+ * Associe des données des créateurs des paquets à des paquets.
+ *
+ * @param array $packs Paquets.
+ * @return array Résultat.
+ */
 function _associateAuthorToPack($packs) {
     $array = [];
 
     foreach ($packs as $pack) {
         $packId = $pack["id"];
 
-        $result = \cardback\database\select("userPacks",
+        $result = select("userPacks",
             "userId",
         "WHERE packId = '$packId'")[1];
 
-        $result = \cardback\system\getAccount($result[0]["userId"])[1][0];
+        $result = getAccount($result[0]["userId"])[1][0];
 
         $pack["firstName"] = $result["firstName"];
         $pack["lastName"] = $result["lastName"];
@@ -33,6 +54,16 @@ function _associateAuthorToPack($packs) {
     return $array;
 }
 
+/**
+ * Crée un paquet de cartes.
+ *
+ * @param string $userId ID du compte.
+ * @param string $name Nom.
+ * @param string $description Description.
+ * @param string $difficulty Difficulté.
+ * @param string $theme Thème.
+ * @return array Résultat.
+ */
 function createPack($userId, $name, $description, $difficulty, $theme) {
     global $db;
 
@@ -47,31 +78,51 @@ function createPack($userId, $name, $description, $difficulty, $theme) {
     $theme = mysqli_real_escape_string($db, $theme);
     $creationDate = date("Y-m-d");
 
-    \cardback\database\insert("packs",
+    insert("packs",
         "name, difficulty, theme, creationDate, description",
         "'$name', '$difficulty', '$theme', '$creationDate', '$description'");
 
-    $packId = \cardback\database\selectMaxId("packs")[1];
+    $packId = selectMaxId("packs")[1];
 
-    \cardback\database\insert("userPacks",
+    insert("userPacks",
         "userId, packId",
         "$userId, $packId");
 
     return [1];
 }
 
+/**
+ * Publie un paquet.
+ *
+ * @param int $packId ID du paquet.
+ */
 function publishPack($packId) {
-    \cardback\database\update("packs",
+    update("packs",
         "published = 1",
         "WHERE id = $packId");
 }
 
+/**
+ * Dépublie un paquet.
+ *
+ * @param int $packId ID du paquet.
+ */
 function unpublishPack($packId) {
-    \cardback\database\update("packs",
+    update("packs",
         "published = 0",
         "WHERE id = $packId");
 }
 
+/**
+ * Change les données d'un paquet.
+ *
+ * @param int $packId ID du paquet.
+ * @param string $name Nom.
+ * @param string $description Description.
+ * @param string $difficulty Difficulté.
+ * @param string $theme Thème.
+ * @return array Résultat.
+ */
 function changePack($packId, $name, $description, $difficulty, $theme) {
     global $db;
 
@@ -86,13 +137,18 @@ function changePack($packId, $name, $description, $difficulty, $theme) {
     $difficulty = mysqli_real_escape_string($db, $difficulty);
     $theme = mysqli_real_escape_string($db, $theme);
 
-    \cardback\database\update("packs",
+    update("packs",
         "name = '$name', description = '$description', difficulty = '$difficulty', theme = '$theme'",
         "WHERE id = $packId");
 
     return [1];
 }
 
+/**
+ * Supprime un paquet.
+ *
+ * @param int $packId ID du paquet.
+ */
 function removePack($packId) {
     $result = getAllCardsOfPack($packId);
 
@@ -104,11 +160,17 @@ function removePack($packId) {
         }
     }
 
-    \cardback\database\delete("packs", "WHERE id = '$packId'");
+    delete("packs", "WHERE id = '$packId'");
 }
 
+/**
+ * Retourne les données d'un paquet.
+ *
+ * @param int $packId ID du paquet.
+ * @return array Résultat.
+ */
 function getPack($packId) {
-    $result = \cardback\database\select("packs", "", "WHERE id = '$packId'");
+    $result = select("packs", "", "WHERE id = '$packId'");
 
     if ($result[0] == 0) {
         return $result;
@@ -117,8 +179,14 @@ function getPack($packId) {
     }
 }
 
+/**
+ * Retourne tous les paquets.
+ *
+ * @param int $published Définit si on veux les paquets publiés ou non, ou tous.
+ * @return array Résultat.
+ */
 function getAllPacks($published = -1) {
-    $result = \cardback\database\select("packs",
+    $result = select("packs",
         "",
         ($published != -1 ? "WHERE published = $published" : ""));
 
@@ -129,8 +197,14 @@ function getAllPacks($published = -1) {
     }
 }
 
+/**
+ * Cherche un paquet.
+ *
+ * @param string $name Nom.
+ * @return array Résultat.
+ */
 function searchPacks($name) {
-    $result = \cardback\database\select("packs",
+    $result = select("packs",
         "",
         "WHERE published = 1 AND name LIKE '$name%'");
 
@@ -141,6 +215,12 @@ function searchPacks($name) {
     }
 }
 
+/**
+ * Cherche un thème.
+ *
+ * @param string $themeSearch Nom.
+ * @return array Résultat.
+ */
 function searchTheme($themeSearch) {
     global $themes;
 
@@ -161,6 +241,11 @@ function searchTheme($themeSearch) {
     return $array;
 }
 
+/**
+ * Retourne tous les thèmes.
+ *
+ * @return array Résultat.
+ */
 function getAllThemes() {
     global $themes;
 
@@ -173,8 +258,15 @@ function getAllThemes() {
     return [1, $array];
 }
 
+/**
+ * Retourne tous les paquets créés depuis un certains nombre de semaines.
+ *
+ * @param int $weeks Nombre de semaines.
+ * @param int $published Définit si on veux les paquets publiés ou non, ou tous.
+ * @return array Résultat.
+ */
 function getAllPacksFromWeeks($weeks = 1, $published = -1) {
-    $result = \cardback\database\select("packs",
+    $result = select("packs",
         "",
         "WHERE creationDate BETWEEN DATE_ADD(now(), INTERVAL -".$weeks." WEEK) AND now()"
             .($published != -1 ? " AND published = $published" : ""));
@@ -186,8 +278,15 @@ function getAllPacksFromWeeks($weeks = 1, $published = -1) {
     }
 }
 
+/**
+ * Retourne tous les paquets d'un thème.
+ *
+ * @param string $theme Thème.
+ * @param int $published Définit si on veux les paquets publiés ou non, ou tous.
+ * @return array
+ */
 function getAllPacksOfTheme($theme, $published = -1) {
-    $result = \cardback\database\select("packs",
+    $result = select("packs",
         "",
         "WHERE theme = '$theme'"
         .($published != -1 ? " AND published = $published" : ""));
@@ -199,8 +298,15 @@ function getAllPacksOfTheme($theme, $published = -1) {
     }
 }
 
+/**
+ * Retourne tous les paquets d'un utilisateur.
+ *
+ * @param string $userId ID du compte.
+ * @param int $published Définit si on veux les paquets publiés ou non, ou tous.
+ * @return array
+ */
 function getAllPacksOfUser($userId, $published = -1) {
-    $result = \cardback\database\select("userPacks",
+    $result = select("userPacks",
         "packId",
         "WHERE userId = '$userId'");
 
@@ -214,7 +320,7 @@ function getAllPacksOfUser($userId, $published = -1) {
         $userPack = $userPack["packId"];
 
 
-        $pack = \cardback\database\select("packs",
+        $pack = select("packs",
             "",
             "WHERE id = '$userPack'".($published != -1 ? " AND published = $published" : ""));
 
@@ -226,48 +332,82 @@ function getAllPacksOfUser($userId, $published = -1) {
     return [1, array_reverse(_associateAuthorToPack($array))];
 }
 
+/**
+ * Vérifie si un utilisateur est propriétaire d'un paquet.
+ *
+ * @param string $userId ID du compte.
+ * @param int $packId ID du paquet.
+ * @return bool Résultat.
+ */
 function checkUserOwnsPack($userId, $packId) {
-    $result = \cardback\database\select("userPacks",
+    $result = select("userPacks",
         "",
         "WHERE userId = '$userId' AND packId = '$packId'");
 
     return $result[0] == 1;
 }
 
+/**
+ * Crée une carte dans un paquet.
+ *
+ * @param int $packId ID du paquet.
+ */
 function createCard($packId) {
-    \cardback\database\insert("cards");
+    insert("cards");
 
-    $cardId = \cardback\database\selectMaxId("cards")[1];
+    $cardId = selectMaxId("cards")[1];
 
-    \cardback\database\insert("packCards",
+    insert("packCards",
         "packId, cardId",
         "$packId, $cardId");
 }
 
+/**
+ * Supprime une carte d'un paquet.
+ *
+ * @param int $cardId ID d'une carte.
+ */
 function removeCard($cardId) {
-    \cardback\database\delete("cards",
+    delete("cards",
         "WHERE id = '$cardId'");
 }
 
+/**
+ * Confirme une carte d'un paquet.
+ *
+ * @param int $cardId ID d'une carte.
+ */
 function confirmCard($cardId, $question, $answer) {
     global $db;
 
     $question = mysqli_real_escape_string($db, $question);
     $answer = mysqli_real_escape_string($db, $answer);
 
-    \cardback\database\update("cards",
+    update("cards",
         "question = '$question', answer = '$answer', confirmed = 1",
         "WHERE id = '$cardId'");
 }
 
+/**
+ * Déconfirme une carte d'un paquet.
+ *
+ * @param int $cardId ID d'une carte.
+ */
 function unconfirmCard($cardId) {
-    \cardback\database\update("cards",
+    update("cards",
         "confirmed = 0",
         "WHERE id = '$cardId'");
 }
 
+/**
+ * Retourne toutes les cartes d'un paquet.
+ *
+ * @param int $packId ID du paquet.
+ * @param int $confirmed Définis si on veut les confiremr ou non.
+ * @return array Résultat.
+ */
 function getAllCardsOfPack($packId, $confirmed = -1) {
-    $result = \cardback\database\select("packCards",
+    $result = select("packCards",
         "cardId",
         "WHERE packId = '$packId'");
 
@@ -281,7 +421,7 @@ function getAllCardsOfPack($packId, $confirmed = -1) {
         $packCards = $packCards["cardId"];
 
 
-        $pack = \cardback\database\select("cards",
+        $pack = select("cards",
             "",
             "WHERE id = '$packCards'".($confirmed != -1 ? " AND confirmed = $confirmed" : ""));
 
@@ -291,6 +431,12 @@ function getAllCardsOfPack($packId, $confirmed = -1) {
     return [1, $array];
 }
 
+/**
+ * Vérifie si un paquet est vide.
+ *
+ * @param array $packs Résultat de paquet.
+ * @return bool Résultat.
+ */
 function isArrayEmpty($packs) {
     return $packs[0] == 0 || count($packs[1]) == 0;
 }

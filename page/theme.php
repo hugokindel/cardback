@@ -1,11 +1,19 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\getAllPacksOfTheme;
+use function cardback\utility\changeTitle;
+use function cardback\utility\getAnonymousNameFromAccount;
+use function cardback\utility\getFormatedDate;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 if (!isset($_GET["id"]) || $_GET["id"] < 0 || $_GET["id"] >= count($themes)) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 }
 
-\cardback\utility\changeTitle($themes[$_GET["id"]]);
+changeTitle($themes[$_GET["id"]]);
 ?>
 
 <main>
@@ -20,7 +28,7 @@ if (!isset($_GET["id"]) || $_GET["id"] < 0 || $_GET["id"] >= count($themes)) {
         <article
                 id="content-main">
             <?php
-            $packs = \cardback\system\getAllPacksOfTheme($themes[$_GET["id"]], 1);
+            $packs = getAllPacksOfTheme($themes[$_GET["id"]], 1);
 
             if ($packs[0] == 1 && count($packs[1]) > 0) {
                 ?>
@@ -35,8 +43,8 @@ if (!isset($_GET["id"]) || $_GET["id"] < 0 || $_GET["id"] >= count($themes)) {
                         foreach ($packs[1] as $pack) {
                             $getCardPack(
                                 $pack["name"],
-                                \cardback\utility\getAnonymousNameFromAccount($pack),
-                                \cardback\utility\getFormatedDate($pack["creationDate"]),
+                                getAnonymousNameFromAccount($pack),
+                                getFormatedDate($pack["creationDate"]),
                                 $serverUrl."pack?id=".$pack["id"]);
                         }
                         ?>

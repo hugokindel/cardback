@@ -1,4 +1,16 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives aux formulaires.
+ */
+
+/**
+ * Crée un formulaire.
+ *
+ * @param string $descriptionText Texte de description (titre du formulaire).
+ * @param string $buttonText Texte du bouton d'envoi du formulaire.
+ * @param callable $content Contenu du formulaire.
+ * @param string $cancelUrl URL du bouton de retour.
+ */
 $getForm = function($descriptionText, $buttonText, $content, $cancelUrl = "") {
     global $serverUrl;
 

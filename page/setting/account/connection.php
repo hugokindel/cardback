@@ -1,21 +1,29 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\createAuthenticationToken;
+use function cardback\system\keepConnected;
+use function cardback\system\removeAuthenticationToken;
+use function cardback\utility\changeTitle;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 if (isset($_POST)) {
     if (isset($_POST["keepConnected"])) {
-        \cardback\system\keepConnected($_SESSION["accountId"], isset($_POST["keepConnectedCheckbox"]));
+        keepConnected($_SESSION["accountId"], isset($_POST["keepConnectedCheckbox"]));
 
         if (isset($_POST["keepConnectedCheckbox"])) {
-            \cardback\system\createAuthenticationToken($_SESSION["accountId"]);
+            createAuthenticationToken($_SESSION["accountId"]);
         } else {
-            \cardback\system\removeAuthenticationToken();
+            removeAuthenticationToken();
         }
 
-        \cardback\utility\redirect("setting/account/connection");
+        redirect("setting/account/connection");
     }
 }
 
-\cardback\utility\changeTitle("Paramètres de connexion");
+changeTitle("Paramètres de connexion");
 ?>
 
 <main>

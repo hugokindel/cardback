@@ -1,5 +1,12 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\updateAccountPassword;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkPassword;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 $error = "";
 $passwordAccountIssue = FALSE;
@@ -11,14 +18,14 @@ if (isset($_POST["submit"])) {
         $passwordAccountIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkPassword($_POST["password"])) {
+    if (!checkPassword($_POST["password"])) {
         $error .= "<br>- Veuillez entrer un mot de passe valide.";
         $passwordIssue = TRUE;
     }
 
     if ($error === "") {
-        \cardback\system\updateAccountPassword($_SESSION["accountId"], $_POST["password"]);
-        \cardback\utility\redirect("/setting/account/preferences");
+        updateAccountPassword($_SESSION["accountId"], $_POST["password"]);
+        redirect("/setting/account/preferences");
     }
 }
 
@@ -63,7 +70,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Modifier mon mot de passe");
+changeTitle("Modifier mon mot de passe");
 ?>
 
     <!-- Contenu principal de la page -->

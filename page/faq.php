@@ -1,5 +1,8 @@
 <?php
-\cardback\utility\changeTitle("Foire aux questions");
+
+use function cardback\utility\changeTitle;
+
+changeTitle("Foire aux questions");
 ?>
 
 <!-- En-tête de page -->

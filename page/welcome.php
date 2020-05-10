@@ -1,6 +1,10 @@
 <?php
-\cardback\system\checkAccountConnection(FALSE);
-\cardback\utility\changeTitle("Bienvenue");
+
+use function cardback\system\checkAccountConnection;
+use function cardback\utility\changeTitle;
+
+checkAccountConnection(FALSE);
+changeTitle("Bienvenue");
 ?>
 
 <!-- En-tête de page -->

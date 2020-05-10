@@ -1,19 +1,36 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
 
-$firstId = \cardback\database\selectMinId("packs");
-$lastId = \cardback\database\selectMaxId("packs");
-$pack = \cardback\system\getPack($_GET["id"])[1][0];
+use function cardback\database\selectMaxId;
+use function cardback\database\selectMinId;
+use function cardback\system\checkAccountConnection;
+use function cardback\system\checkUserOwnsPack;
+use function cardback\system\confirmCard;
+use function cardback\system\createCard;
+use function cardback\system\getAllCardsOfPack;
+use function cardback\system\getPack;
+use function cardback\system\publishPack;
+use function cardback\system\removeCard;
+use function cardback\system\removePack;
+use function cardback\system\unconfirmCard;
+use function cardback\system\unpublishPack;
+use function cardback\utility\changeTitle;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
+
+$firstId = selectMinId("packs");
+$lastId = selectMaxId("packs");
+$pack = getPack($_GET["id"])[1][0];
 
 if (!isset($_GET["id"]) || $firstId[0] == 0 || $lastId[0] == 0 || $_GET["id"] < $firstId[1] ||
-    $lastId[1] < $_GET["id"] || (!\cardback\system\checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
+    $lastId[1] < $_GET["id"] || (!checkUserOwnsPack($_SESSION["accountId"], $_GET["id"]) && $account["admin"] == 0) ||
     ($pack["published"] == 1 && $account["admin"] == 0)) {
-    \cardback\utility\redirect("error/404");
+    redirect("error/404");
 }
 
 $error = "";
 $errorOnCards = [];
-$cards = \cardback\system\getAllCardsOfPack($_GET["id"]);
+$cards = getAllCardsOfPack($_GET["id"]);
 
 if ($cards[0] == 0) {
     $cards = [];
@@ -31,11 +48,11 @@ function saveData() {
 
 if (!empty($_POST)) {
     if (isset($_POST["add-card"])) {
-        \cardback\system\createCard($_GET["id"]);
+        createCard($_GET["id"]);
     } else if (isset($_POST["publishPack"])) {
         if (count($cards) == 0) {
             saveData();
-            \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=2");
+            redirect("editor?id=".$_GET["id"]."&errorType=2");
         }
 
         foreach ($cards as $card) {
@@ -46,24 +63,24 @@ if (!empty($_POST)) {
 
         if (count($errorOnCards) > 0) {
             saveData();
-            \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=1");
+            redirect("editor?id=".$_GET["id"]."&errorType=1");
         } else {
-            \cardback\system\publishPack($_GET["id"]);
+            publishPack($_GET["id"]);
             foreach ($cards as $card) {
                 $cardId = $card["id"];
                 unset($_SESSION["acard-$cardId"]);
                 unset($_SESSION["qcard-$cardId"]);
             }
-            \cardback\utility\redirect("pack?id=".$_GET["id"]);
+            redirect("pack?id=".$_GET["id"]);
         }
     } else if (isset($_POST["suppressPack"])) {
-        \cardback\system\removePack($_GET["id"]);
-        \cardback\utility\redirect("home");
+        removePack($_GET["id"]);
+        redirect("home");
     } else if (isset($_POST["editPack"])) {
         saveData();
-        \cardback\utility\redirect("editor/modify?id=".$_GET["id"]);
+        redirect("editor/modify?id=".$_GET["id"]);
     } else if (isset($_POST["unpublishPack"])) {
-        \cardback\system\unpublishPack($_GET["id"]);
+        unpublishPack($_GET["id"]);
     } else {
         foreach ($cards as $card) {
             $cardId = $card["id"];
@@ -78,23 +95,23 @@ if (!empty($_POST)) {
                 }
 
                 if ($error == "") {
-                    \cardback\system\confirmCard($cardId, $_POST["qcard-$cardId"], $_POST["acard-$cardId"]);
+                    confirmCard($cardId, $_POST["qcard-$cardId"], $_POST["acard-$cardId"]);
                 } else {
                     saveData();
-                    \cardback\utility\redirect("editor?id=".$_GET["id"]."&errorType=0&cardId=$cardId&error=".urlencode($error));
+                    redirect("editor?id=".$_GET["id"]."&errorType=0&cardId=$cardId&error=".urlencode($error));
                 }
             } else if (isset($_POST["suppress-$cardId-card"])) {
-                \cardback\system\removeCard($cardId);
+                removeCard($cardId);
                 unset($_SESSION["acard-$cardId"]);
                 unset($_SESSION["qcard-$cardId"]);
             } else if (isset($_POST["modify-$cardId-card"])) {
-                \cardback\system\unconfirmCard($cardId);
+                unconfirmCard($cardId);
             }
         }
     }
 
     saveData();
-    \cardback\utility\redirect("editor?id=".$_GET["id"]);
+    redirect("editor?id=".$_GET["id"]);
 }
 
 $getToolbarButtons = function() {
@@ -124,7 +141,7 @@ $getToolbarButtons = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Éditeur de paquet");
+changeTitle("Éditeur de paquet");
 ?>
 
 <main>
@@ -308,7 +325,10 @@ $getToolbarButtons = function() {
                 <section>
                     <h5
                             style="color: #8A8A8E; margin: -16px 5px 20px 5px;">
-                        Pensez à valider vos cartes avant de quitter votre navigateur pour enregistrer leur contenu!</h5>
+                        Pensez à valider vos cartes avant de quitter votre navigateur pour enregistrer leur contenu!<br>
+                        Une fois votre paquet publié, vous ne pourrez plus l'éditer pour que tout les utilisateurs<br>
+                        jouent toujours au même jeu. Mais si une modification doit être faite, veuillez contacter<br>
+                        l'administration du site.</h5>
                 </section>
                 <br>
             </article>

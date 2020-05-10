@@ -1,4 +1,8 @@
 <?php
+/**
+ * Ce fichier contient le code principale du site.
+ */
+
 // Importe tout le contenu nécessaire au fonctionnement du site
 require_once "core/core.php";
 

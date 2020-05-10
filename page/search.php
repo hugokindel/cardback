@@ -1,11 +1,17 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\search;
+use function cardback\utility\changeTitle;
+use function cardback\utility\redirect;
+
+checkAccountConnection(TRUE);
 
 if (!isset($_GET["search"])) {
-    \cardback\utility\redirect("explore");
+    redirect("explore");
 }
 
-\cardback\utility\changeTitle("Recherche de « ".$_GET["search"]." »");
+changeTitle("Recherche de « ".$_GET["search"]." »");
 ?>
 
 <main>
@@ -22,7 +28,7 @@ if (!isset($_GET["search"])) {
                 id="content-main">
             <?php
             $getSectionCards("Résultats",
-                    [1, \cardback\system\search($_GET["search"])],
+                    [1, search($_GET["search"])],
                     TRUE,
                     TRUE,
                     "Il n'y a aucun résultat pour votre recherche");

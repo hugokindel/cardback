@@ -1,6 +1,10 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
-\cardback\utility\changeTitle("À propos de");
+
+use function cardback\system\checkAccountConnection;
+use function cardback\utility\changeTitle;
+
+checkAccountConnection(TRUE);
+changeTitle("À propos de");
 ?>
 
 <main>

@@ -1,4 +1,11 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives à la F.A.Q.
+ */
+
+/**
+ * Crée une F.A.Q.
+ */
 $getFaq = function() {
     global $getCard;
 

@@ -1,6 +1,16 @@
 <?php
-\cardback\system\checkAccountConnection(TRUE);
-\cardback\utility\changeTitle("Accueil");
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\getAllPacksFromWeeks;
+use function cardback\system\getAllPacksOfTheme;
+use function cardback\system\getAllPacksOfUser;
+use function cardback\system\isArrayEmpty;
+use function cardback\utility\changeTitle;
+use function cardback\utility\getAnonymousNameFromAccount;
+use function cardback\utility\getNRandomNumbers;
+
+checkAccountConnection(TRUE);
+changeTitle("Accueil");
 ?>
 
 <main>
@@ -18,11 +28,11 @@
                     style="width: 100%;">
                 <h2
                         class="theme-default-text">
-                    <?php echo (date("H") >= 19 ? "Bonsoir" : "Bonjour").", ".\cardback\utility\getAnonymousNameFromAccount($account) ?>!</h2>
+                    <?php echo (date("H") >= 19 ? "Bonsoir" : "Bonjour").", ". getAnonymousNameFromAccount($account) ?>!</h2>
             </section>
             <?php
-            $packs = \cardback\system\getAllPacksOfUser($account["id"], 1);
-            if (\cardback\system\isArrayEmpty($packs)) {
+            $packs = getAllPacksOfUser($account["id"], 1);
+            if (isArrayEmpty($packs)) {
                 ?>
                 <section
                         class="section-cards">
@@ -56,20 +66,20 @@
                 <?php
             }
 
-            $packsInCreation = \cardback\system\getAllPacksOfUser($_SESSION["accountId"], 0);
+            $packsInCreation = getAllPacksOfUser($_SESSION["accountId"], 0);
             $getSectionCards("Paquets de cartes en cours de création", $packsInCreation);
 
-            $packsFromAWeek = \cardback\system\getAllPacksFromWeeks(1, 1);
-            if (!\cardback\system\isArrayEmpty($packsFromAWeek)) {
+            $packsFromAWeek = getAllPacksFromWeeks(1, 1);
+            if (!isArrayEmpty($packsFromAWeek)) {
                 $getSectionCards("Paquets créés depuis une semaine", $packsFromAWeek);
             } else {
-                $packsFromAMonth = \cardback\system\getAllPacksFromWeeks(4, 1);
+                $packsFromAMonth = getAllPacksFromWeeks(4, 1);
                 $getSectionCards("Paquets créés depuis un mois", $packsFromAMonth);
             }
 
-            $themesArray = \cardback\utility\getNRandomNumbers(3, 0, 6);
+            $themesArray = getNRandomNumbers(3, 0, 6, FALSE);
             foreach ($themesArray as $themeId) {
-                $packsOfTheme = \cardback\system\getAllPacksOfTheme($themes[$themeId], 1);
+                $packsOfTheme = getAllPacksOfTheme($themes[$themeId], 1);
                 $themeName = $themes[$themeId];
                 $getSectionCards("Paquets de cartes dans le thème « $themeName »", $packsOfTheme);
             }

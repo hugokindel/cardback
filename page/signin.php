@@ -1,27 +1,35 @@
 <?php
-\cardback\system\checkAccountConnection(FALSE);
+
+use function cardback\system\checkAccountConnection;
+use function cardback\system\connectWithCredentials;
+use function cardback\utility\changeTitle;
+use function cardback\utility\checkEmail;
+use function cardback\utility\checkPassword;
+use function cardback\utility\redirect;
+
+checkAccountConnection(FALSE);
 
 $error = "";
 $emailIssue = FALSE;
 $passwordIssue = FALSE;
 
 if (isset($_POST["submit"])) {
-    if (!\cardback\utility\checkEmail($_POST["email"])) {
+    if (!checkEmail($_POST["email"])) {
         $error .= "<br>- Veuillez entrer une adresse mail valide.";
         $emailIssue = TRUE;
     }
 
-    if (!\cardback\utility\checkPassword($_POST["password"])) {
+    if (!checkPassword($_POST["password"])) {
         $error .= "<br>- Veuillez entrer un mot de passe valide (entre 8 et 64 caractères, au moins une minuscule, une 
             majuscule, un chiffre et un symbole parmi la liste suivante « !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ».).";
         $passwordIssue = TRUE;
     }
 
     if ($error === "") {
-        $result = \cardback\system\connectWithCredentials($_POST["email"], $_POST["password"]);
+        $result = connectWithCredentials($_POST["email"], $_POST["password"]);
 
         if ($result[0] == TRUE) {
-            \cardback\utility\redirect("home");
+            redirect("home");
         } else {
             $error .= "<br>- ".$result[1];
 
@@ -70,7 +78,7 @@ $getPageForm = function() {
     <?php
 };
 
-\cardback\utility\changeTitle("Se connecter");
+changeTitle("Se connecter");
 ?>
 
 <!-- Contenu principal de la page -->

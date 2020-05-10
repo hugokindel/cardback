@@ -1,5 +1,8 @@
 <?php
-\cardback\utility\changeTitle("Erreur 404");
+
+use function cardback\utility\changeTitle;
+
+changeTitle("Erreur 404");
 ?>
 
 <!-- En-tête de page -->

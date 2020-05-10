@@ -1,4 +1,11 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives au titre global.
+ */
+
+/**
+ * Crée le titre "cardback".
+ */
 $getCardbackTitle = function() {
     global $serverUrl;
 

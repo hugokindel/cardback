@@ -1,13 +1,8 @@
-/*
-Couleurs:
--
- */
-
-body, .theme-default-background {
+body, .theme-default-background, .select-list, #right-toolbar-menu-content {
     background-color: #202121;
 }
 
-.theme-default-text {
+.theme-default-text, .select-list div, #right-toolbar-menu-content * {
     color: white;
 }
 
@@ -15,15 +10,13 @@ body, .theme-default-background {
     border-color: #3B3B3B !important;
 }
 
-.textbox-error {
+.textbox-error, .select-selected-error {
     border-color: #FF3B30 !important;
 }
 
-.select-selected-error {
-    border-color: #FF3B30 !important;
-}
-
-.checkbox-label:hover input ~ .checkmark {
+.checkbox-label:hover input ~ .checkmark, .select-list div:hover, .sidebar-link:hover, #right-toolbar-menu-content div:last-child:hover,
+#right-toolbar-menu-content div:first-child:hover, #right-toolbar-menu-content div:hover, #right-toolbar-menu:hover, .settings-title-button:hover,
+.radio-buttons-container label:hover {
     background-color: #3B3B3B;
 }
 
@@ -37,14 +30,6 @@ body, .theme-default-background {
     border-width: 0 3px 3px 0;
 }
 
-.select-list {
-    background-color: #202121;
-}
-
-.select-list div {
-    color: white;
-}
-
 .sidebar-link-selected {
     color: black;
 }
@@ -54,46 +39,15 @@ body, .theme-default-background {
 }
 
 #right-toolbar-menu-content {
-    background-color: #202121;
     border: 1px solid #3B3B3B;
-}
-
-#right-toolbar-menu-content * {
-    color: white;
-}
-
-.radio-buttons-container label:hover {
-    background-color: #3B3B3B;
-}
-
-.settings-title-button:hover {
-     background-color: #3B3B3B;
-}
-
-#right-toolbar-menu:hover {
-    background-color: #3B3B3B;
-}
-
-#right-toolbar-menu-content div:hover {
-    background-color: #3B3B3B;
 }
 
 #right-toolbar-menu-content div:first-child:hover {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background-color: #3B3B3B;
 }
 
 #right-toolbar-menu-content div:last-child:hover {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: #3B3B3B;
-}
-
-.sidebar-link:hover {
-    background-color: #3B3B3B;
-}
-
-.select-list div:hover {
-    background-color: #3B3B3B;
 }

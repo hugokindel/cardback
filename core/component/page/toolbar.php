@@ -1,4 +1,18 @@
 <?php
+/**
+ * Ce fichier contient les fonctions relatives aux composants de la barre d'outils (menu haut droit).
+ */
+
+use function cardback\utility\getAnonymousNameFromAccount;
+
+/**
+ * Crée un bouton dans le menu de la barre d'outils.
+ *
+ * @param string $text Nom du bouton.
+ * @param string $accessory Symbole à afficher.
+ * @param string $link Lien à charger lors du clique.
+ * @param bool $separator Définit si on doit afficher un séparateur ou non.
+ */
 $getToolbarButton = function($text, $accessory, $link, $separator = FALSE) {
     global $serverUrl;
 
@@ -13,6 +27,12 @@ $getToolbarButton = function($text, $accessory, $link, $separator = FALSE) {
     <?php
 };
 
+/**
+ * Crée la barre d'outils principale.
+ *
+ * @param bool $showCreatePack Définit si on affiche le bouton "Créer un paquet"
+ * @param callable $customButtons Fonction pour afficher des boutons personnalisés.
+ */
 $getToolbar = function($showCreatePack = TRUE, $customButtons = NULL) {
     global $serverUrl;
     global $account;
@@ -63,7 +83,7 @@ $getToolbar = function($showCreatePack = TRUE, $customButtons = NULL) {
                                 style="padding-left: 16px;">
                             <h4
                                     style="font-weight: 600;">
-                                <?php echo \cardback\utility\getAnonymousNameFromAccount($account); ?></h4>
+                                <?php echo getAnonymousNameFromAccount($account); ?></h4>
                             <h5
                                     style="font-weight: 400;">
                                 <?php echo $account["email"]; ?></h5>
