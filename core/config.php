@@ -15,9 +15,9 @@ $serverTimezone = "Europe/Paris";
 $serverLocale = "fr_FR.UTF-8";
 
 // Informations de connexion à la base de donnée.
-$dbHost = "35.205.34.35";
+$dbHost = "34.78.26.17";
 $dbUser = "root";
-$dbPassword = "@!hk-fpv-io2-2019!@";
+$dbPassword = "hkCK105@";
 $dbBase = "cardback";
 $dbPort = "3306";
 

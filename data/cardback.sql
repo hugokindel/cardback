@@ -1,16 +1,16 @@
--- On efface la base de donnée si elle existe déjà
+-- On efface la base de donnée si elle existe déjà.
 DROP DATABASE IF EXISTS cardback;
 
--- On la crée
+-- On la crée.
 CREATE DATABASE IF NOT EXISTS cardback;
 
--- On l'utilise
+-- On l'utilise.
 USE cardback;
 
--- On efface les tables si elles existe déjà
+-- On efface les tables si elles existe déjà.
 DROP TABLE IF EXISTS cards, packCards, packs, userPacks, users;
 
--- On crée la table "users"
+-- On crée la table "users".
 CREATE TABLE users(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     email VARCHAR(254) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE users(
     UNIQUE KEY(email)
 );
 
--- On crée la table connectionToken
+-- On crée la table connectionToken.
 CREATE TABLE connectionTokens(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     serverToken CHAR(23) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE connectionTokens(
     UNIQUE KEY(serverToken)
 );
 
--- On crée la table "feedbacks"
+-- On crée la table "feedbacks".
 CREATE TABLE feedbacks(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     message VARCHAR(5000) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE feedbacks(
     PRIMARY KEY(id)
 );
 
--- On crée la table "packs"
+-- On crée la table "packs".
 CREATE TABLE packs(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE packs(
     UNIQUE KEY(name)
 );
 
--- On crée la table "cards"
+-- On crée la table "cards".
 CREATE TABLE cards(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     question VARCHAR(254),
@@ -74,7 +74,7 @@ CREATE TABLE cards(
     PRIMARY KEY(id)
 );
 
--- On crée la table "userPacks" (lien utilisateur-paquet)
+-- On crée la table "userPacks" (lien utilisateur-paquet).
 CREATE TABLE userPacks(
     userId INT UNSIGNED NOT NULL,
     packId INT UNSIGNED NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE userPacks(
     PRIMARY KEY (userId, packId)
 );
 
--- On crée la table "userToken" (lien utilisateur-connectionToken)
+-- On crée la table "userToken" (lien utilisateur-connectionToken).
 CREATE TABLE userConnectionTokens(
     userId INT UNSIGNED NOT NULL,
     tokenId INT UNSIGNED NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE userConnectionTokens(
     PRIMARY KEY (userId, tokenId)
 );
 
--- On crée la table "userFeedback" (lien utilisateur-feedback)
+-- On crée la table "userFeedback" (lien utilisateur-feedback).
 CREATE TABLE userFeedbacks(
     userId INT UNSIGNED NOT NULL,
     feedbackId INT UNSIGNED NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE userFeedbacks(
     PRIMARY KEY (userId, feedbackId)
 );
 
--- On crée la table "packCards" (lien paquet-carte)
+-- On crée la table "packCards" (lien paquet-carte).
 CREATE TABLE packCards(
     packId INT UNSIGNED NOT NULL,
     cardId INT UNSIGNED NOT NULL,

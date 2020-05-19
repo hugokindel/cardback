@@ -56,6 +56,10 @@ function createAccount($email, $password, $firstName, $lastName) {
 
 /**
  * Crée un token d'authentification.
+ * Un token est composé de deux parties:
+ * - Une partie correspondant à un identifiant unique généré par le serveur.
+ * - Une partie correspondant à des informations spécifique à l'utilisateur et son navigateur.
+ * Pour qu'un token soit valide et permettre la connexion, les deux parties doivent être ensembles.
  *
  * @param string $userId ID d'utilisateur.
  */
