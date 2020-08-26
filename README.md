@@ -1,2 +1,3 @@
 # cardback
-Copyright © 2020, Groupe 1. All Rights Reserved.
+Distributed under the MIT license  
+Copyright &copy; 2020 Hugo Kindel
